@@ -230,6 +230,7 @@ public class ParserMark1 {
 		for (int i=0; i<m_lines.size();i++){
 			line = m_lines.get(i);
 			line_chunks = line.split(" ");
+			if (line_chunks.length==0) continue; // Skip, blank line
 			
 			if (line.startsWith("//")){		// Comment, ignore
 				if (m_debug) System.out.println("Comment:" + line);
@@ -662,6 +663,7 @@ public class ParserMark1 {
 		for (int i=0; i<s.length;i++){  // Start ingesting source text lines
 			line = s[i].trim();
 			line_chunks = line.split(" ");
+			if (line_chunks.length==0) continue; // Skip if blank line
 			
 			if (isCommandDeclaration(line)){ // If we are introducing a new command
 				if (m_debug) System.out.println("\t >>> Command declaration: "+ line);				
