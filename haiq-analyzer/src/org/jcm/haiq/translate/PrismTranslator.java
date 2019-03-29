@@ -1,6 +1,7 @@
 package org.jcm.haiq.translate;
 
 import org.jcm.haiq.core.*;
+import org.jcm.haiq.core.HQECParameter.ECParameterType;
 import org.jcm.haiq.core.HQLabel.QuantifierType;
 import org.jcm.haiq.core.HQModel.ModelType;
 import org.jcm.util.*;
@@ -309,6 +310,16 @@ public class PrismTranslator {
 		return "formula "+ ext_prefix + f.getId() + " = " + f.getExpression().getPrefixedLiteral(getProcessObject(prefix), prefix, "") + ";\n";
 	}
 	
+	public String generateECParameter(HQECParameter p, String prefix){
+		String ext_prefix =prefix+"_";
+		if (Objects.equals(prefix, "")){
+			ext_prefix="";
+		}
+		String typeStr = "int";
+		if (p.getType()==ECParameterType.DOUBLE) typeStr = "double";
+		return "evolve "+typeStr+" "+ext_prefix+p.getId()+"["+p.getMin()+".."+p.getMax()+"];\n";
+	}
+	
 	public String generateProcess(HQProcess p){
 		return generateProcess(p, "");
 	}
@@ -318,6 +329,10 @@ public class PrismTranslator {
 
 		for (Map.Entry<String, HQFormula> e: p.getFormulas().entrySet()){
 			res += generateFormula (e.getValue(), prefix);
+		}
+
+		for (Map.Entry<String, HQECParameter> e: p.getECParameters().entrySet()){
+			res += generateECParameter (e.getValue(), prefix);
 		}
 		
 		res += "module " + prefix + "\n";
@@ -493,6 +508,9 @@ public class PrismTranslator {
 			res += generateLabel (e.getValue());
 		}
 		
+		for (Map.Entry<String, HQECParameter> e : m_bmodel.getECParameters().entrySet()){
+			res += generateECParameter (e.getValue(), "");
+		}
 		
 		return res;
 	}

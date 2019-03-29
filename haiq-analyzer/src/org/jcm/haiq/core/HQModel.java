@@ -17,6 +17,8 @@ public class HQModel {
 	private HashMap<String, HQEnum> m_enums = new HashMap<String, HQEnum>();
 	private HashMap<String, HQLabel> m_labels = new HashMap<String, HQLabel>();
 	private HashMap<String, HQRewardStructure> m_rewards = new HashMap<String, HQRewardStructure>();
+	// EC Extension
+	private HashMap<String, HQECParameter> m_ECparams = new HashMap<String, HQECParameter>();
 	
 	
 	public HQModel (ModelType type){
@@ -109,6 +111,10 @@ public class HQModel {
 	public void addRewardStructure (String id, HQRewardStructure r){
 		this.m_rewards.put(id, r);
 	}
+	
+	public void addECParameter (String id, HQECParameter p){
+		this.m_ECparams.put(id, p);
+	}
 		
 	/**
 	 * @return the m_processes
@@ -129,6 +135,13 @@ public class HQModel {
 	 */
 	public HashMap<String, HQRewardStructure> getRewardStructures() {
 		return m_rewards;
+	}
+	
+	/**
+	 * @return the m_ECparams
+	 */
+	public HashMap<String, HQECParameter> getECParameters() {
+		return m_ECparams;
 	}
 	
 	public HQProcess getAncestor (HQProcess p){

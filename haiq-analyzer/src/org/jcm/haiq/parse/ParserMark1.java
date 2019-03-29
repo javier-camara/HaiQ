@@ -25,7 +25,7 @@ import org.jcm.util.*;
 public class ParserMark1 {
 
 	private ArrayList<String> m_lines=null;
-	private boolean m_debug = false;
+	private boolean m_debug = true;
 	private boolean m_reading_process = false;
 	private String m_current_sig="";
 	private String m_current_sig_extends="";
@@ -221,6 +221,25 @@ public class ParserMark1 {
 		return l;
 	}
 	
+	String getIdECParameterFromString(String s){
+		String[] e = s.replaceAll("evolve ", "").trim().split(" ");
+		String [] e1 = e[1].split("\\[");
+		String id = e1[0].trim();
+		return id;
+	}
+
+	HQECParameter parseECParameter(String s){
+		String[] e = s.replaceAll("evolve ", "").trim().split(" ");
+		String type = e[0].trim();
+		String [] e1 = e[1].split("\\[");
+		String id = e1[0].trim();
+		String [] e2 = e1[1].replaceAll("\\.\\.", " ").split(" ");
+		String min = e2[0].trim();
+		String max = e2[1].replaceAll("\\];", "").trim();	
+		HQECParameter p = new HQECParameter(id, type,min,max);
+		return p;
+	}
+	
 	/**
 	 * Parses a .hq file into an HQModel object (m_bmodel)
 	 */
@@ -237,7 +256,7 @@ public class ParserMark1 {
 			}
 			
 			if (line.contains("//")){ // If line contains comment, remove it
-				System.out.println("Removing comment from line "+String.valueOf(i)+":\n\t"+line);
+				if (m_debug) System.out.println("Removing comment from line "+String.valueOf(i)+":\n\t"+line);
 				line = line.split("//")[0].trim();
 			}
 			
@@ -302,6 +321,13 @@ public class ParserMark1 {
 					m_current_process.add(line);
 			} else if (line.startsWith("label ")){ // Label definition
 				m_bmodel.addLabel(parseLabel(line));
+			} else if (isECEvolvableParameter(line)){
+				if (m_debug) System.out.println("\t EvoChecker Evolvable parameter declaration >>> " + line );
+				HQECParameter p = parseECParameter(line);
+				m_bmodel.addECParameter(getIdECParameterFromString(line), p);
+				if (m_debug) System.out.println("\t Added EvoChecker evolvable parameter " + p.toString() + " to model.");
+			} else if (isECEvolvableDistribution(line)){
+				if (m_debug) System.out.println("\t EvoChecker Evolvable distribution declaration >>> " + line);
 			} else if (line.startsWith("property ")){ // Property definition
 				String prop_literal ="";
 				String declaration_body = String.join(" ",  Arrays.copyOfRange(line_chunks, 1, line_chunks.length));
@@ -391,6 +417,30 @@ public class ParserMark1 {
 	}
 	
 	
+	/**
+	 * Determines if a String contains an evochecker evolvable parameter declaration
+	 * @param s
+	 * @return
+	 */
+	public boolean isECEvolvableParameter(String s){
+		if (Objects.equals(s.split(" ")[0],"evolve")){
+			return (Objects.equals(s.split(" ")[1],"double") 
+					|| Objects.equals(s.split(" ")[1],"int"));
+		}
+		return false;
+	}
+
+	/**
+	 * Determines if a String contains an evochecker evolvable probability distribution declaration
+	 * @param s
+	 * @return
+	 */
+	public boolean isECEvolvableDistribution(String s){
+		if (Objects.equals(s.split(" ")[0],"evolve")){
+			return (Objects.equals(s.split(" ")[1],"distribution"));
+		}
+		return false;
+	}
 	
 	/**
 	 * Determines if a String contains a formula declaration
@@ -709,6 +759,14 @@ public class ParserMark1 {
 				m_bmodel.addEnum(enum_object);
 				if (m_debug) System.out.println("\t Added enum " + enum_object.toString() + " to process \'"+ id +"'.");	
 				
+			}
+			
+			if (isECEvolvableParameter(line)){
+				if (m_debug) System.out.println("\t EvoChecker Evolvable parameter declaration >>> " + line );
+				HQECParameter mp = parseECParameter(line);
+				p.addECParameter(mp);
+				if (m_debug) System.out.println("\t Added EvoChecker evolvable parameter " + mp.toString() + " to process \'"+ id +"'.");
+
 			}
 			
 			if (isVariableDeclaration(line)){ // If we are declaring a variable

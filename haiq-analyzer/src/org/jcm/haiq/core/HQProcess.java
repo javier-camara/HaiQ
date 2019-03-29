@@ -13,7 +13,9 @@ public class HQProcess {
 	private HashMap<String, HQFormula> m_formulas = new HashMap<String, HQFormula>();
 	private LinkedList<HQCommand> m_commands = new LinkedList<HQCommand>();
 	private HashMap<String, HQEnum> m_enums = new HashMap<String, HQEnum>();
-	
+	// EvoChecker Extension
+	private HashMap<String, HQECParameter> m_ECparams = new HashMap<String, HQECParameter>();
+
 	/**
 	 * @return the m_id
 	 */
@@ -78,6 +80,13 @@ public class HQProcess {
 	public LinkedList<HQCommand> getCommands() {
 		return m_commands;
 	}
+	
+	/**
+	 * @return the m_ECparams
+	 */
+	public HashMap<String, HQECParameter> getECParameters() {
+		return m_ECparams;
+	}
 
 	public HQProcess(String id){
 		this.m_id = id;
@@ -111,6 +120,10 @@ public class HQProcess {
 		this.m_enums.put(e.getId(), e);
 	}
 	
+	public void addECParameter (HQECParameter e){
+		this.m_ECparams.put(e.getId(), e);
+	}
+	
 	public void addCommand (HQCommand c){
 		this.m_commands.add(c);
 	}
@@ -128,6 +141,12 @@ public class HQProcess {
 		for (Map.Entry<String, HQFormula> e: p.getFormulas().entrySet()){
 			if (!m_formulas.containsKey(e.getKey())){
 				m_formulas.put(e.getKey(), e.getValue());
+			}
+		}
+		
+		for (Map.Entry<String, HQECParameter> e1: p.getECParameters().entrySet()){
+			if (!m_ECparams.containsKey(e1.getKey())){
+				m_ECparams.put(e1.getKey(), e1.getValue());
 			}
 		}
 		
