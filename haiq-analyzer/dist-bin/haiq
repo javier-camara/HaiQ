@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Startup script for HaiQ (Mac OS X)
+
+# HaiQ home directory
+HAIQ_DIR="" # Replace by HaiQ root directory
+HAIQ_LIB_DIR="$HAIQ_DIR"/lib/haiq_lib
+HAIQ_NLIB_DIR="$HAIQ_DIR"/lib/haiq_nlib
+HAIQ_JAR="$HAIQ_DIR"/lib/haiq.jar
+HAIQ_TMP="$HAIQ_DIR"/lib/tmp
+
+
+# Command to launch Java
+if [ "$HAIQ_JAVA" = "" ]; then
+	if [ -x /usr/libexec/java_home ]; then
+		HAIQ_JAVA=`/usr/libexec/java_home`"/bin/java"
+	else
+		HAIQ_JAVA=java
+	fi
+fi
+
+# Set up CLASSPATH
+HAIQ_CLASSPATH="$HAIQ_JAR":"$HAIQ_LIB_DIR"
+
+# Export environment variables
+export DYLD_LIBRARY_PATH=$HAIQ_NLIB_DIR
+export HAIQ_TMP_PATH=$HAIQ_TMP
+
+HAIQ_JAVAMAXMEM="-Xmx4g"
+HAIQ_JAVASTACKSIZE="-Xss4M"
+
+# Run through Java
+"$HAIQ_JAVA" -d64 $HAIQ_JAVAMAXMEM $HAIQ_JAVASTACKSIZE -Djava.ext.dirs="$HAIQ_NLIB_DIR" -Djava.library.path="$HAIQ_NLIB_DIR" -classpath "$HAIQ_LIB_DIR" -jar $HAIQ_JAR "$@"
+
+HAIQ_EXIT_CODE=$?
+exit $HAIQ_EXIT_CODE

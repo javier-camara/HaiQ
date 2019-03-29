@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-all-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-all.jar"/>
+	<classpathentry kind="lib" path="lib/alloy4.2.jar"/>
+	<classpathentry kind="lib" path="libprism/jas.jar"/>
+	<classpathentry kind="lib" path="libprism/jhoafparser.jar"/>
+	<classpathentry kind="lib" path="libprism/log4j.jar"/>
+	<classpathentry kind="lib" path="libprism/lpsolve55j.jar"/>
+	<classpathentry kind="lib" path="libprism/colt.jar"/>
+	<classpathentry kind="lib" path="libprism/epsgraphics.jar"/>
+	<classpathentry kind="lib" path="libprism/jcommon.jar"/>
+	<classpathentry kind="lib" path="libprism/jfreechart.jar"/>
+	<classpathentry kind="lib" path="libprism/prism.jar"/>
+	<classpathentry kind="lib" path="libprism/ppl_java.jar"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME"/>
+	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

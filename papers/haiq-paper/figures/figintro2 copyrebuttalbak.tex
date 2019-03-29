@@ -1,0 +1,52 @@
+\begin{figure*}
+%\centering
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{c|c|c}
+\begin{minipage}{0.25\linewidth}
+{\footnotesize
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+\color{blue}abstract sig \color{black}comp \{l: \color{blue}some\color{black} comp\}
+\color{red}</ \color{blue}var\color{black} x: \color{blue}bool init false\color{black}; 
+   \color{blue}formula\color{black} p;
+   [l:r] (!x) -> p : (x'=\color{blue}false\color{black}) 
+             + 1-p : (x'=\color{blue}true\color{black}); \color{red}/>
+\color{blue}some sig\color{black} c \color{blue}extends\color{black} comp \{\}
+\color{red}</ \color{blue}formula\color{black} p=0.2;\color{red} />
+\color{blue}some sig \color{black}s \color{blue}extends \color{black}comp \{\}
+\color{red}</ \color{blue}formula \color{black}p=0.4; \color{red}/>
+\color{blue}pred\color{black} clientserver \{ 
+ \color{blue}disj\color{black}[c.l,c] \color{prismgreen}//only
+ \color{blue}disj\color{black}[s.l,s] \color{prismgreen}//c<->s
+ l = ~l \} \color{prismgreen}//symmetric relation
+\color{blue}run \color{black}clientserver \color{blue}for\color{black} 1 c, 2 s
+\end{Verbatim}
+}
+\end{minipage}
+&
+\begin{minipage}{0.08\linewidth} 
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1mm, fill=black!10, blur shadow={shadow blur steps=3}},scale=1.5, font=\footnotesize]
+
+\node[mynode] (bbar) at (1.5,1) {c0};
+\node[mynode] (bfoo0) at (1.5,0) {s0};
+\node[mynode] (bfoo1) at (1.5,2) {s1};
+
+\begin{scope}[> = stealth,  -tipSq,black,thick, every node/.style = {black,right,align=center}]
+\draw (bfoo0) edge node[left]       {[c0s0.r]}     (bbar);
+\draw (bbar) edge node       {}     (bfoo0);
+\draw (bfoo1) edge   node[left]      {[c0s1.r]}     (bbar);
+\draw (bbar) edge   node      {}     (bfoo1);
+
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
+&
+%\multicolumn{2}{c}{\resizebox{\linewidth}{3.8cm}{ \input{figures/dtmcintro}}}
+\begin{minipage}{0.62\linewidth}
+%\resizebox{\linewidth}{4.2cm}{ \input{figures/dtmcintro}}
+\input{figures/dtmcintro}
+\end{minipage}
+\end{tabular}
+
+\caption{Client-server {\sf HaiQ} specification (left), sample structure (center), and corresponding state machine (right)}
+\label{fig:intro2}
+\end{figure*}

@@ -1,0 +1,85 @@
+
+\begin{figure}
+\bgroup
+\def\arraystretch{0.8}
+\begin{tabular}{c|c}
+\begin{minipage}{0.45\linewidth}
+{\footnotesize
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+\color{blue}abstract sig \color{black}comp \{l: \color{blue}some \color{black}comp\}
+\color{blue}some sig \color{black}c, s \color{blue}extends \color{black}comp\{\}
+\color{blue}pred \color{black}clientserver \{ 
+ \color{blue}disj\color{black}[c.l,c] \color{prismgreen}//only
+ \color{blue}disj\color{black}[s.l,s] \color{prismgreen}//c<->s
+ l = ~l \} \color{prismgreen}//symmetric
+\color{blue}run \color{black}clientserver \color{blue}for \color{black}1 c, 2 s
+-------------------------------
+\end{Verbatim}
+}
+\end{minipage}
+
+%  all f:foo, b:bar |
+%    f in b.r <=> b in f.r}
+
+& 
+  
+ \begin{minipage}{0.48\linewidth}
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1.1mm, fill=black!10, blur shadow={shadow blur steps=3}},scale=1.3]
+
+\node[mynode] (abar) at (0.7,0) {c0};
+\node[mynode] (afoo) at (0.7,1) {s0};
+\node[mynode] (bbar) at (2.5,0) {c0};
+\node[mynode] (bfoo0) at (2.0,1) {s0};
+\node[mynode] (bfoo1) at (3.0,1) {s1};
+
+\begin{scope}[> = stealth,  ->,black,thick, every node/.style = {black,right,align=center}]
+\draw (afoo) edge   node      {l}     (abar);
+\draw (abar) edge   node      {}     (afoo);
+\draw (bfoo0) edge node[left]       {l}     (bbar);
+\draw (bbar) edge node       {}     (bfoo0);
+\draw (bfoo1) edge   node      {l}     (bbar);
+\draw (bbar) edge   node      {}     (bfoo1);
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
+\\
+\begin{minipage}{0.45\linewidth}
+\vspace{0.05cm}
+{\footnotesize
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+\color{blue}module \color{black}c0
+ x: \color{blue}bool init false\color{black};
+ [r] (!x) -> 0.2:(x'=\color{blue}false\color{black}) 
+           + 0.8:(x'=\color{blue}true\color{black});
+\color{blue}endmodule
+\color{blue}module \color{black}s0
+ y: \color{blue}bool init false\color{black};
+ [r] (!y) -> 0.4:(y'=\color{blue}false\color{black}) 
+           + 0.6:(y'=\color{blue}true\color{black});
+\color{blue}endmodule\color{black}
+\end{Verbatim}
+}
+\end{minipage}
+
+& 
+\begin{minipage}{0.48\linewidth}
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1.1mm, rounded corners, fill=black!10, blur shadow={shadow blur steps=3}},scale=1.6]
+\node[mynode] (n1) at (1,1) {\red{!x}, \red{!y}};
+\node[mynode] (n2) at (0,0) {\red{!x}, y};
+\node[mynode] (n3) at (1,0) {x, \red{!y}};
+\node[mynode] (n4) at (2,0) {x, y};
+\begin{scope}[> = stealth,  ->,black,thick, every node/.style = {black,right,align=center}]
+\draw (n1) edge   node[left, yshift=-1mm, xshift=-3.4mm]     {[r] \\ 0.12}     (n2);
+\draw (n1) edge   node[yshift=-1mm, xshift=-0.5mm]      {[r] \\ 0.32}     (n3);
+\draw (n1) edge   node[yshift=-1mm, xshift=3.4mm]      {[r] \\ 0.48}     (n4);
+\draw (n1) edge [loop right]  node     {[r] \\ 0.08}     (n1);
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
+
+
+\end{tabular}
+\egroup
+\caption{Client-server Alloy and PRISM specifications}
+\label{fig:intro1}
+\end{figure}

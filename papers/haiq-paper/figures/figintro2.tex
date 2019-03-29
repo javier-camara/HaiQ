@@ -1,0 +1,102 @@
+\begin{figure*}
+%\centering
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{c|c}
+\begin{minipage}{0.28\linewidth}
+{\scriptsize
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+\color{blue}abstract sig \color{black}comp \{l: \color{blue}some\color{black} comp\}
+\color{red}</ \color{blue}var\color{black} x: \color{blue}bool init false\color{black}; 
+   \color{blue}formula\color{black} p;
+   [l:r] (!x) -> p : (x'=\color{blue}false\color{black}) 
+             + 1-p : (x'=\color{blue}true\color{black}); \color{red}/>
+\color{blue}some sig\color{black} c \color{blue}extends\color{black} comp \{\}
+\color{red}</ \color{blue}formula\color{black} p=0;\color{red} />
+\color{blue}some sig \color{black}s \color{blue}extends \color{black}comp \{\}
+\color{red}</ \color{blue}formula \color{black}p=0.4; \color{red}/>
+\color{blue}pred\color{black} clientserver \{ 
+ \color{blue}disj\color{black}[c.l,c] \color{prismgreen}//only
+ \color{blue}disj\color{black}[s.l,s] \color{prismgreen}//c<->s
+ l = ~l \} \color{prismgreen}//symmetric relation
+\color{blue}run \color{black}clientserver \color{blue}for\color{black} 1 c, 2 s
+\end{Verbatim}
+}
+\end{minipage}
+&
+%\multicolumn{2}{c}{\resizebox{\linewidth}{3.8cm}{ \input{figures/dtmcintro}}}
+\begin{minipage}{0.72\linewidth}
+
+\begin{tabular}{>{\centering\arraybackslash}m{0.13\linewidth} >{\centering\arraybackslash}m{0.36\linewidth} >{\centering\arraybackslash}m{0.36\linewidth}}
+%\begin{tabular}{ccc}
+\toprule
+ & {\bf 1 client, 1 server} & {\bf 1 client, 2 servers}\\
+\midrule
+
+{\bf Structure} & 
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1mm, fill=black!10, blur shadow={shadow blur steps=3}},scale=1.5, font=\scriptsize]
+\node[mynode] (bbar) at (0,0) {c0};
+\node[mynode] (bfoo0) at (1,0) {s0};
+
+\begin{scope}[> = stealth,  -tipSq,black,thick, every node/.style = {black,right,align=center}]
+\draw (bfoo0) edge node[xshift=-5mm, yshift=-2mm]       {[c0s0.r]}     (bbar);
+\draw (bbar) edge node       {}     (bfoo0);
+\end{scope}
+\end{tikzpicture}
+& 
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1mm, fill=black!10, blur shadow={shadow blur steps=3}},scale=1.5, font=\scriptsize]
+
+\node[mynode] (bbar) at (1,0) {c0};
+\node[mynode] (bfoo0) at (0,0) {s0};
+\node[mynode] (bfoo1) at (2,0) {s1};
+
+\begin{scope}[> = stealth,  -tipSq,black,thick, every node/.style = {black,right,align=center}]
+\draw (bfoo0) edge node[xshift=-5mm, yshift=-2mm]       {[c0s0.r]}     (bbar);
+\draw (bbar) edge node       {}     (bfoo0);
+\draw (bfoo1) edge   node[xshift=-5mm, yshift=-2mm]      {[c0s1.r]}     (bbar);
+\draw (bbar) edge   node      {}     (bfoo1);
+\end{scope}
+\end{tikzpicture}
+\\
+\midrule
+{\bf State Machine} &
+
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1.1mm, rounded corners, fill=black!10, blur shadow={shadow blur steps=3}},scale=1.9, font=\scriptsize]
+\node[mynode] (n1) at (0,0) {\red{!c0.x}, \red{!s0.x}};
+\node[mynode] (n2) at (1.2,-0.3) {c0.x, \red{!s0.x}};
+\node[mynode] (n3) at (1.2,0.3) {c0.x, s0.x};
+\begin{scope}[> = stealth,  ->,black,thick, every node/.style = {black,right,align=center}, every loop/.style={looseness=1}]
+\draw (n1) edge   node[yshift=-3.1mm,xshift=-7mm]     {[c0s0.r] \\ 0.4}     (n2);
+\draw (n1) edge   node[yshift=3mm,xshift=-7mm]      {[c0s0.r] \\ 0.6}     (n3);
+%\draw (n2) edge [loop right] node {1.0} (n2);
+%\draw (n3) edge [loop right] node {1.0} (n3);
+\end{scope}
+\end{tikzpicture}
+
+& 
+
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1.1mm, rounded corners, fill=black!10, blur shadow={shadow blur steps=3}},scale=1.9, font=\scriptsize]
+\node[mynode] (n1) at (0,0) {\red{!c0.x}, \red{!s0.x}, \red{!s1.x}};
+\node[mynode] (n2) at (1.8,0.6) {c0.x, \red{!s0.x}, \red{!s1.x}};
+\node[mynode] (n3) at (1.8,0) {c0.x, s0.x, \red{!s1.x}};
+\node[mynode] (n4) at (1.8,-0.6) {c0.x, \red{!s0.x}, s1.x};
+\begin{scope}[> = stealth,  ->,black,thick, every node/.style = {black,right,align=center}, every loop/.style={looseness=1}]
+\draw (n1) edge   node[yshift=-3mm, xshift=-2.8mm]      {[c0s0.r] \\ 0.3}     (n3);
+\draw (n1) edge   node[yshift=-4.3mm, xshift=-2.8mm]      {[c0s1.r] \\ 0.3}     (n4);
+\draw (n1) edge   node[left, yshift=2mm, xshift=3.5mm]     {[c0s0.r], [c0s1.r] \\ 0.4}     (n2);
+%\draw (n2) edge [loop right] node {1.0} (n2);
+%\draw (n3) edge [loop right] node {1.0} (n3);
+%\draw (n4) edge [loop right] node {1.0} (n4);
+\end{scope}
+\end{tikzpicture}
+\\
+
+\bottomrule
+
+\end{tabular}
+
+\end{minipage}
+\end{tabular}
+
+\caption{Client-server {\sf HaiQ} specification (left), implicit structure collection and corresponding state machines (right)}
+\label{fig:intro2}
+\end{figure*}

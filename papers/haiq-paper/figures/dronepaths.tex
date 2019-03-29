@@ -1,0 +1,171 @@
+\begin{tikzpicture}[mynode/.style =  {draw,inner sep=0.6mm, circle,fill=white, blur shadow={shadow blur steps=3}} ,
+ tlocnode/.style = {draw,inner sep=0.6mm, circle,fill=green!20, blur shadow={shadow blur steps=3}},
+ achtungnode/.style = {draw,inner sep=0.6mm, circle,fill=red!40, blur shadow={shadow blur steps=3}},
+ scale=0.1]
+
+\node[inner sep=0pt] (drone) at (22.243,51.7)
+    {\includegraphics[width=.13\textwidth]{figures/drone.png}};
+
+\node[mynode] (l1) at (23.243,68.865) {};
+\node[mynode] (l2) at (25.946,68.865) {};
+\node[mynode] (l3) at (31.351,68.865) {};
+\node[mynode] (l4) at (36.757,68.865) {};
+\node[mynode] (l5) at (42.162,68.865) {};
+\node[mynode] (l6) at (42.162,58.595) {};
+\node[mynode] (l7) at (38.378,58.595) {};
+\node[mynode] (l8) at (34.595,58.595) {};
+\node[mynode] (l9) at (31.351,58.595) {};
+\node[mynode] (l10) at (28.108,58.595) {};
+\node[mynode] (l11) at (25.946,58.595) {};
+\node[mynode] (l12) at (25.946,65.081) {};
+\node[achtungnode] (l13) at (48.649,58.595) {};
+\node (p1) at (52.649,56.595) {\scriptsize \tt PCOL};
+\node[achtungnode] (l14) at (48.649,68.865) {};
+\node (p2) at (43.649,70.865) {\scriptsize \tt 1-PCOL};
+\node[mynode] (l15) at (48.649,75.351) {};
+\node[mynode] (l16) at (51.892,75.351) {};
+\node[mynode] (l17) at (55.676,75.351) {};
+\node[mynode] (l18) at (55.676,68.865) {};
+\node[mynode] (l19) at (55.676,58.595) {};
+\node[tlocnode] (l20) at (58.919,75.351) {};
+\node[mynode] (l21) at (58.919,68.865) {};
+\node[mynode] (l22) at (48.649,48.865) {};
+\node[mynode] (l23) at (42.162,48.865) {};
+\node[mynode] (l24) at (37.838,48.865) {};
+\node[mynode] (l25) at (31.351,48.865) {};
+\node[mynode] (l26) at (25.946,48.865) {};
+\node[mynode] (l27) at (25.946,53.189) {};
+\node[mynode] (l29) at (31.351,53.189) {};
+\node[mynode] (l30) at (23.243,48.865) {};
+
+\begin{scope}[> = stealth,  -,gray, every node/.style = {black,right,align=center}]
+\draw (l1) edge [left]   node     {}     (l2);
+\draw (l2) edge [left]   node     {}     (l1);
+\draw (l2) edge [left]   node     {}     (l12);
+\draw (l2) edge [left]   node     {}     (l3);
+\draw (l3) edge [left]   node     {}     (l4);
+\draw (l3) edge [left]   node     {}     (l2);
+\draw (l4) edge [left]   node     {}     (l5);
+\draw (l4) edge [left]   node     {}     (l3);
+\draw (l5) edge [left]   node     {}     (l6);
+\draw (l5) edge [left]   node     {}     (l4);
+\draw (l5) edge [left]   node     {}     (l14);
+\draw (l6) edge [left]   node     {}     (l7);
+\draw (l6) edge [left]   node     {}     (l5);
+\draw (l6) edge [left]   node     {}     (l13);
+\draw (l6) edge [left]   node     {}     (l23);
+\draw (l7) edge [left]   node     {}     (l8);
+\draw (l7) edge [left]   node     {}     (l6);
+\draw (l8) edge [left]   node     {}     (l9);
+\draw (l8) edge [left]   node     {}     (l7);
+\draw (l9) edge [left]   node     {}     (l10);
+\draw (l9) edge [left]   node     {}     (l8);
+\draw (l9) edge [left]   node     {}     (l29);
+\draw (l10) edge [left]   node     {}     (l11);
+\draw (l10) edge [left]   node     {}     (l9);
+\draw (l11) edge [left]   node     {}     (l12);
+\draw (l11) edge [left]   node     {}     (l10);
+\draw (l11) edge [left]   node     {}     (l27);
+\draw (l12) edge [left]   node     {}     (l2);
+\draw (l12) edge [left]   node     {}     (l11);
+\draw (l13) edge [left]   node     {}     (l14);
+\draw (l13) edge [left]   node     {}     (l6);
+\draw (l13) edge [left]   node     {}     (l19);
+\draw (l13) edge [left]   node     {}     (l22);
+\draw (l14) edge [left]   node     {}     (l5);
+\draw (l14) edge [left]   node     {}     (l13);
+\draw (l14) edge [left]   node     {}     (l18);
+\draw (l14) edge [left]   node     {}     (l15);
+\draw (l15) edge [left]   node     {}     (l16);
+\draw (l15) edge [left]   node     {}     (l14);
+\draw (l16) edge [left]   node     {}     (l17);
+\draw (l16) edge [left]   node     {}     (l15);
+\draw (l17) edge [left]   node     {}     (l18);
+\draw (l17) edge [left]   node     {}     (l20);
+\draw (l17) edge [left]   node     {}     (l16);
+\draw (l18) edge [left]   node     {}     (l14);
+\draw (l18) edge [left]   node     {}     (l17);
+\draw (l18) edge [left]   node     {}     (l21);
+\draw (l18) edge [left]   node     {}     (l19);
+\draw (l19) edge [left]   node     {}     (l13);
+\draw (l19) edge [left]   node     {}     (l18);
+\draw (l20) edge [left]   node     {}     (l17);
+\draw (l20) edge [left]   node     {}     (l21);
+\draw (l21) edge [left]   node     {}     (l20);
+\draw (l21) edge [left]   node     {}     (l18);
+\draw (l22) edge [left]   node     {}     (l23);
+\draw (l22) edge [left]   node     {}     (l13);
+\draw (l23) edge [left]   node     {}     (l6);
+\draw (l23) edge [left]   node     {}     (l24);
+\draw (l23) edge [left]   node     {}     (l22);
+\draw (l24) edge [left]   node     {}     (l23);
+\draw (l24) edge [left]   node     {}     (l25);
+\draw (l25) edge [left]   node     {}     (l24);
+\draw (l25) edge [left]   node     {}     (l26);
+\draw (l25) edge [left]   node     {}     (l29);
+\draw (l26) edge [left]   node     {}     (l25);
+\draw (l26) edge [left]   node     {}     (l27);
+\draw (l26) edge [left]   node     {}     (l30);
+\draw (l27) edge [left]   node     {}     (l26);
+\draw (l27) edge [left]   node     {}     (l11);
+\draw (l29) edge [left]   node     {}     (l9);
+\draw (l29) edge [left]   node     {}     (l25);
+\draw (l30) edge [left]   node     {}     (l26);
+\end{scope}
+
+
+\begin{scope}[> = stealth,  ,blue,thick, every node/.style = {black,right,align=center}]
+\draw (l26) edge [left]   node     {}     (l27);
+\draw (l19) edge [left]   node     {}     (l13);
+\draw (l27) edge [left]   node     {}     (l26);
+\draw (l6) edge [left]   node     {}     (l13);
+\draw (l21) edge [left]   node     {}     (l20);
+\draw (l11) edge [left]   node     {}     (l27);
+\draw (l10) edge [left]   node     {}     (l9);
+\draw (l20) edge [left]   node     {}     (l21);
+\draw (l13) edge [left]   node     {}     (l6);
+\draw (l30) edge [left]   node     {}     (l26);
+\draw (l18) edge [left]   node     {}     (l19);
+\draw (l21) edge [left]   node     {}     (l18);
+\draw (l9) edge [left]   node     {}     (l10);
+\draw (l19) edge [left]   node     {}     (l18);
+\draw (l8) edge [left]   node     {}     (l9);
+\draw (l7) edge [left]   node     {}     (l6);
+\draw (l7) edge [left]   node     {}     (l8);
+\draw (l18) edge [left]   node     {}     (l21);
+\draw (l9) edge [left]   node     {}     (l8);
+\draw (l8) edge [left]   node     {}     (l7);
+\draw (l6) edge [left]   node     {}     (l7);
+\draw (l10) edge [left]   node     {}     (l11);
+\draw (l27) edge [left]   node     {}     (l11);
+\draw (l26) edge [left]   node     {}     (l30);
+\draw (l11) edge [left]   node     {}     (l10);
+\draw (l13) edge [left]   node     {}     (l19);
+\end{scope}
+
+
+\begin{scope}[> = stealth,  -,red, thick, every node/.style = {black,right,align=center}]
+\draw[dashed] (l6) edge [left]   node     {}     (l5);
+\draw[dashed] (l25) edge [left]   node     {}     (l24);
+\draw[dashed] (l26) edge [left]   node     {}     (l25);
+\draw[dashed] (l18) edge [left]   node     {}     (l21);
+\draw[dashed] (l24) edge [left]   node     {}     (l25);
+\draw[dashed] (l18) edge [left]   node     {}     (l14);
+\draw[dashed] (l24) edge [left]   node     {}     (l23);
+\draw[dashed] (l26) edge [left]   node     {}     (l30);
+\draw[dashed] (l14) edge [left]   node     {}     (l5);
+\draw[dashed] (l21) edge [left]   node     {}     (l20);
+\draw[dashed] (l5) edge [left]   node     {}     (l14);
+\draw[dashed] (l6) edge [left]   node     {}     (l23);
+\draw[dashed] (l20) edge [left]   node     {}     (l21);
+\draw[dashed] (l25) edge [left]   node     {}     (l26);
+\draw[dashed] (l23) edge [left]   node     {}     (l6);
+\draw[dashed] (l14) edge [left]   node     {}     (l18);
+\draw[dashed] (l23) edge [left]   node     {}     (l24);
+\draw[dashed] (l30) edge [left]   node     {}     (l26);
+\draw[dashed] (l21) edge [left]   node     {}     (l18);
+\end{scope}
+
+
+
+\end{tikzpicture}

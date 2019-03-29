@@ -1,0 +1,52 @@
+\begin{figure*}
+%\centering
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{c|c|c}
+\begin{minipage}{0.23\linewidth}
+{\footnotesize
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+\color{blue}abstract sig \color{black}fb \{r: \color{blue}some\color{black} fb\}
+\color{red}</ \color{blue}var\color{black} x: \color{blue}bool init false\color{black}; 
+   \color{blue}formula\color{black} p;
+   [r:a] (!x) -> p : (x'=\color{blue}false\color{black}) 
+             + 1-p : (x'=\color{blue}true\color{black}); \color{red}/>
+\color{blue}some sig\color{black} foo \color{blue}extends\color{black} fb \{\}
+\color{red}</ \color{blue}formula\color{black} p=0.2;\color{red} />
+\color{blue}some sig \color{black}bar \color{blue}extends \color{black}fb \{\}
+\color{red}</ \color{blue}formula \color{black}p=0.4; \color{red}/>
+
+\color{blue}pred\color{black} foobar \{ 
+ \color{blue}disj\color{black}[foo.r,foo] \color{prismgreen}//only
+ \color{blue}disj\color{black}[bar.r,bar] \color{prismgreen}//foo<->bar
+ r = ~r \} \color{prismgreen}//symmetric relation
+\color{blue}run \color{black}foobar \color{blue}for\color{black} 2 foo, 1 bar \end{Verbatim}
+}
+\end{minipage}
+&
+\begin{minipage}{0.1\linewidth} 
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1mm, fill=black!10, blur shadow={shadow blur steps=3}},scale=1.5, font=\footnotesize]
+
+\node[mynode] (bbar) at (1.5,1) {bar0};
+\node[mynode] (bfoo0) at (1.5,0) {foo0};
+\node[mynode] (bfoo1) at (1.5,2) {foo1};
+
+\begin{scope}[> = stealth,  -tipSq,black,thick, every node/.style = {black,right,align=center}]
+\draw (bfoo0) edge node[left]       {[f0b0.a]}     (bbar);
+\draw (bbar) edge node       {}     (bfoo0);
+\draw (bfoo1) edge   node[left]      {[f1b0.a]}     (bbar);
+\draw (bbar) edge   node      {}     (bfoo1);
+
+\end{scope}
+\end{tikzpicture}
+\end{minipage}
+&
+%\multicolumn{2}{c}{\resizebox{\linewidth}{3.8cm}{ \input{figures/dtmcintro}}}
+\begin{minipage}{0.62\linewidth}
+%\resizebox{\linewidth}{4.2cm}{ \input{figures/dtmcintro}}
+\input{figures/dtmcintro}
+\end{minipage}
+\end{tabular}
+
+\caption{Foobar {\sf HaiQ} specification (left), sample structure (center), and corresponding state machine (right)}
+\label{fig:intro2}
+\end{figure*}

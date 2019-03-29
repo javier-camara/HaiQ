@@ -1,0 +1,97 @@
+\begin{figure}[!htb]
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{cc}
+
+\begin{minipage}{0.5\linewidth}
+\begin{tikzpicture}[scale=0.5]
+
+\begin{axis}[legend style={at={(0.2,0.95)},
+		anchor=north},
+		xlabel={\normalsize CHANNEL\_RELIABILITY},
+		ylabel={\normalsize Probability of CAS survival},
+		ylabel style={yshift=-0.35cm}]
+	\addplot[smooth,color=black,mark=x] coordinates {
+		(0.2,0)
+		(0.4,0)
+		(0.6,0)
+		(0.8,0)
+		(1,0)
+	};
+	\addlegendentry{{\normalsize Star}}
+	\addplot[smooth,color=red,mark=o] coordinates {
+		(0.2,0.00469)
+		(0.4,0.031140)
+		(0.6,0.091663)
+		(0.8,0.190465)
+		(1,0.32111)
+	};
+	\addlegendentry{{\normalsize Ring}}
+
+	% \addplot[smooth,color=red,dashed] coordinates {
+	% 	(0.2,0.00469)
+	% 	(0.4,0.031140)
+	% 	(0.6,0.091663)
+	% 	(0.8,0.190465)
+	% 	(1,0.32111)
+	% };
+	% \addlegendentry{{\normalsize Ring (WC)}}
+
+
+	\addplot[smooth,color=blue,mark=square] coordinates {
+		(0.2,0.010161)
+		(0.4,0.05120538)
+		(0.6,0.1278873)
+		(0.8,0.240814)
+		(1,0.38204905)
+	};
+	\addlegendentry{{\normalsize Optimal}}
+
+	\addplot[smooth,color=gray,mark=triangle] coordinates {
+		(0.2,0.00863437)
+		(0.4,0.039317)
+		(0.6,0.0916436)
+		(0.8,0.16394455)
+		(1,0.2496142)
+	};
+	\addlegendentry{{\normalsize Full}}
+
+
+	\end{axis}
+
+\end{tikzpicture}
+\end{minipage}
+
+& 
+
+\begin{minipage}{0.5\linewidth}
+{\footnotesize
+\setlength{\tabcolsep}{0pt}
+\bgroup
+\def\arraystretch{0.70}
+\begin{tabularx}{\linewidth}{>{\centering\arraybackslash}p{2cm}>{\centering\arraybackslash}p{2cm}}
+\toprule
+{\bf Full} & {\bf Star}\\
+\midrule
+\input{figures/fulltopology} & \input{figures/startopology} \\
+\textcolor{blue}{all}  s:sam | \textcolor{blue}{all} s':sam-s | s \textcolor{blue}{in} s'.conn
+& \textcolor{blue}{one} s:sam | s \textcolor{blue}{in} sam.conn \textcolor{blue}{and} \#(sam-s).conn=1 \\
+\midrule
+{\bf Ring} & {\bf Optimal}\\
+\midrule
+\input{figures/ringtopology} & \input{figures/optimaltopology} \\
+\textcolor{blue}{all} s:sam | \#s.conn=2  & - \\
+\bottomrule
+\end{tabularx}
+\egroup
+}
+\end{minipage}
+
+\end{tabular}
+
+
+
+
+\caption{CAS topologies and resilience results}
+%\vspace{-0.5cm}
+\label{fig:topologyresults}
+\end{figure}

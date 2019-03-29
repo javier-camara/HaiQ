@@ -1,0 +1,115 @@
+
+\begin{figure}[t]
+\def\oc{5}
+\begin{tikzpicture}[scale=0.4,
+ locnode/.style = {draw,inner sep=0.15mm, circle,fill=white, blur shadow={shadow blur steps=3}},
+ ilocnode/.style = {draw,inner sep=0.15mm, circle,fill=red!20, blur shadow={shadow blur steps=3}},
+ blocnode/.style = {draw,inner sep=0.15mm, circle,fill=black!10, blur shadow={shadow blur steps=3}},
+ scale=1.8]
+
+
+
+\node[locnode] (alowNode0) at (0+\oc,0) {\scriptsize L31};
+\node[locnode] (alowNode1) at (1.5+\oc,0) {\scriptsize L32};
+\node[ilocnode] (ainfectedNode0) at (3+\oc,0) {\scriptsize L33};
+
+\node[blocnode] (abarrierNode2) at (0+\oc,1) {\scriptsize L21};
+\node[blocnode] (abarrierNode1) at (1.5+\oc,1) {\scriptsize L22};
+\node[blocnode] (abarrierNode0) at (3+\oc,1) {\scriptsize L23};
+
+\node[locnode] (ahighNode0) at (0+\oc,2) {\scriptsize L11};
+\node[locnode] (ahighNode1) at (1.5+\oc,2) {\scriptsize L12};
+\node[locnode] (ahighNode2) at (3+\oc,2) {\scriptsize L13};
+
+
+\node[locnode] (lowNode0) at (0,0) {\scriptsize L31};
+\node[locnode] (lowNode1) at (1.5,0) {\scriptsize L32};
+\node[ilocnode] (infectedNode0) at (3,0) {\scriptsize L33};
+%\node (LNL) at (4,0) {Low nodes};
+
+\node[blocnode] (barrierNode2) at (0,1) {\scriptsize L21};
+\node[blocnode] (barrierNode1) at (1.5,1) {\scriptsize L22};
+\node[blocnode] (barrierNode0) at (3,1) {\scriptsize L23};
+%\node (BNL) at (4,1) {Barrier nodes};
+
+\node[locnode] (highNode0) at (0,2) {\scriptsize L11};
+\node[locnode] (highNode1) at (1.5,2) {\scriptsize L12};
+\node[locnode] (highNode2) at (3,2) {\scriptsize L13};
+%\node (HNL) at (4,2) {High nodes};
+
+
+
+\begin{scope}[> = stealth,  -,black,thick, every node/.style = {black,right,align=center}]
+\draw (lowNode1) edge [left]   node     {}     (infectedNode0);
+\draw (highNode2) edge [left]   node     {}     (barrierNode0);
+\draw (lowNode1) edge [left]   node     {}     (lowNode0);
+\draw (highNode1) edge [left]   node     {}     (barrierNode1);
+\draw (barrierNode2) edge [left]   node     {}     (highNode0);
+\draw (lowNode0) edge [left]   node     {}     (lowNode1);
+\draw (infectedNode0) edge [left]   node     {}     (lowNode1);
+\draw (lowNode0) edge [left]   node     {}     (barrierNode2);
+\draw (barrierNode1) edge [left]   node     {}     (lowNode1);
+\draw (barrierNode2) edge [left]   node     {}     (lowNode0);
+\draw (infectedNode0) edge [left]   node     {}     (barrierNode0);
+\draw (barrierNode1) edge [left]   node     {}     (barrierNode2);
+%\draw (lowNode0) edge [bend right]   node     {}     (infectedNode0);
+\draw (barrierNode2) edge [left]   node     {}     (barrierNode1);
+\draw (lowNode1) edge [left]   node     {}     (barrierNode1);
+\draw (barrierNode0) edge [left]   node     {}     (highNode2);
+\draw (highNode0) edge [left]   node     {}     (barrierNode2);
+\draw (barrierNode1) edge [left]   node     {}     (highNode1);
+\draw (barrierNode0) edge [left]   node     {}     (infectedNode0);
+
+
+% \draw (lowNode1) edge [left]   node     {}     (lowNode0);
+% \draw (highNode1) edge [left]   node     {}     (barrierNode2);
+% \draw (infectedNode0) edge [left]   node     {}     (lowNode0);
+% \draw (barrierNode0) edge [left]   node     {}     (barrierNode1);
+% \draw (barrierNode0) edge [bend right]   node     {}     (barrierNode2);
+% \draw (barrierNode2) edge [left]   node     {}     (lowNode0);
+% \draw (barrierNode0) edge [left]   node     {}     (lowNode1);
+% \draw (lowNode0) edge [left]   node     {}     (infectedNode0);
+% \draw (barrierNode2) edge [left]   node     {}     (barrierNode1);
+% \draw (lowNode1) edge [left]   node     {}     (barrierNode1);
+% \draw (lowNode1) edge [left]   node     {}     (barrierNode0);
+% \draw (barrierNode2) edge [left]   node     {}     (infectedNode0);
+% \draw (barrierNode2) edge [left]   node     {}     (highNode0);
+% \draw (highNode2) edge [left]   node     {}     (barrierNode1);
+% \draw (lowNode0) edge [left]   node     {}     (lowNode1);
+% \draw (infectedNode0) edge [left]   node     {}     (barrierNode2);
+% \draw (lowNode0) edge [left]   node     {}     (barrierNode2);
+% \draw (barrierNode2) edge [left]   node     {}     (highNode1);
+% \draw (barrierNode1) edge [left]   node     {}     (lowNode1);
+% \draw (infectedNode0) edge [left]   node     {}     (barrierNode0);
+% \draw (barrierNode1) edge [left]   node     {}     (barrierNode2);
+% \draw (barrierNode1) edge [left]   node     {}     (barrierNode0);
+% \draw (highNode0) edge [left]   node     {}     (barrierNode2);
+% \draw (barrierNode1) edge [left]   node     {}     (highNode2);
+% \draw (barrierNode0) edge [left]   node     {}     (infectedNode0);
+
+\draw (ahighNode2) edge [left]   node     {}     (abarrierNode0);
+\draw (ahighNode1) edge [left]   node     {}     (abarrierNode1);
+\draw (abarrierNode2) edge [left]   node     {}     (ahighNode0);
+\draw (alowNode0) edge [left]   node     {}     (abarrierNode2);
+\draw (abarrierNode1) edge [left]   node     {}     (alowNode1);
+%\draw (ahighNode2) edge [bend right]   node     {}     (ahighNode0);
+\draw (ahighNode2) edge [left]   node     {}     (ahighNode1);
+\draw (abarrierNode2) edge [left]   node     {}     (alowNode0);
+\draw (ahighNode0) edge [left]   node     {}     (ahighNode1);
+\draw (ainfectedNode0) edge [left]   node     {}     (abarrierNode0);
+\draw (alowNode1) edge [left]   node     {}     (abarrierNode1);
+\draw (abarrierNode0) edge [left]   node     {}     (ahighNode2);
+\draw (ahighNode0) edge [left]   node     {}     (abarrierNode2);
+\draw (ahighNode1) edge [left]   node     {}     (ahighNode2);
+\draw (abarrierNode1) edge [left]   node     {}     (ahighNode1);
+\draw (abarrierNode0) edge [left]   node     {}     (ainfectedNode0);
+\draw (ahighNode1) edge [left]   node     {}     (ahighNode0);
+
+
+
+\end{scope}
+\end{tikzpicture}
+
+\caption{Alternative legal network configurations}
+\label{fig:virusconfigs}
+\end{figure}

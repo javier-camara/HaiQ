@@ -1,0 +1,30 @@
+\begin{figure}[]
+ \resizebox{.99\linewidth}{!}{
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=0.5mm, fill=black!10},scale=2.5, 
+                     minimum height={22pt}, minimum width={width(" (s=uninfected) -> detec")}]
+
+\filldraw[fill=black!30!white, draw=black,blur shadow={shadow blur steps=3}] (-0.7,0.92) rectangle (0.7,1.85);
+\node (A) at (0, 1.75) {\textbf{node A}};
+
+\filldraw[fill=black!30!white, draw=black,blur shadow={shadow blur steps=3}] (1.289,0.92) rectangle (2.7,1.85);
+\node (B) at (2, 1.75) {\textbf{node B}};
+
+\node[mynode] (A1) at (0,1.15) {\scriptsize (s=infected)$\rightarrow$ true;};
+\node[mynode] (B1) at (2,1.15) [align=left]{\scriptsize (s=uninfected)$\rightarrow$detect:(s'=s)\\ \;\; \scriptsize + (1-detect):(s'=breached)};
+
+\node[mynode] (A2) at (0,1.5) [align=left]{\scriptsize (s=uninfected)$\rightarrow$detect:(s'=s)\\ \;\; \scriptsize + (1-detect):(s'=breached)};
+\node[mynode] (B2) at (2,1.5) {\scriptsize (s=infected) $\rightarrow$ true;};
+
+\begin{scope}[> = stealth,  -tipSq,black,thick, every node/.style = {black,right,align=center}]
+\draw (A1) edge node[left,xshift=46pt,yshift=-10pt]       {\scriptsize \;\;\; [A.B.attack]}     (B1);
+\draw (B1) edge node                                      {}                 (A1);
+
+\draw (A2) edge node[left,xshift=46pt,yshift=-10pt]       {\scriptsize \;\;\; [A.B.attack]}     (B2);
+\draw (B2) edge node                                      {}                 (A2);
+
+\end{scope}
+\end{tikzpicture}
+}
+\caption{Sample synchronization scheme between nodes}
+\label{fig:synch}
+\end{figure}

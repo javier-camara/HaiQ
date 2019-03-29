@@ -1,0 +1,30 @@
+\begin{figure}[]
+ \resizebox{.85\linewidth}{!}{
+\begin{tikzpicture}[mynode/.style = {draw,inner sep=1mm, fill=black!10},scale=2.5, 
+                     minimum height={33pt}, minimum width={width("(droneIn)->(droneIn'=fa")}]
+
+\filldraw[fill=black!30!white, draw=black,blur shadow={shadow blur steps=3}] (-0.67,0.55) rectangle (0.7,1.85);
+\node (A) at (0, 1.75) {\textbf{node A}};
+
+\filldraw[fill=black!30!white, draw=black,blur shadow={shadow blur steps=3}] (1.289,0.55) rectangle (2.7,1.85);
+\node (B) at (2, 1.75) {\textbf{node B}};
+
+\node[mynode] (A1) at (0,0.85) {\footnotesize (s=infected) -> true;};
+\node[mynode] (B1) at (2,0.85) [align=left]{\footnotesize (s=uninfected) ->\\ \footnotesize \;\;\;detect : (s'=s) +\\ \;\; \footnotesize (1-detect) : (s'=breached)};
+
+\node[mynode] (A2) at (0,1.4) [align=left]{\footnotesize (s=uninfected) ->\\ \footnotesize \;\;\;detect : (s'=s) +\\ \;\; \footnotesize (1-detect) : (s'=breached)};
+\node[mynode] (B2) at (2,1.4) {\footnotesize (s=infected) -> true;};
+
+\begin{scope}[> = stealth,  -tipSq,black,thick, every node/.style = {black,right,align=center}]
+\draw (A1) edge node[left,xshift=44pt,yshift=-10pt]       {\footnotesize [A.B.attack]}     (B1);
+\draw (B1) edge node                                      {}                 (A1);
+
+\draw (A2) edge node[left,xshift=44pt,yshift=-10pt]       {\footnotesize [A.B.attack]}     (B2);
+\draw (B2) edge node                                      {}                 (A2);
+
+\end{scope}
+\end{tikzpicture}
+}
+\caption{Sample synchronization scheme between nodes}
+\label{fig:synch}
+\end{figure}
