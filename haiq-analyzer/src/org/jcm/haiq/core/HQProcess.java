@@ -15,7 +15,9 @@ public class HQProcess {
 	private HashMap<String, HQEnum> m_enums = new HashMap<String, HQEnum>();
 	// EvoChecker Extension
 	private HashMap<String, HQECParameter> m_ECparams = new HashMap<String, HQECParameter>();
+	private HashMap<String, HQECDistribution> m_ECdistributions = new HashMap<String, HQECDistribution>();
 
+	
 	/**
 	 * @return the m_id
 	 */
@@ -88,6 +90,14 @@ public class HQProcess {
 		return m_ECparams;
 	}
 
+	/**
+	 * @return the m_ECdistributions
+	 */
+	public HashMap<String, HQECDistribution> getECDistributions() {
+		return m_ECdistributions;
+	}
+
+	
 	public HQProcess(String id){
 		this.m_id = id;
 		this.m_abstract = false;
@@ -124,12 +134,17 @@ public class HQProcess {
 		this.m_ECparams.put(e.getId(), e);
 	}
 	
+	public void addECDistribution (HQECDistribution e){
+		this.m_ECdistributions.put(e.getId(),e);
+	}
+	
 	public void addCommand (HQCommand c){
 		this.m_commands.add(c);
 	}
 	
 	public boolean isDefinedElement(String s){
-		return m_vars.containsKey(s) || m_formulas.containsKey(s);
+		return m_vars.containsKey(s) || m_formulas.containsKey(s) 
+				|| m_ECparams.containsKey(s) || m_ECdistributions.containsKey(s);
 	}
 	
 	/**
@@ -144,12 +159,18 @@ public class HQProcess {
 			}
 		}
 		
-		for (Map.Entry<String, HQECParameter> e1: p.getECParameters().entrySet()){
-			if (!m_ECparams.containsKey(e1.getKey())){
-				m_ECparams.put(e1.getKey(), e1.getValue());
+		for (Map.Entry<String, HQECParameter> e0: p.getECParameters().entrySet()){
+			if (!m_ECparams.containsKey(e0.getKey())){
+				m_ECparams.put(e0.getKey(), e0.getValue());
 			}
 		}
-		
+
+		for (Map.Entry<String, HQECDistribution> e1: p.getECDistributions().entrySet()){
+			if (!m_ECdistributions.containsKey(e1.getKey())){
+				m_ECdistributions.put(e1.getKey(), e1.getValue());
+			}
+		}
+
 		for (Map.Entry<String, HQVariable> e2: p.getVars().entrySet()){
 			if (!m_vars.containsKey(e2.getKey())){
 				m_vars.put(e2.getKey(), e2.getValue());

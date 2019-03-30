@@ -19,7 +19,8 @@ public class HQModel {
 	private HashMap<String, HQRewardStructure> m_rewards = new HashMap<String, HQRewardStructure>();
 	// EC Extension
 	private HashMap<String, HQECParameter> m_ECparams = new HashMap<String, HQECParameter>();
-	
+	private HashMap<String, HQECDistribution> m_ECdistributions = new HashMap<String, HQECDistribution>();
+
 	
 	public HQModel (ModelType type){
 		this.m_type = type;
@@ -29,16 +30,14 @@ public class HQModel {
 		this.m_type = ModelType.DTMC;
 	}
 
-	
-
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "HQModel [m_type=" + m_type + ", m_processes=" + m_processes + ", m_vars=" + m_vars + ", m_formulas="
-				+ m_formulas + ", m_enums=" + m_enums + ", m_labels=" + m_labels + ", m_rewards=" + m_rewards + "]";
+				+ m_formulas + ", m_enums=" + m_enums + ", m_labels=" + m_labels + ", m_rewards=" + m_rewards +
+				  "m_ECparams" + m_ECparams.toString() + "m_ECdistributions" + m_ECdistributions.toString() + "]";
 	}
 
 	/**
@@ -116,6 +115,10 @@ public class HQModel {
 		this.m_ECparams.put(id, p);
 	}
 		
+	public void addECDistribution (String id, HQECDistribution d){
+		this.m_ECdistributions.put(id,d);
+	}
+	
 	/**
 	 * @return the m_processes
 	 */
@@ -143,6 +146,15 @@ public class HQModel {
 	public HashMap<String, HQECParameter> getECParameters() {
 		return m_ECparams;
 	}
+	
+	
+	/**
+	 * @return the m_ECdistributions
+	 */
+	public HashMap<String, HQECDistribution> getECDistributions() {
+		return m_ECdistributions;
+	}
+	
 	
 	public HQProcess getAncestor (HQProcess p){
 		if (!Objects.equals(p.getExtends(),null))

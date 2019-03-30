@@ -240,6 +240,24 @@ public class ParserMark1 {
 		return p;
 	}
 	
+	String getIdECDistributionFromString(String s){
+		String[] e = s.replaceAll("evolve ", "").replaceAll("distribution","").split("\\[");
+		String id = e[0].trim();
+		return id;
+	}
+	
+	HQECDistribution parseECDistribution(String s){
+		String[] e = s.replaceAll("evolve ", "").replaceAll("distribution","").trim().replaceAll("\\.\\."," ").split("\\[");
+		String id = e[0].trim();
+		HQECDistribution d = new HQECDistribution(id);
+		for (int i=1; i<e.length;i++){
+			String[] minmaxStr = e[i].replaceAll("\\]", "").replaceAll(";", "").split(" ");
+			d.addMin(minmaxStr[0]);
+			d.addMax(minmaxStr[1]);
+		}
+		return d;
+	}
+	
 	/**
 	 * Parses a .hq file into an HQModel object (m_bmodel)
 	 */
@@ -328,6 +346,9 @@ public class ParserMark1 {
 				if (m_debug) System.out.println("\t Added EvoChecker evolvable parameter " + p.toString() + " to model.");
 			} else if (isECEvolvableDistribution(line)){
 				if (m_debug) System.out.println("\t EvoChecker Evolvable distribution declaration >>> " + line);
+				HQECDistribution d = parseECDistribution(line);
+				m_bmodel.addECDistribution(getIdECDistributionFromString(line),d);
+				if (m_debug) System.out.println("\t Added EvoChecker evolvable distribution " + d.toString() + " to model.");
 			} else if (line.startsWith("property ")){ // Property definition
 				String prop_literal ="";
 				String declaration_body = String.join(" ",  Arrays.copyOfRange(line_chunks, 1, line_chunks.length));
@@ -767,6 +788,13 @@ public class ParserMark1 {
 				p.addECParameter(mp);
 				if (m_debug) System.out.println("\t Added EvoChecker evolvable parameter " + mp.toString() + " to process \'"+ id +"'.");
 
+			}
+			
+			if (isECEvolvableDistribution(line)){
+				if (m_debug) System.out.println("\t EvoChecker Evolvable distribution declaration >>> " + line);
+				HQECDistribution d = parseECDistribution(line);
+				p.addECDistribution(d);
+				if (m_debug) System.out.println("\t Added EvoChecker evolvable distribution " + d.toString() + " to process \'"+ id +"'.");
 			}
 			
 			if (isVariableDeclaration(line)){ // If we are declaring a variable

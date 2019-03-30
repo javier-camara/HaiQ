@@ -320,6 +320,18 @@ public class PrismTranslator {
 		return "evolve "+typeStr+" "+ext_prefix+p.getId()+"["+p.getMin()+".."+p.getMax()+"];\n";
 	}
 	
+	public String generateECDistribution(HQECDistribution d, String prefix){
+		String ext_prefix=prefix+"_";
+		if (Objects.equals(prefix, "")){
+			ext_prefix="";
+		}
+		String res = "evolve distribution "+ext_prefix+d.getId();
+		for (int i=0; i<d.size();i++){
+			res += "["+d.getMin(i)+".."+d.getMax(i)+"]";
+		}
+		return res+";\n";
+	}
+	
 	public String generateProcess(HQProcess p){
 		return generateProcess(p, "");
 	}
@@ -335,6 +347,10 @@ public class PrismTranslator {
 			res += generateECParameter (e.getValue(), prefix);
 		}
 		
+		for (Map.Entry<String, HQECDistribution> e: p.getECDistributions().entrySet()){
+			res += generateECDistribution (e.getValue(), prefix);
+		}
+
 		res += "module " + prefix + "\n";
 		
 		for (Map.Entry<String, HQVariable> e: p.getVars().entrySet()){
@@ -510,6 +526,10 @@ public class PrismTranslator {
 		
 		for (Map.Entry<String, HQECParameter> e : m_bmodel.getECParameters().entrySet()){
 			res += generateECParameter (e.getValue(), "");
+		}
+		
+		for (Map.Entry<String, HQECDistribution> e: m_bmodel.getECDistributions().entrySet()){
+			res += generateECDistribution (e.getValue(), "");
 		}
 		
 		return res;
