@@ -1,6 +1,6 @@
 # HaiQ
 
-HaiQ is a tool that integrates a language for describing structure and (stochastic) behavior of systems, and a temporal logic that allows checking probability and reward-based properties over sets of feasible design alternatives implicitly described by the relational constraints in a HaiQ model.
+HaiQ is a tool that integrates a language for describing structure and (stochastic) behavior of systems, and a probabilistic temporal logic (M-PCTL) that allows checking probability and reward-based properties over sets of feasible design alternatives implicitly described by the relational constraints in a HaiQ model.
 
 ## Getting Started
 
