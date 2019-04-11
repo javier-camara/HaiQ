@@ -427,8 +427,6 @@ public class ParserMark1 {
 
 			}
 			
-			
-			
 		}
 		
 		if (m_debug) {

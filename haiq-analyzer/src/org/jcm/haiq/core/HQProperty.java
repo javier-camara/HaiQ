@@ -190,6 +190,32 @@ public class HQProperty {
 		
 	}
 	
+	public boolean isMaximizationProperty(QuantifierType q){
+		switch (q){
+			case MAX_P: case MAX_R: 
+			case MAX_P_MAX: case MAX_R_MAX:
+			case MAX_P_MIN: case MAX_R_MIN:
+			case S_MAX_P_MAX: case S_MAX_R_MAX:
+			case S_MAX_P_MIN: case S_MAX_R_MIN:
+				return true;				
+			default:
+				return false;
+		}
+	}
+	
+	public boolean isMinimizationProperty(QuantifierType q){
+		switch (q){
+			case MIN_P: case MIN_R:	
+			case MIN_P_MIN:	case MIN_R_MIN:
+			case MIN_P_MAX: case MIN_R_MAX:
+			case S_MIN_P_MIN: case S_MIN_R_MIN:
+			case S_MIN_P_MAX: case S_MIN_R_MAX:
+				return true;	
+			default:
+				return false;
+		}
+	}
+	
 	
 	public boolean isMaximizationQuantifier(QuantifierType q){
 		switch (q){
@@ -323,7 +349,29 @@ public class HQProperty {
 		return result;
 	}
 	
-	
+	public String getECAnnotation(){
+		String result="//";
+		String maxminQStr="";
+		
+		if (m_type==PropertyType.PROPERTY_BOOLEAN){
+			result+="constraint, ";
+			if (m_relType==QuantifierRelationType.LEQ||m_relType==QuantifierRelationType.LESS){
+				maxminQStr="max";
+			} else {
+				maxminQStr="min";
+			}
+			result+= maxminQStr + ", " + m_bound;
+		}		
+		if (m_type==PropertyType.PROPERTY_QUANTITATIVE){
+			result+="objective, ";
+			if (isMaximizationProperty(m_qtype))
+				maxminQStr="max";
+			if (isMinimizationProperty(m_qtype))
+				maxminQStr="min";
+			result+= maxminQStr;
+		}
+		return result;
+	}
 	
 	
 	/**

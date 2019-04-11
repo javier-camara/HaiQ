@@ -159,14 +159,18 @@ public class HQSolver {
 		int propertyIndex = 0;
 		String myModel = m_tmp_path+"/temp.prism";
 		String propertiesFile = m_tmp_path+"/temp.props";
+		String ECpropertiesFile = m_tmp_path+"/ECtemp.props"; // For EvoChecker props
 		String myPolicy = m_tmp_path+"/pol";
 		
 		TextFileHandler thp = new TextFileHandler(propertiesFile);
+		TextFileHandler thp2 = new TextFileHandler(ECpropertiesFile);
 		//System.out.println("Prop:" + property);
 		//System.out.println("Alias:" + property_alias);
 		
 		HQProperty prop = new HQProperty(property);
 		thp.exportFile(prop.getPCTLTranslation());
+		thp2.exportFile(prop.getECAnnotation()+"\n"+prop.getPCTLTranslation()); // For EvoChecker props - extend to multiple ones
+		
 		
 		if (bModel.getType()==HQModel.ModelType.DTMC && 
 			(prop.isMaximizationQuantifier(prop.getQtype()) || prop.isMinimizationQuantifier(prop.getQtype()) ) ){

@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------------
 // clientserver.haiq - simple client-server example HaiQ model 
+// Author: Javier Camara
 // ----------------------------------------------------------------------------
 
 ModelType: dtmc
