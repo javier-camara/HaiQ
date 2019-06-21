@@ -61,6 +61,11 @@ public class ScoreBoard {
 	}
 	
 	public void generateScoreboardJSON(String filename){
+		TextFileHandler fhdata = new TextFileHandler(filename+".json");
+		fhdata.exportFile(getScoreboardJSONString());
+	}
+
+	public String getScoreboardJSONString(){
 		JSONArray sbentries = new JSONArray();
 		String res = "";
 		for (Map.Entry<String, HashMap<String, String>> e: m_results.entrySet()){
@@ -76,10 +81,8 @@ public class ScoreBoard {
 			entry.put(e.getKey(), prop_results);
 			sbentries.add(entry);
 		}
-		TextFileHandler fhdata = new TextFileHandler(filename+".json");
-		fhdata.exportFile(sbentries.toJSONString());
+		return sbentries.toJSONString();
 	}
-	
 	
 	public double getMin(String k){
 		double minD = Double.MAX_VALUE;
