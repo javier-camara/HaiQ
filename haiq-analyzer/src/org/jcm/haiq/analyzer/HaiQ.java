@@ -2,6 +2,9 @@ package org.jcm.haiq.analyzer;
 
 import org.jcm.haiq.parse.ParserMark1;
 import org.jcm.haiq.solve.HQSolver;
+import org.jcm.voyagerserver.VoyagerServer;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
@@ -27,6 +30,7 @@ public class HaiQ {
 	private static boolean m_exportmapdata;
 	private static boolean m_set_max_configs;
 	private static boolean m_skip_model_checking;
+	private static boolean m_voyager_server;
 	private static int m_max_configs;
 	private static String m_scatter_output;
 	private static String m_scoreboardJSON_output;
@@ -120,6 +124,9 @@ public class HaiQ {
 			if (Objects.equals(paramStr,"-skipModelChecking")){
 				m_skip_model_checking=true;
 			}
+			if (Objects.equals(paramStr,"-runVoyagerServer")){
+				m_voyager_server=true;
+			}
 
 			
 		}
@@ -153,6 +160,7 @@ public class HaiQ {
 					+          "-exportConfigurationsTIKZ[<path>] .. Exports all configurations to LaTeX tikz/pgfplots files in <path>.\n"
 					+          "-engine[explicit | hybrid] ......... Sets the engine used for probabilistic model checking.\n"
 					+          "-skipModelChecking ................. Does not carry out model checking (e.g., only used for generating structures).\n"
+					+          "-runVoyagerServer .................. Runs a Voyager compatible HTTP server for trade-off analysis\n"
 					//					+          "-exportScatterPlot[<file>] ..... Exports a PGFplots scatter plot of configurations to <file>\n"
 //					+          "-exportSurfacePlotData[<file>] . Exports a PGFplots surface plot data to <file>\n"
 				    +"\n");
@@ -247,7 +255,13 @@ public class HaiQ {
 			hqs.exportConfigurations(m_configurationsTIKZ_output, HQSolver.StructureExport.TIKZ);
 		}
 		
-		System.out.flush(); // bye
+		if (m_voyager_server) {
+			VoyagerServer server = new VoyagerServer(); 
+			String json = hqs.getScoreBoard().getScoreboardJSONString();
+			server.Start(json);
+		} else {
+			System.out.flush(); // bye
+		}
 	}
 
 }
