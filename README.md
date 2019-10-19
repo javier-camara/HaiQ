@@ -13,7 +13,7 @@ HaiQ is a tool that integrates a language for describing structure and (stochast
 ### Installation 
 
 * Import the contents of the `haiq-analyzer` folder as a project into your Eclipse development environment. 
-* Once the project is built, export a runnable jar file called `haiq.jar` into the `dist-bin` directory.
+* Once the project is built, export a runnable jar file called `haiq.jar` into the `dist-bin/lib` directory.
 * Edit the startup script `haiq` in the `dist-bin` directory, setting the value of the `HAIQ_DIR` variable to point to your `dist-bin` directory.
 * It is also advisable to add the `dist-bin` directory to your path environment variable.
 

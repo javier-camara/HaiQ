@@ -30,7 +30,7 @@ HAIQ_JAVAMAXMEM="-Xmx4g"
 HAIQ_JAVASTACKSIZE="-Xss4M"
 
 # Run through Java
-"$HAIQ_JAVA" -d64 $HAIQ_JAVAMAXMEM $HAIQ_JAVASTACKSIZE -Djava.ext.dirs="$HAIQ_NLIB_DIR" -Djava.library.path="$HAIQ_NLIB_DIR" -classpath "$HAIQ_LIB_DIR" -jar $HAIQ_JAR "$@"
+"$HAIQ_JAVA" $HAIQ_JAVAMAXMEM $HAIQ_JAVASTACKSIZE -classpath "$HAIQ_NLIB_DIR" -Djava.library.path="$HAIQ_NLIB_DIR" -classpath "$HAIQ_LIB_DIR" -jar $HAIQ_JAR "$@"
 
 HAIQ_EXIT_CODE=$?
 exit $HAIQ_EXIT_CODE
