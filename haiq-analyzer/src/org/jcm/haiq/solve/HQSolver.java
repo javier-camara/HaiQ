@@ -3,19 +3,20 @@ package org.jcm.haiq.solve;
 import java.util.Map;
 import java.util.Objects;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.jcm.haiq.core.HQModel;
 import org.jcm.haiq.core.HQProperty;
 import org.jcm.alloyutils.AlloyConnector;
 import org.jcm.alloyutils.AlloySolution;
-import org.jcm.haiq.parse.*;
+//import org.jcm.haiq.parse.*;
 import org.jcm.haiq.parse.ParserMark1.PropertyEntry;
 import org.jcm.haiq.translate.PrismTranslator;
 import org.jcm.prismutils.PrismConnector;
-import org.jcm.prismutils.PrismConnector.PrismConnectorEngine;
 import org.jcm.prismutils.PrismConnector.PrismConnectorMode;
+import org.jcm.prismutils.PrismPolicyReader;
 import org.jcm.util.*;
-import prism.PrismCL;
+//import prism.PrismCL;
 
 
 
@@ -26,8 +27,10 @@ import prism.PrismCL;
 public class HQSolver {
 
 	public enum StructureExport {JSON, TIKZ};
+	public enum PolicyExport {PLAINTEXT, JSON};
 	private HashMap<String, String> m_solutions = new HashMap<String, String>();
 	private HashMap<String, String> m_structures = new HashMap<String, String>();
+	private HashMap<String, ArrayList<String>> m_policies = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, String> m_structures_tikz = new HashMap<String, String>();
 	private AlloyConnector m_ac;
 	private PrismConnector m_pc;
@@ -36,7 +39,7 @@ public class HQSolver {
 	private HashMap<String, ConstantDefinition> m_constant_definitions = new HashMap<String, ConstantDefinition>();
 	private static String m_tmp_path;
 	private static Boolean m_sim_enabled=false;
-	private static PrismCL m_prismcl=new PrismCL();
+//	private static PrismCL m_prismcl=new PrismCL();
 	
 	
 	private static final HashMap<String, PrismConnector.PrismConnectorEngine> m_engines;
@@ -103,7 +106,8 @@ public class HQSolver {
 	 */
 	public int generateSolutions(String modelFile, HQModel bModel){
 		m_ac.generateSolutions(modelFile);
-				
+
+		
 		for (int i=0; i<m_ac.getSolutions().size();i++){
 			String strSolId = AlloyConnector.SOLUTION_STRING+String.valueOf(i);
 			String strSol = m_ac.getSolution(strSolId);
@@ -161,7 +165,8 @@ public class HQSolver {
 		String propertiesFile = m_tmp_path+"/temp.props";
 		String ECpropertiesFile = m_tmp_path+"/ECtemp.props"; // For EvoChecker props
 		String myPolicy = m_tmp_path+"/pol";
-		
+
+	
 		TextFileHandler thp = new TextFileHandler(propertiesFile);
 		TextFileHandler thp2 = new TextFileHandler(ECpropertiesFile);
 		//System.out.println("Prop:" + property);
@@ -228,14 +233,20 @@ public class HQSolver {
 		for (Map.Entry<String, String> e: m_solutions.entrySet()){
 			th.exportFile(e.getValue());
 			m_pc.setConstants(constStr);
-			m_pc.setGenerateStrategy(false);
+			m_pc.setGenerateStrategy(true, myPolicy);
 			m_pc.setModelCheckUnderStrategy(false);
 			if (!m_sim_enabled){
 			res = m_pc.modelCheckFromFileS(myModel, propertiesFile, myPolicy, propertyIndex);
+			PrismPolicyReader pr = new PrismPolicyReader(myPolicy);
+			pr.readPolicy();
+			m_policies.put(e.getKey(), pr.getPlan());
 			m_scoreboard.addSolutionforProperty(e.getKey(), property_alias, res);
+			if (m_debug)
+				System.out.println("Strategy for "+e.getKey()+": "+m_policies.get(e.getKey()).toString());
 			} else {
 				// Simulation-based statistical model checking
 			}
+			
 			b.tick();
 			b.print();
 			if (m_debug)
@@ -365,6 +376,15 @@ public class HQSolver {
 				TextFileHandler fhdata = new TextFileHandler(filepath+"/"+e.getKey()+".tex");
 				fhdata.exportFile(e.getValue());
 			}
+	}
+	
+	public void exportPolicies(String filepath, HQSolver.PolicyExport export_mode) {
+		if (export_mode==PolicyExport.PLAINTEXT) {
+			for (Map.Entry<String, ArrayList<String>> e: m_policies.entrySet()){
+				TextFileHandler fhdata = new TextFileHandler(filepath+"/"+e.getKey()+"-adv.txt");
+				fhdata.exportFile(e.getValue().toString());
+			}
+		}
 	}
 	
 	

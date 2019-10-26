@@ -1,8 +1,6 @@
 package org.jcm.haiq.core;
 
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Objects;
 
 /**
  * @author jcamara

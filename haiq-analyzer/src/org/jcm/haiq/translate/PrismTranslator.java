@@ -4,9 +4,7 @@ import org.jcm.haiq.core.*;
 import org.jcm.haiq.core.HQECParameter.ECParameterType;
 import org.jcm.haiq.core.HQLabel.QuantifierType;
 import org.jcm.haiq.core.HQModel.ModelType;
-import org.jcm.util.*;
 import org.jcm.alloyutils.AlloySolution.AlloySolutionNode;
-import org.jcm.alloyutils.AlloySolution.AlloySolutionArc;
 import org.jcm.alloyutils.AlloySolution;
 
 import java.util.LinkedList;
@@ -33,9 +31,18 @@ public class PrismTranslator {
 	 */
 	public String generateVariable(HQVariable v, String prefix){
 		String res = prefix+"_"+v.getId() +" : ";
+		String initString = v.getInit();
+		if (isFormulaDeclared(v.getInit(),prefix))
+			initString =prefix+"_"+initString;
 		switch (v.getType()){
 		case INTEGER:
-			res += "["+String.valueOf(v.getMin())+".."+String.valueOf(v.getMax())+"] init "+String.valueOf(v.getInit())+";\n";
+			String minString = v.getMin();
+			String maxString = v.getMax();
+			if (isFormulaDeclared(v.getMin(),prefix))
+				minString = prefix + "_" + minString;
+			if (isFormulaDeclared(v.getMax(),prefix))
+				maxString = prefix + "_" + maxString;
+			res += "["+minString+".."+maxString+"] init "+initString+";\n";
 			break;
 		case BOOLEAN:
 			res += "bool init ";
@@ -91,7 +98,10 @@ public class PrismTranslator {
 		String relation = c.getAction().getRelation();
 		if (Objects.equals(relation, "")){ // If simple action, we generate a single command
 			return generateCommand(c, prefix, c.getAction().getId());
+		} else if (Objects.equals(relation,"this")) { // If action is explicitly identified for process
+			return generateCommand(c, prefix, prefix+"_"+c.getAction().getId());
 		}
+		
 		// If scoped to relation, look into alloy solution relation tuples for multiple command generation
 		String res="";
 		String prefix_dollar = prefix.replaceAll("_", "\\$");
@@ -119,7 +129,7 @@ public class PrismTranslator {
 	public boolean isNumeric(String str){
 	  try  
 	  {  
-	    double d = Double.parseDouble(str);  
+	    Double.parseDouble(str);  
 	  }  
 	  catch(NumberFormatException nfe)  
 	  {  

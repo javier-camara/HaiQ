@@ -3,18 +3,11 @@ package org.jcm.haiq.parse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-import org.jcm.haiq.solve.HQSolver;
-
-import org.jcm.alloyutils.AlloyConnector;
-import org.jcm.alloyutils.AlloySolution;
-import org.jcm.alloyutils.AlloySolution.AlloySolutionNode;
 import org.jcm.haiq.core.*;
 import org.jcm.haiq.core.HQLabel.QuantifierType;
 import org.jcm.haiq.core.HQPredicate.RelationType;
-import org.jcm.haiq.translate.PrismTranslator;
 import org.jcm.util.*;
 
 

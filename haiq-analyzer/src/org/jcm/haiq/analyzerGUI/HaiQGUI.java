@@ -3,12 +3,9 @@ package org.jcm.haiq.analyzerGUI;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.BufferedReader;
 
 import java.awt.EventQueue;
-import java.awt.Component;
 
-import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import java.awt.BorderLayout;
@@ -21,10 +18,6 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import java.awt.CardLayout;
-import javax.swing.JEditorPane;
 import javax.swing.JTextPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -33,8 +26,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollBar;
 import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 
 import org.jcm.haiq.analyzerGUI.DesignSpaceRenderer;
 import org.jcm.util.TextFileHandler;

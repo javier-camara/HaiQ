@@ -1,6 +1,5 @@
 package org.jcm.prismutils;
 
-import org.jcm.util.*;
 
 import prism.Prism;
 import prism.PrismException;
@@ -81,13 +80,7 @@ public class PrismConnector {
 		m_propertiesToCheck = new ArrayList<Property>();
 		m_prism.setGenStrat(true);
 	
-		try{ // Set strategy export mode
-			m_prism.setExportAdv(Prism.EXPORT_ADV_MDP);
-			if (m_mode==PrismConnectorMode.SMG)
-				m_prism.setExportAdv(Prism.EXPORT_PLAIN);
-		} catch (PrismException e){
-			System.out.println("Could not change strategy export mode to MDP");
-		}
+		
 
 		try{ // Initialize Prism (defaults to explicit engine both for MDP and SMG modes)
 			if (m_debug) 
@@ -106,6 +99,14 @@ public class PrismConnector {
 		}catch (PrismException e) {
 			System.out.println("Error: " + e.getMessage());
 			System.exit(1);
+		}
+		
+		try{ // Set strategy export mode
+			m_prism.setExportAdv(Prism.EXPORT_ADV_MDP);
+			if (m_mode==PrismConnectorMode.SMG)
+				m_prism.setExportAdv(Prism.EXPORT_PLAIN);
+		} catch (PrismException e){
+			System.out.println("Could not change strategy export mode to MDP");
 		}
 	}
 		
@@ -138,9 +139,11 @@ public class PrismConnector {
 	 * Enables/Disables strategy generation when model checking
 	 * @param enabled
 	 */
-	public static void setGenerateStrategy(boolean enabled){
+	public static void setGenerateStrategy(boolean enabled, String outFile){
 		try {
 			m_prism.getSettings().set(PrismSettings.PRISM_GENERATE_STRATEGY, enabled);
+			m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV, "MDP");
+			m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV_FILENAME, outFile);
 		} catch (PrismException error) {
 			error.printStackTrace();
 		}
@@ -296,30 +299,30 @@ public class PrismConnector {
 			System.exit(1);
 		}
 		
-		// Export strategy if generated
-		if (m_result.getStrategy() != null) {
-	//		System.out.println("*** Exporting Strategy "+strategyFileName);
-			try {
-				m_prism.exportStrategy(m_result.getStrategy(), Prism.StrategyExportType.ACTIONS, strategyFileName.equals("stdout") ? null : new File(strategyFileName+".act"));
-				m_prism.exportStrategy(m_result.getStrategy(), Prism.StrategyExportType.INDUCED_MODEL, strategyFileName.equals("stdout") ? null : new File(strategyFileName+".ind"));
-				mergeActionsInducedModelIntoAdversary(strategyFileName+".act", strategyFileName+".ind", strategyFileName+".adv");
-			}
-			// in case of error, report it and proceed
-			catch (FileNotFoundException e) {
-				System.out.println("Couldn't open file \"" + strategyFileName + "\" for output");
-			} catch (PrismException e) {
-				System.out.println(e.getMessage());
-			}
-			//m_prism.getStrategy().exportToFile(strategyFileName+".sad");
-			try {
-				m_prism.getStrategy().buildProduct(m_prism.getBuiltModelExplicit()).exportToPrismExplicitTra(strategyFileName+".sad");
-			} catch (Exception e1) {
-				System.out.println(e1.getLocalizedMessage()+"--"+e1.getMessage());
-			}
-		} else { 
-			if (m_debug)
-				System.out.println("*** No Strategy generated.");
-		}
+		
+		// Export strategy if generated - Not needed anymore. Automatically done by Prism.
+//		if (m_result.getStrategy() != null) {
+//			System.out.println("*** Exporting Strategy "+strategyFileName);
+//			try {
+//				m_prism.exportStrategy(m_result.getStrategy(), Prism.StrategyExportType.ACTIONS, strategyFileName.equals("stdout") ? null : new File(strategyFileName+".act"));
+//				m_prism.exportStrategy(m_result.getStrategy(), Prism.StrategyExportType.INDUCED_MODEL, strategyFileName.equals("stdout") ? null : new File(strategyFileName+".ind"));
+//				mergeActionsInducedModelIntoAdversary(strategyFileName+".act", strategyFileName+".ind", strategyFileName+".adv");
+//			}
+//			// in case of error, report it and proceed
+//			catch (FileNotFoundException e) {
+//				System.out.println("Couldn't open file \"" + strategyFileName + "\" for output");
+//			} catch (PrismException e) {
+//				System.out.println(e.getMessage());
+//			}
+//			try {
+//				m_prism.getStrategy().buildProduct(m_prism.getBuiltModelExplicit()).exportToPrismExplicitTra(strategyFileName+".sad");
+//			} catch (Exception e1) {
+//				System.out.println(e1.getLocalizedMessage()+"--"+e1.getMessage());
+//			}
+//		} else { 
+//			if (m_debug)
+//				System.out.println("*** No Strategy generated.");
+//		}
 		
 		//m_prism.closeDown();
 		return res;

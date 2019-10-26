@@ -4,7 +4,6 @@ import org.jcm.haiq.parse.ParserMark1;
 import org.jcm.haiq.solve.HQSolver;
 import org.jcm.voyagerserver.VoyagerServer;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
@@ -25,6 +24,7 @@ public class HaiQ {
 	private static boolean m_exportscoreboardJSON;
 	private static boolean m_exportconfigurationsJSON;
 	private static boolean m_exportconfigurationsTIKZ;
+	private static boolean m_exportpolicies;
 	private static boolean m_exportscatter;
 	private static boolean m_exportsurfacedata;
 	private static boolean m_exportmapdata;
@@ -36,6 +36,7 @@ public class HaiQ {
 	private static String m_scoreboardJSON_output;
 	private static String m_configurationsJSON_output;
 	private static String m_configurationsTIKZ_output;
+	private static String m_policies_output;
 	private static String m_surfacedata_output;
 	private static String m_mapdata_output;
 	private static String m_consts_string;
@@ -93,6 +94,10 @@ public class HaiQ {
 			if (paramStr.startsWith("-exportConfigurationsTIKZ[")){
 				m_exportconfigurationsTIKZ=true;
 				m_configurationsTIKZ_output=paramStr.split("\\[")[1].replace("]", "");
+			}
+			if (paramStr.startsWith("-exportPolicies[")){
+				m_exportpolicies=true;
+				m_policies_output=paramStr.split("\\[")[1].replace("]", "");
 			}
 			if (paramStr.startsWith("-exportScatterPlot[")){
 				m_exportscatter=true;
@@ -158,6 +163,7 @@ public class HaiQ {
 					+          "-exportScoreboardJSON[<file>] ...... Exports property values for all configurations to a JSON file.\n"
 					+          "-exportConfigurationsJSON[<path>] .. Exports all configurations to JSON files in <path>.\n"
 					+          "-exportConfigurationsTIKZ[<path>] .. Exports all configurations to LaTeX tikz/pgfplots files in <path>.\n"
+					+          "-exportPolicies[<path>] ............ Exports all policies to files in <path>.\n"
 					+          "-engine[explicit | hybrid] ......... Sets the engine used for probabilistic model checking.\n"
 					+          "-skipModelChecking ................. Does not carry out model checking (e.g., only used for generating structures).\n"
 					+          "-runVoyagerServer .................. Runs a Voyager compatible HTTP server for trade-off analysis\n"
@@ -254,6 +260,11 @@ public class HaiQ {
 		if (m_exportconfigurationsTIKZ){
 			hqs.exportConfigurations(m_configurationsTIKZ_output, HQSolver.StructureExport.TIKZ);
 		}
+
+		if (m_exportpolicies){
+			hqs.exportPolicies(m_policies_output, HQSolver.PolicyExport.PLAINTEXT);
+		}
+
 		
 		if (m_voyager_server) {
 			VoyagerServer server = new VoyagerServer(); 
