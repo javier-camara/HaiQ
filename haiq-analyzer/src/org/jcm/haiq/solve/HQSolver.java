@@ -15,6 +15,7 @@ import org.jcm.haiq.translate.PrismTranslator;
 import org.jcm.prismutils.PrismConnector;
 import org.jcm.prismutils.PrismConnector.PrismConnectorMode;
 import org.jcm.prismutils.PrismPolicyReader;
+import org.jcm.prismutils.BRASSRobotPolicyFilter;
 import org.jcm.util.*;
 //import prism.PrismCL;
 
@@ -27,7 +28,7 @@ import org.jcm.util.*;
 public class HQSolver {
 
 	public enum StructureExport {JSON, TIKZ};
-	public enum PolicyExport {PLAINTEXT, JSON};
+	public enum PolicyExport {PLAINTEXT, JSON, BRASS_PLAINTEXT};
 	private HashMap<String, String> m_solutions = new HashMap<String, String>();
 	private HashMap<String, String> m_structures = new HashMap<String, String>();
 	private HashMap<String, ArrayList<String>> m_policies = new HashMap<String, ArrayList<String>>();
@@ -227,24 +228,25 @@ public class HQSolver {
 			break;			
 		}		
 		
-		TextFileHandler th = new TextFileHandler(myModel);
+		//TextFileHandler th = new TextFileHandler(myModel);
 		m_pc.setModelCheckUnderStrategy(false);		
 		ProgressBar b = new ProgressBar(m_solutions.entrySet().size(), 0.5);
 		for (Map.Entry<String, String> e: m_solutions.entrySet()){
-			th.exportFile(e.getValue());
+			//th.exportFile(e.getValue());
 			m_pc.setConstants(constStr);
 			m_pc.setGenerateStrategy(true, myPolicy);
 			m_pc.setModelCheckUnderStrategy(false);
 			if (!m_sim_enabled){
-			res = m_pc.modelCheckFromFileS(myModel, propertiesFile, myPolicy, propertyIndex);
-			PrismPolicyReader pr = new PrismPolicyReader(myPolicy);
-			pr.readPolicy();
-			m_policies.put(e.getKey(), pr.getPlan());
-			m_scoreboard.addSolutionforProperty(e.getKey(), property_alias, res);
-			if (m_debug)
-				System.out.println("Strategy for "+e.getKey()+": "+m_policies.get(e.getKey()).toString());
+				res = m_pc.modelCheckFromStrings(e.getValue(), prop.getPCTLTranslation(), myPolicy, propertyIndex);
+				//res = m_pc.modelCheckFromFileS(myModel, propertiesFile, myPolicy, propertyIndex);
+				PrismPolicyReader pr = new PrismPolicyReader(myPolicy);
+				pr.readPolicy();
+				m_policies.put(e.getKey(), pr.getPlan());
+				m_scoreboard.addSolutionforProperty(e.getKey(), property_alias, res);
+				if (m_debug)
+					System.out.println("Strategy for "+e.getKey()+": "+m_policies.get(e.getKey()).toString());
 			} else {
-				// Simulation-based statistical model checking
+				// Simulation-based statistical model checking * NOT IMPLEMENTED YET *
 			}
 			
 			b.tick();
@@ -378,11 +380,19 @@ public class HQSolver {
 			}
 	}
 	
-	public void exportPolicies(String filepath, HQSolver.PolicyExport export_mode) {
+
+	public void exportPolicies(String filepath, HQSolver.PolicyExport export_mode, ArrayList<String> params) {
 		if (export_mode==PolicyExport.PLAINTEXT) {
 			for (Map.Entry<String, ArrayList<String>> e: m_policies.entrySet()){
 				TextFileHandler fhdata = new TextFileHandler(filepath+"/"+e.getKey()+"-adv.txt");
 				fhdata.exportFile(e.getValue().toString());
+			}
+		}
+		
+		if (export_mode==PolicyExport.BRASS_PLAINTEXT) {
+			for (Map.Entry<String, ArrayList<String>> e: m_policies.entrySet()){
+				TextFileHandler fhdata = new TextFileHandler(filepath+"/"+e.getKey()+"-adv.txt");
+				fhdata.exportFile(new BRASSRobotPolicyFilter(e.getValue()).getPlan(params.get(0)).toString());
 			}
 		}
 	}

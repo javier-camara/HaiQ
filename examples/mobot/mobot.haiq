@@ -126,7 +126,7 @@ pred config{
 abstract sig loc { conn : set loc }
 </ 
   var robotIn: bool init false;
-  formula pbump;
+  formula pbump=0;
   
   [conn:moveTo] (robotIn) -> (robotIn'=false);
   [conn:moveTo] (!robotIn) & (conn.robotIn) -> 1-pbump : (robotIn'=true) + pbump : (robotIn'=false);

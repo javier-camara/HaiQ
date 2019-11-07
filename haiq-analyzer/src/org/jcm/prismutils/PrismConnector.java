@@ -170,6 +170,18 @@ public class PrismConnector {
 		}
 	}
 	
+	public static void loadModelFromString(String modelCode){
+		try { // PRISM model parsing		
+			m_modulesFile = m_prism.parseModelString(modelCode);
+			m_prism.loadPRISMModel(m_modulesFile);
+			
+		}
+		catch (PrismException e) {
+			System.out.println("Error PE1: " + e.getMessage());
+			System.exit(1);
+		}
+	}
+	
 	/**
 	 * Loads properties from file
 	 * @param propertiesFileName
@@ -191,6 +203,19 @@ public class PrismConnector {
 		}
 	}
 	
+	
+	public static void loadPropertyFromString(String propertyString){
+		try { // PRISM property parsing						
+			//m_propertiesFile = m_prism.parsePropertiesString(m_modulesFile, property);
+			m_propertiesFile = m_prism.parsePropertiesString(m_modulesFile, propertyString);
+					
+		}
+		catch (PrismException e) {
+			System.out.println("Error PE1: " + e.getMessage());
+			System.exit(1);
+		}
+	}
+
 	/**
 	 * Model checks properties from files (all of them)
 	 * @param modelFileName
@@ -214,6 +239,19 @@ public class PrismConnector {
 		return modelCheckFromFileS(null, propertiesFileName, strategyFileName, propertyToCheck);
 	}
 	
+	
+	public static String modelCheckFromStrings(String modelString, String propertyString, String strategyFileName, int propertyToCheck) {
+		m_propertiesToCheck.clear();
+		loadModelFromString(modelString);
+		loadPropertyFromString(propertyString);
+		return modelCheck(strategyFileName, propertyToCheck);		
+	}
+	
+	
+	public static String modelCheckFromStrings(String modelString, String propertyString, String strategyFileName){
+		return modelCheckFromStrings(modelString, propertyString, strategyFileName, ALL_PROPS);
+	}
+	
 	/**
 	 * Model checks properties from files
 	 * @param modelFileName String model file to load. If null, no model loaded and model check performed on current model
@@ -223,17 +261,30 @@ public class PrismConnector {
 	 * @return String result of model checking
 	 */
 	public static String modelCheckFromFileS(String modelFileName, String propertiesFileName, String strategyFileName, int propertyToCheck){
+		m_propertiesToCheck.clear();		
+		return modelCheck(strategyFileName, propertyToCheck);
+	}
+	
+	/**
+	 * Model checks properties from files
+	 * @param modelFileName String model file to load. If null, no model loaded and model check performed on current model
+	 * @param propertiesFileName
+	 * @param strategyFileName
+	 * @param propertyToCheck int property index in file to model check (begins in 0). ALL_PROPS for checking all properties in file
+	 * @return String result of model checking
+	 */
+	public static String modelCheck(String strategyFileName, int propertyToCheck){
 		int numPropertiesToCheck=0;
 		int i;
-		
-		m_propertiesToCheck.clear();
-		
+//		
+//		m_propertiesToCheck.clear();
+//		
 		String res="";
-		
-		if (modelFileName!=null){
-			loadModel(modelFileName);
-		}
-		loadProperties(propertiesFileName);	
+//		
+//		if (modelFileName!=null){
+//			loadModel(modelFileName);
+//		}
+//		loadProperties(propertiesFileName);	
 		
 		// no properties to check
 		if (m_propertiesFile == null) {

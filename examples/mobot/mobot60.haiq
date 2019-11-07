@@ -1,0 +1,516 @@
+// ----------------------------------------------------------------------------
+// mobot.haiq - Mobile Robotics Simple Scenario HaiQ model 
+// (c) 2017 Javier Camara 
+// Institute for Software Research, School of Computer Science
+// Carnegie Mellon University
+// Email: jcmoreno@cs.cmu.edu
+// Web: http://www.scs.cmu.edu/~jcmoreno
+// 5/11/2017
+// ----------------------------------------------------------------------------
+
+ModelType: mdp
+
+
+// ----------------------------------------------------------------------------
+// Software architecture
+// ----------------------------------------------------------------------------
+
+const DISABLED=0;
+const ENABLED=1;
+
+// Components
+abstract sig component {}
+</
+  formula INIT=0;
+  var status:[DISABLED..ENABLED] init INIT;
+  var done : bool init false;
+  [this:enable] (done=false) & (status=DISABLED) -> (status'=ENABLED) & (done'=true);
+  [this:disable] (done=false) & (status=ENABLED) -> (status'=DISABLED) & (done'=true);
+/>
+
+abstract sig sensing extends component {}
+</
+/>
+
+abstract sig localization extends component {}
+</
+/>
+
+
+lone sig kinect extends sensing {}
+</
+/>
+
+lone sig lidar extends sensing {}
+</
+/>
+
+lone sig camera extends sensing {} // Simplified front-and back to just one type (always go together)
+</
+/>
+
+lone sig amcl extends localization {}
+</
+/>
+
+lone sig mrpt extends localization {}
+</
+/>
+
+lone sig markerLocalization extends localization{}
+</
+/>
+
+lone sig laserscanNodelet extends component {}
+</
+/>
+
+lone sig markerRecognizer extends component {} // Simplified to just one type (like cameras)
+</
+/>
+
+lone sig headlamp extends component {}
+</
+/>
+
+abstract sig mapServer extends component{}
+</
+/>
+
+lone sig mapServerObs extends mapServer{}
+</
+/>
+
+lone sig mapServerStd extends mapServer{}
+</
+/>
+
+// Options
+abstract sig option {}
+</
+/>
+
+abstract sig speedSetting extends option {}
+</
+/>
+
+lone sig halfSpeedSetting extends speedSetting {}
+</
+/>
+
+lone sig fullSpeedSetting extends speedSetting {}
+</
+/>
+
+lone sig safeSpeedSetting extends speedSetting {}
+</
+/>
+
+// Constraints
+pred config{
+  some kinect <=> some laserscanNodelet
+  some camera <=> some markerLocalization
+  some camera <=> some markerRecognizer
+  some camera <=> some mapServerObs
+  some headlamp => some camera
+  one sensing
+  one localization
+  one speedSetting
+  one mapServer
+}
+
+// ----------------------------------------------------------------------------
+// Mission
+// ----------------------------------------------------------------------------
+
+abstract sig loc { conn : set loc }
+</ 
+  var robotIn: bool init false;
+  formula pbump=0;
+  
+  [conn:moveTo] (robotIn) -> (robotIn'=false);
+  [conn:moveTo] (!robotIn) & (conn.robotIn) -> 1-pbump : (robotIn'=true) + pbump : (robotIn'=false);
+/>
+
+abstract sig startloc extends loc {}
+</
+  var robotIn: bool init true;
+/>
+abstract sig targetloc extends loc {}
+</
+  var robotIn: bool init false;
+/>
+fact { disj[targetloc, startloc] }
+
+fact { all l:loc | not l in l.conn }
+fact { all l,l':loc | l in l'.conn implies l' in l.conn }
+fact { all l:loc-(startloc+targetloc) | #l.conn < 3}
+fact { all l:startloc+targetloc | #l.conn = 1}
+fact { one s:startloc | one t:targetloc | t in s.^conn}
+
+
+
+
+lone sig l1 extends startloc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l2 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l3 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l4 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l5 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l6 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l7 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l8 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l9 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l10 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l11 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l12 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l13 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l14 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l15 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l16 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l17 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l18 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l19 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l21 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l22 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l23 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l24 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l25 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l26 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l27 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l28 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l29 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l30 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l31 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l32 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l33 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l34 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l35 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l36 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l37 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l38 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l39 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l40 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l41 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l42 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l43 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l44 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l45 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l46 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l47 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l48 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l49 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l50 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l51 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l52 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l53 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l54 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l55 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l56 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l57 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l58 extends loc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+lone sig l59 extends targetloc {}
+</
+  formula pc=0;
+  formula d=10;
+/>
+
+
+fact {disj[l1.conn, loc-(l3+l39+l2)] and disj[l2.conn, loc-(l1+l56+l59)] and disj[l3.conn, loc-(l4+l1+l8)] and disj[l4.conn, loc-(l5+l37+l3+l6)] and disj[l5.conn, loc-(l38+l36+l4)] and disj[l6.conn, loc-(l8+l7+l4)] and disj[l7.conn, loc-(l6+l28)] and disj[l8.conn, loc-(l9+l6+l3+l34)] and disj[l9.conn, loc-(l56+l8+l10)] and disj[l10.conn, loc-(l35+l25+l9)] and disj[l11.conn, loc-(l27+l12)] and disj[l12.conn, loc-(l11+l45)] and disj[l13.conn, loc-(l14+l39+l19)] and disj[l14.conn, loc-(l13+l37+l15)] and disj[l15.conn, loc-(l16+l21+l14)] and disj[l16.conn, loc-(l17+l15)] and disj[l17.conn, loc-(l18+l16)] and disj[l18.conn, loc-(l19+l17)] and disj[l19.conn, loc-(l18+l13)] and disj[l21.conn, loc-(l15+l22)] and disj[l22.conn, loc-(l21+l23)] and disj[l23.conn, loc-(l22+l24)] and disj[l24.conn, loc-(l23+l38)] and disj[l25.conn, loc-(l10+l26+l55)] and disj[l26.conn, loc-(l25+l27+l50)] and disj[l27.conn, loc-(l26+l11+l51)] and disj[l28.conn, loc-(l36+l29+l7)] and disj[l29.conn, loc-(l28+l30)] and disj[l30.conn, loc-(l29+l31)] and disj[l31.conn, loc-(l30+l32)] and disj[l32.conn, loc-(l31+l33)] and disj[l33.conn, loc-(l32+l34)] and disj[l34.conn, loc-(l33+l35+l8)] and disj[l35.conn, loc-(l34+l10)] and disj[l36.conn, loc-(l28+l5)] and disj[l37.conn, loc-(l4+l14)] and disj[l38.conn, loc-(l24+l5)] and disj[l39.conn, loc-(l40+l1+l13)] and disj[l40.conn, loc-(l43+l39+l57)] and disj[l41.conn, loc-(l41)] and disj[l42.conn, loc-(l44+l43)] and disj[l43.conn, loc-(l42+l40)] and disj[l44.conn, loc-(l45+l42)] and disj[l45.conn, loc-(l12+l44+l46)] and disj[l46.conn, loc-(l47+l45+l54)] and disj[l47.conn, loc-(l48+l46)] and disj[l48.conn, loc-(l55+l49+l47)] and disj[l49.conn, loc-(l48+l50)] and disj[l50.conn, loc-(l49+l26)] and disj[l51.conn, loc-(l52+l27)] and disj[l52.conn, loc-(l53+l51)] and disj[l53.conn, loc-(l54+l52)] and disj[l54.conn, loc-(l46+l53)] and disj[l55.conn, loc-(l56+l25+l48)] and disj[l56.conn, loc-(l2+l9+l55)] and disj[l57.conn, loc-(l58+l40)] and disj[l58.conn, loc-(l59+l57)] and disj[l59.conn, loc-(l2+l58)] }
+
+label robotInStart [some startloc:robotIn=true]      
+label robotInTarget [some targetloc:robotIn=true]
+label reconfDone [all component:done=true] 
+property rangeP [F robotInStart] 
+property rangeP [F robotInTarget] 
+property maxPmax [F (robotInTarget & reconfDone)]
+
+pred mobot{#loc>4}
+
+pred scenario{mobot and config}
+
+run scenario for 7 loc

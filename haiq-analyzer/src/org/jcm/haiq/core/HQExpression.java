@@ -41,7 +41,7 @@ public class HQExpression {
 	public boolean isRelationReferenceToken(String s){	
 		if (s.split("\\.").length>1) {
 			try{
-				Double dn = Double.parseDouble(s);
+				Double.parseDouble(s);
 			} catch (Exception e) {
 				return true;
 			}

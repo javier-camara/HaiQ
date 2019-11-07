@@ -66,7 +66,6 @@ public class ScoreBoard {
 
 	public String getScoreboardJSONString(){
 		JSONArray sbentries = new JSONArray();
-		String res = "";
 		for (Map.Entry<String, HashMap<String, String>> e: m_results.entrySet()){
 			
 			JSONObject entry = new JSONObject();

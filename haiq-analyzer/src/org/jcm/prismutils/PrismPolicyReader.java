@@ -1,7 +1,7 @@
 package org.jcm.prismutils;
 
-
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Scanner;
+
 
 
 public class PrismPolicyReader {
     private static String m_policyFile;
     public ArrayList<String> m_plan = new ArrayList<String>();
-    private String m_start_state;
 
 
     public PrismPolicyReader(String policyFile) {
@@ -28,9 +29,10 @@ public class PrismPolicyReader {
      * @param stateActionMap
      * @param startEndStateMap
      */
-    private void extractPolicy(Map<String, LinkedList<String>> stateActionMap, Map<String, LinkedList<String>> startEndStateMap) {
+    private void extractPolicy(String initial_state, 
+            Map<String, LinkedList<String>> stateActionMap, Map<String, LinkedList<String>> startEndStateMap) {
 
-        String state = m_start_state;
+        String state = initial_state;
         String action = "";
         while (startEndStateMap.containsKey(state)) { // While current state is mapped to something
         	boolean foundState = false;
@@ -61,6 +63,42 @@ public class PrismPolicyReader {
         }
     }
 
+    /**
+     * Obtains the initial state in an adversary/strategy file
+     * @return String id of the initial state
+     */
+    public static String findInitialState(){
+        String initialState="";
+        Map<String, LinkedList<String>> t = new HashMap<String, LinkedList<String>>();
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new File(m_policyFile));
+        } catch (FileNotFoundException e){
+            System.out.println("Error determining initial state in policy. File not found "+m_policyFile);
+        }
+
+        String l;
+        if (sc.hasNextLine())
+        {
+            l=sc.nextLine(); // Eliminate header line in adversary file
+        }
+        while (sc.hasNextLine()){
+            l = sc.nextLine();
+            String[] chunks = l.split(" ");
+            if (!t.containsKey(chunks[0])){
+            	t.put(chunks[0], new LinkedList<String>());
+            }
+            t.get(chunks[0]).add(chunks[1]);
+        }
+
+        
+        for (Map.Entry<String, LinkedList<String>> e : t.entrySet()){
+            if (!isHit(t,e.getKey()) && t.get(e.getKey()).size()==1){
+            	return e.getKey();	
+            }
+        }
+        return initialState;
+    }
 
     // Checks if a state id is mapped from something in the data structure
     public static boolean isHit( Map<String, LinkedList<String>> l, String s){
@@ -73,6 +111,7 @@ public class PrismPolicyReader {
     
     /**
      * Reads an adversary/strategy file into a policy
+     * Fixed!! (feb 25), initial state was incorrectly detected and method would return wrong policy
      * @return
      */
     public boolean readPolicy() {
@@ -102,7 +141,7 @@ public class PrismPolicyReader {
                 {
                     continue;                // Skip the first line
                 }
-                
+
                 String[] elements = line.split(" ");
                 startState=elements[0];
                 endState = elements[1];
@@ -129,11 +168,11 @@ public class PrismPolicyReader {
                 if (!firstActionFound && elements.length==4) {
                     firstActionFound = true;
                 }
-                m_start_state = startState;
             }
 
             bufferedReader.close(); 
-            this.extractPolicy (stateActionMap, startEndStateMap);
+
+            this.extractPolicy (findInitialState (), stateActionMap, startEndStateMap);
         }
         catch(FileNotFoundException ex) {
             System.out.println("Unable to open file '" + m_policyFile + "'");                
@@ -152,4 +191,8 @@ public class PrismPolicyReader {
         return m_plan;
     }
     
+
+    
+
+   
 }
