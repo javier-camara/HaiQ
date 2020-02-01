@@ -263,8 +263,9 @@ public class ParserMark1 {
 			if (line_chunks.length==0) continue; // Skip, blank line
 			
 			if (line.startsWith("//")){		// Comment, ignore
-				if (m_debug) System.out.println("Comment:" + line);
+				if (m_debug) System.out.println("Comment: " + line);
 			}
+			
 			
 			if (line.contains("//")){ // If line contains comment, remove it
 				if (m_debug) System.out.println("Removing comment from line "+String.valueOf(i)+":\n\t"+line);
@@ -394,8 +395,10 @@ public class ParserMark1 {
 			} else if (isRewardDeclaration(line)) { // If we are declaring a reward
 				System.out.println("PARSING REWARD2:"+line);
 				parseReward(line, "");
-			} 
-			else { // Incorporate into general Alloy specification
+			} else if (line.startsWith("##")) { // Adding embedded Prism literal statement
+				if (m_debug) System.out.print("Prism Literal: " + line);
+				m_bmodel.addLiteral(line.substring(2));
+			} else { // Incorporate into general Alloy specification
 				m_alloy_lines.add(line);
 			}
 			

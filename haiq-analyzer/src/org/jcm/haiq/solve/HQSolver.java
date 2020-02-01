@@ -40,6 +40,7 @@ public class HQSolver {
 	private HashMap<String, ConstantDefinition> m_constant_definitions = new HashMap<String, ConstantDefinition>();
 	private static String m_tmp_path;
 	private static Boolean m_sim_enabled=false;
+	private boolean m_export_models=false;
 //	private static PrismCL m_prismcl=new PrismCL();
 	
 	
@@ -52,6 +53,10 @@ public class HQSolver {
 	
 	public HQSolver(String tmp_path){
 		this(tmp_path, "explicit");
+	}
+	
+	public void setExportModels(boolean val) {
+		m_export_models=true;
 	}
 	
 	public HQSolver(String tmp_path, String engine){
@@ -228,14 +233,18 @@ public class HQSolver {
 			break;			
 		}		
 		
-		//TextFileHandler th = new TextFileHandler(myModel);
-		m_pc.setModelCheckUnderStrategy(false);		
+//		m_pc.setModelCheckUnderStrategy(false);		
 		ProgressBar b = new ProgressBar(m_solutions.entrySet().size(), 0.5);
+		int modelIndex = 0;
 		for (Map.Entry<String, String> e: m_solutions.entrySet()){
-			//th.exportFile(e.getValue());
+			if (m_export_models) {
+				TextFileHandler th = new TextFileHandler(myModel+Integer.toString(modelIndex));
+				th.exportFile(e.getValue());
+			}
+			modelIndex++;
 			m_pc.setConstants(constStr);
 			m_pc.setGenerateStrategy(true, myPolicy);
-			m_pc.setModelCheckUnderStrategy(false);
+			//m_pc.setModelCheckUnderStrategy(false);
 			if (!m_sim_enabled){
 				res = m_pc.modelCheckFromStrings(e.getValue(), prop.getPCTLTranslation(), myPolicy, propertyIndex);
 				//res = m_pc.modelCheckFromFileS(myModel, propertiesFile, myPolicy, propertyIndex);

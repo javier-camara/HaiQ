@@ -447,13 +447,17 @@ public class PrismTranslator {
 		String quantOpStr=" & ";
 		if (l.getQuantifier() == QuantifierType.SOME)
 			quantOpStr = " | ";
-		for (String instance: m_alloy_solution.getInstances(l.getType())){
-			if (i>0)
-				res+= quantOpStr;
-			res += generatePredicate(l.getPredicate(), instance.replaceAll("\\$", "_"), "");
-			i++;
-		}
-		
+		if (m_alloy_solution.getInstances(l.getType()).size()>0)
+			for (String instance: m_alloy_solution.getInstances(l.getType())){
+				if (i>0)
+					res+= quantOpStr;
+				if (!Objects.equals("", instance)) {
+					res += generatePredicate(l.getPredicate(), instance.replaceAll("\\$", "_"), "");
+					i++;
+				}
+			}
+		if (i==0)
+			res += "false";
 		return res +";\n";
 	}
 	
@@ -513,6 +517,10 @@ public class PrismTranslator {
 		case CTMC:
 			res+="ctmc\n\n";
 			break;
+		}
+		
+		for (int i=0; i<m_bmodel.getLiterals().size();i++) {
+			res += m_bmodel.getLiterals().get(i)+"\n";
 		}
 		
 		for (Map.Entry<String, AlloySolutionNode> e : m_alloy_solution.getNodes().entrySet()){

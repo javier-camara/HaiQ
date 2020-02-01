@@ -141,7 +141,7 @@ public class PrismConnector {
 	 */
 	public static void setGenerateStrategy(boolean enabled, String outFile){
 		try {
-			m_prism.getSettings().set(PrismSettings.PRISM_GENERATE_STRATEGY, enabled);
+//			m_prism.getSettings().set(PrismSettings.PRISM_GENERATE_STRATEGY, enabled);
 			m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV, "MDP");
 			m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV_FILENAME, outFile);
 		} catch (PrismException error) {

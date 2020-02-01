@@ -19,7 +19,7 @@ public class HQModel {
 	// EC Extension
 	private HashMap<String, HQECParameter> m_ECparams = new HashMap<String, HQECParameter>();
 	private HashMap<String, HQECDistribution> m_ECdistributions = new HashMap<String, HQECDistribution>();
-
+	private LinkedList<String> m_literals = new LinkedList<String>();
 	
 	public HQModel (ModelType type){
 		this.m_type = type;
@@ -29,6 +29,15 @@ public class HQModel {
 		this.m_type = ModelType.DTMC;
 	}
 
+	
+	public void addLiteral(String literal) {
+		m_literals.add(literal);
+	}
+	
+	public LinkedList<String> getLiterals(){
+		return m_literals;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

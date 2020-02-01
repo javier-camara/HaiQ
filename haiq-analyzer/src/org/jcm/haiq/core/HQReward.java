@@ -110,7 +110,7 @@ public class HQReward {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		System.out.println(new HQReward(new HQAction("a",""), new HQGuard(), new HQExpression("1"), "foo").toString());
+//		System.out.println(new HQReward(new HQAction("",""), new HQGuard(), new HQExpression("1"), "foo").toString());
 		
 	}
 

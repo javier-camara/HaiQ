@@ -33,6 +33,7 @@ public class HaiQ {
 	private static boolean m_set_max_configs;
 	private static boolean m_skip_model_checking;
 	private static boolean m_voyager_server;
+	private static boolean m_export_models;
 	private static int m_max_configs;
 	private static String m_scatter_output;
 	private static String m_scoreboardJSON_output;
@@ -138,6 +139,9 @@ public class HaiQ {
 			if (Objects.equals(paramStr,"-skipModelChecking")){
 				m_skip_model_checking=true;
 			}
+			if (Objects.equals(paramStr,"-exportModels")){
+				m_export_models=true;
+			}
 			if (Objects.equals(paramStr,"-runVoyagerServer")){
 				m_voyager_server=true;
 			}
@@ -172,6 +176,7 @@ public class HaiQ {
 					+          "-exportScoreboardJSON[<file>] ......... Exports property values for all configurations to a JSON file.\n"
 					+          "-exportConfigurationsJSON[<path>] ..... Exports all configurations to JSON files in <path>.\n"
 					+          "-exportConfigurationsTIKZ[<path>] ..... Exports all configurations to LaTeX tikz/pgfplots files in <path>.\n"
+					+          "-exportModels ......................... Exports all models to files in default temp folder.\n"
 					+          "-exportPolicies[<path>] ............... Exports all policies to files in <path>.\n"
 					+          "-exportPoliciesBRASS[<path>,<start>]... Exports all policies to files in <path> (BRASS format).\n"
 					+          "-engine[explicit | hybrid] ............ Sets the engine used for probabilistic model checking.\n"
@@ -222,6 +227,8 @@ public class HaiQ {
 		HQSolver hqs = new HQSolver(m_tmp_path, m_engine);
 		if (m_set_max_configs)
 			hqs.setMaxConfigs(m_max_configs);
+		if (m_export_models)
+			hqs.setExportModels(true);
 		Long st = System.nanoTime();
 		int sol_count = hqs.generateSolutions(m_tmp_path+"/temp.als", p.getBehavioralModel());
 		Long et = System.nanoTime();

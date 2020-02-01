@@ -6,6 +6,8 @@
 //    http://www.prismmodelchecker.org/casestudies/virus.php
 //-----------------------------------------------------------------------------
 
+ModelType: mdp
+
 const double barrier_detect=0.95;
 const double node_detect=0.5;
 const double infect=0.5;
@@ -54,7 +56,7 @@ run virus for exactly 3 lowNode, exactly 3 barrierNode, exactly 3 highNode
 
 label highInfected [all highNode:s=2]
 property rangeP [F<=50 highInfected]      // Range min-max probability that high nodes will be eventually infected within 50 time units
-property SminP [F<=50 highInfected]       // Configuration that minimizes probability of having all high nodes infected within 50 time units 
+property minPmax [F highInfected]       // Configuration that minimizes probability of having all high nodes infected within 50 time units 
 property rangeR{attacks} [F highInfected] // Range min-max number of attacks required to infect all high nodes
 property SmaxR{attacks} [F highInfected]  // Configuration that maximizes number of attacks required to infect all high nodes
 property SminR{attacks} [F highInfected]  // Configuration that minimizes number of attacks required to infect all high nodes
