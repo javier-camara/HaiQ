@@ -19,7 +19,7 @@ public class HaiQ {
 	private static String VERSION_STR = "HaiQ Relational Probabilistic Model Analyzer v0.1a";
 	private static LinkedList<String> m_properties = new LinkedList<String>();
 	private static String m_model;
-	private static String m_engine="explicit";
+	private static String m_engine="hybrid";
 	private static boolean m_showscoreboard;
 	private static boolean m_verbose;
 	private static boolean m_exportscoreboardJSON;
