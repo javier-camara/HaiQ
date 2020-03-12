@@ -4,6 +4,7 @@ Formal methods used to validate software designs, like Alloy, OCL, and B, are po
 However, their applicability is limited when software is subject to uncertainty (derived, e.g., from lack of control over third-party components, interaction with physical elements). 
 In contrast, quantitative verification has emerged as a powerful way of providing quantitative guarantees about the performance, cost, and reliability of systems operating under uncertainty. 
 However, quantitative verification methods do not retain the flexibility of relational modeling in describing structures, forcing engineers to trade structural exploration for analytic capabilities that concern probabilistic and other quantitative guarantees.
+
 HaiQ is a tool that enhances structural modeling/synthesis with quantitative guarantees in the style provided by quantitative verification. It includes:
 
 * A language for describing structure and (stochastic) behavior of systems, and 
