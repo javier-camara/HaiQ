@@ -7,8 +7,10 @@ However, quantitative verification methods do not retain the flexibility of rela
 
 HaiQ is a tool that enhances structural modeling/synthesis with quantitative guarantees in the style provided by quantitative verification. It includes:
 
-* A language for describing structure and (stochastic) behavior of systems, and 
+* A language for describing structure and (stochastic) behavior of systems. 
 * A temporal logic called *Manifold Probabilistic Computation Tree Logic* (or M-PCTL) that allows checking probability and reward-based properties over sets of feasible design alternatives implicitly described by the relational constraints in a HaiQ model. 
+
+You can read more about these languages and see some examples in this [paper](http://www.javicamara.com).
 
 # Getting Started
 
