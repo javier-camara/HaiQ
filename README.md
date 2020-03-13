@@ -52,7 +52,7 @@ haiq -model[clientserver.haiq] -properties[0]
 The command above run from the client-server example folder will analyze the first M-PCTL property defined in the haiq model file (assuming that the haiq binary folder is in your path environment variable).
 
 
-# Authors
+# Author
 
 * **Javier Camara** - *University of York* - [homepage](http://www.javicamara.com)
 
