@@ -1,3 +1,8 @@
+---
+title: HaiQ
+layout: page
+---
+
 # About HaiQ
 
 Formal methods used to validate software designs, like Alloy, OCL, and B, are powerful tools to analyze complex structures (e.g., software architectures, object-relational mappings) captured as sets of relational constraints. 
