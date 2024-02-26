@@ -1,9 +1,6 @@
 // ----------------------------------------------------------------------------
 // cas.haiq - Collective Adaptive System (CAS) HaiQ model 
-// (c) 2017 Javier Camara 
-// Email: jcmoreno@cs.cmu.edu
-// Web: http://www.scs.cmu.edu/~jcmoreno
-// 5/8/2017
+// Author: Javier Camara
 // ----------------------------------------------------------------------------
 // This model is based on the Collective Adaptive System example described in:
 //    Thomas J. Glazier, Javier Camara, Bradley Schmerl, and David Garlan: 

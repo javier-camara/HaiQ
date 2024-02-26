@@ -1,0 +1,1 @@
+../../haiq-analyzer/dist-bin/haiq -model[./drone30.haiq] -properties[0] -mode[iterative] -engine[explicit] -consts[PCOL=0.2] -showStats -skipModelChecking

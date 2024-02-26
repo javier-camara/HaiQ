@@ -1,0 +1,232 @@
+// ----------------------------------------------------------------------------
+// drone.haiq - Mobile Robotics Simple Scenario HaiQ model - 30 locations
+// Author: Javier Camara
+// ---------------------------------------------------------------------------- 
+// Arbitrary distance between locations is 10m
+// ----------------------------------------------------------------------------
+
+ModelType: dtmc
+
+const double SPEED=1;
+const double BDRATE=0.3;
+const double PCOL;
+
+abstract sig loc { conn : set loc }
+</ 
+  var droneIn: bool init false;
+  formula pc;
+  formula d;
+    
+  [conn:moveTo] (droneIn) -> (droneIn'=false);
+  [conn:moveTo] (!droneIn) & (conn.droneIn) -> 1-pc : (droneIn'=true) + pc : (droneIn'=false);    
+  
+  reward timeRew [conn:moveTo]   (!droneIn) & (conn.droneIn) : d/SPEED;
+  reward energyRew [conn:moveTo] (!droneIn) & (conn.droneIn) : (d/SPEED)*BDRATE;
+/>
+
+abstract sig startLoc extends loc {}
+</
+  var droneIn: bool init true;
+/>
+abstract sig targetLoc extends loc {}
+</
+  var droneIn: bool init false;
+/>
+
+
+lone sig l1 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l2 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l3 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l4 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l5 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l6 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l7 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l8 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l9 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l10 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l11 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l12 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l15 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l16 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l17 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l18 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l19 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+
+lone sig l21 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l22 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l23 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l24 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l25 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l26 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l27 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+lone sig l29 extends loc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+// Start location
+one sig l30 extends startLoc {}
+</
+	formula pc=0;
+	formula d=0;
+/>
+
+// Target location 
+one sig l20 extends targetLoc {}
+</
+	formula pc=0;
+	formula d=10;
+/>
+
+// Locations with collision probability PCOL and 1-PCOL
+lone sig l13 extends loc {}
+</
+	formula pc=PCOL;
+	formula d=10;
+/>
+
+lone sig l14 extends loc {}
+</
+	formula pc=1-PCOL;
+	formula d=10;
+/>
+
+fact {disj[l1.conn, loc-(l2)] and disj[l2.conn, loc-(l1+l12+l3)] and disj[l3.conn, loc-(l4+l2)] and disj[l4.conn, loc-(l5+l3)] and disj[l5.conn, loc-(l6+l4+l14)] and disj[l6.conn, loc-(l7+l5+l13+l23)] and disj[l7.conn, loc-(l8+l6)] and disj[l8.conn, loc-(l9+l7)] and disj[l9.conn, loc-(l10+l8+l29)] and disj[l10.conn, loc-(l11+l9)] and disj[l11.conn, loc-(l12+l10+l27)] and disj[l12.conn, loc-(l2+l11)] and disj[l13.conn, loc-(l14+l6+l19+l22)] and disj[l14.conn, loc-(l5+l13+l18+l15)] and disj[l15.conn, loc-(l16+l14)] and disj[l16.conn, loc-(l17+l15)] and disj[l17.conn, loc-(l18+l20+l16)] and disj[l18.conn, loc-(l14+l17+l21+l19)] and disj[l19.conn, loc-(l13+l18)] and disj[l20.conn, loc-(l17+l21)] and disj[l21.conn, loc-(l20+l18)] and disj[l22.conn, loc-(l23+l13)] and disj[l23.conn, loc-(l6+l24+l22)] and disj[l24.conn, loc-(l23+l25)] and disj[l25.conn, loc-(l24+l26+l29)] and disj[l26.conn, loc-(l25+l27+l30)] and disj[l27.conn, loc-(l26+l11)] and disj[l29.conn, loc-(l9+l25)] and disj[l30.conn, loc-(l26)] }
+
+label droneInStart [some startLoc:droneIn=true]      
+label droneInTarget [some targetLoc:droneIn=true] 
+property rangeP [F droneInTarget] 
+property SmaxP [F droneInTarget] as safety;
+property minR{timeRew} [ C<=20 ] as time;
+property minR{energyRew} [ C<=20 ] as energy;
+
+pred droneScenario{
+  no iden & conn
+  conn = ~conn
+  disj[targetLoc, startLoc]
+  all l:startLoc+targetLoc | #l.conn=1
+  all l:loc-(startLoc+targetLoc) | #l.conn=2
+  all l:loc | loc in l.*conn
+ }
+run droneScenario for 15 loc // Longest path in between start and target locations contains less than 15 hops

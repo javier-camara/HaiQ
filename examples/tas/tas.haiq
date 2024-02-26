@@ -1,9 +1,6 @@
-un TAS for 3// ----------------------------------------------------------------------------
-// tas.haiq - Tele-Assistance System (TAS) HaiQ model 
-// (c) 2017 Javier Camara 
-// Email: jcmoreno@cs.cmu.edu
-// Web: http://www.scs.cmu.edu/~jcmoreno
-// 5/4/2017
+// ----------------------------------------------------------------------------
+// tas.haiq - Tele-Assistance System (TAS) HaiQ model
+// Author: Javier Camara
 // ----------------------------------------------------------------------------
 // This model is based on the Tele Assistance Model Exemplar described in:
 // http://homepage.lnu.se/staff/daweaa/TAS/tas.htm
@@ -149,7 +146,7 @@ abstract sig AlarmService extends ServiceProvider {}
 
 //-----------------------------------------------------------------------------
 pred TAS {#MedicalAnalysisService<3 and #AlarmService<3}
-r
+run TAS for 3
 
 label success [some TASWorkflow:workflowOK=true]
 label done [some TASWorkflow:workflowDone=true]
