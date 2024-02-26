@@ -30,7 +30,7 @@ You can read more about these languages and see some examples in this [paper](ht
 
 ### Pre-built MacOS binaries
 
-Alternatively, you can download and install a pre-built binary version, which can be downloaded from [here](http://www.javicamara.com).
+Alternatively, you can download and install a pre-built binary version, which can be downloaded from [here](https://javier-camara.github.io/).
 * Unzip the contents of the file in a folder of your choice.
 * Edit the startup script `haiq` in the `dist-bin` directory, setting the value of the `HAIQ_DIR` variable to point to your `dist-bin` directory.
 * It is also advisable to add the `dist-bin` directory to your path environment variable.
@@ -54,5 +54,5 @@ The command above run from the client-server example folder will analyze the fir
 
 # Author
 
-* **Javier Camara** - *University of York* - [homepage](http://www.javicamara.com)
+* **Javier Camara** - *ITIS Software, Universidad de Málaga* - [homepage](https://javier-camara.github.io/)
 
