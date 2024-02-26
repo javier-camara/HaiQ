@@ -1,0 +1,110 @@
+mdp
+
+ formula agentworker0Done = !agentworker0Alive | agentworker0InTarget;
+ formula agentworker1Done = !agentworker1Alive | agentworker1InTarget;
+module lc_0
+lc_0_agentworker0In : bool init false;
+lc_0_agentworker1In : bool init false;
+	[_moveToworker0_lg_0_lc_0] (lc_0_agentworker0In) -> (lc_0_agentworker0In'=false);
+	[_moveToworker0_lg_0_lc_0] (!lc_0_agentworker0In & lg_0_agentworker0In) -> 1.0 : (lc_0_agentworker0In'=true) + 1-1.0 : (lc_0_agentworker0In'=false);
+	[_moveToworker1_lg_0_lc_0] (lc_0_agentworker1In) -> (lc_0_agentworker1In'=false);
+	[_moveToworker1_lg_0_lc_0] (!lc_0_agentworker1In & lg_0_agentworker1In) -> 1.0 : (lc_0_agentworker1In'=true) + 1-1.0 : (lc_0_agentworker1In'=false);
+endmodule
+
+module lp_0
+lp_0_agentworker0In : bool init false;
+lp_0_agentworker1In : bool init false;
+	[_moveToworker0_lp_0_lk_0] (lp_0_agentworker0In) -> (lp_0_agentworker0In'=false);
+	[_moveToworker0_lp_0_lk_0] (!lp_0_agentworker0In & lk_0_agentworker0In) -> 0.7 : (lp_0_agentworker0In'=true) + 1-0.7 : (lp_0_agentworker0In'=false);
+	[_moveToworker1_lp_0_lk_0] (lp_0_agentworker1In) -> (lp_0_agentworker1In'=false);
+	[_moveToworker1_lp_0_lk_0] (!lp_0_agentworker1In & lk_0_agentworker1In) -> 0.7 : (lp_0_agentworker1In'=true) + 1-0.7 : (lp_0_agentworker1In'=false);
+endmodule
+
+module la_0
+la_0_agentworker0In : bool init true;
+la_0_agentworker1In : bool init false;
+	[_moveToworker0_lf_0_la_0] (la_0_agentworker0In) -> (la_0_agentworker0In'=false);
+	[_moveToworker0_lf_0_la_0] (!la_0_agentworker0In & lf_0_agentworker0In) -> 0.7 : (la_0_agentworker0In'=true) + 1-0.7 : (la_0_agentworker0In'=false);
+	[_moveToworker1_lf_0_la_0] (la_0_agentworker1In) -> (la_0_agentworker1In'=false);
+	[_moveToworker1_lf_0_la_0] (!la_0_agentworker1In & lf_0_agentworker1In) -> 0.7 : (la_0_agentworker1In'=true) + 1-0.7 : (la_0_agentworker1In'=false);
+endmodule
+
+module lf_0
+lf_0_agentworker0In : bool init false;
+lf_0_agentworker1In : bool init false;
+	[_moveToworker0_lf_0_la_0] (lf_0_agentworker0In) -> (lf_0_agentworker0In'=false);
+	[_moveToworker0_lg_0_lf_0] (lf_0_agentworker0In) -> (lf_0_agentworker0In'=false);
+	[_moveToworker0_lf_0_la_0] (!lf_0_agentworker0In & la_0_agentworker0In) -> 0.7 : (lf_0_agentworker0In'=true) + 1-0.7 : (lf_0_agentworker0In'=false);
+	[_moveToworker0_lg_0_lf_0] (!lf_0_agentworker0In & lg_0_agentworker0In) -> 1.0 : (lf_0_agentworker0In'=true) + 1-1.0 : (lf_0_agentworker0In'=false);
+	[_moveToworker1_lf_0_la_0] (lf_0_agentworker1In) -> (lf_0_agentworker1In'=false);
+	[_moveToworker1_lg_0_lf_0] (lf_0_agentworker1In) -> (lf_0_agentworker1In'=false);
+	[_moveToworker1_lf_0_la_0] (!lf_0_agentworker1In & la_0_agentworker1In) -> 0.7 : (lf_0_agentworker1In'=true) + 1-0.7 : (lf_0_agentworker1In'=false);
+	[_moveToworker1_lg_0_lf_0] (!lf_0_agentworker1In & lg_0_agentworker1In) -> 1.0 : (lf_0_agentworker1In'=true) + 1-1.0 : (lf_0_agentworker1In'=false);
+endmodule
+
+module lg_0
+lg_0_agentworker0In : bool init false;
+lg_0_agentworker1In : bool init false;
+	[_moveToworker0_lg_0_lc_0] (lg_0_agentworker0In) -> (lg_0_agentworker0In'=false);
+	[_moveToworker0_lg_0_lf_0] (lg_0_agentworker0In) -> (lg_0_agentworker0In'=false);
+	[_moveToworker0_lg_0_lc_0] (!lg_0_agentworker0In & lc_0_agentworker0In) -> 1.0 : (lg_0_agentworker0In'=true) + 1-1.0 : (lg_0_agentworker0In'=false);
+	[_moveToworker0_lg_0_lf_0] (!lg_0_agentworker0In & lf_0_agentworker0In) -> 1.0 : (lg_0_agentworker0In'=true) + 1-1.0 : (lg_0_agentworker0In'=false);
+	[_moveToworker1_lg_0_lc_0] (lg_0_agentworker1In) -> (lg_0_agentworker1In'=false);
+	[_moveToworker1_lg_0_lf_0] (lg_0_agentworker1In) -> (lg_0_agentworker1In'=false);
+	[_moveToworker1_lg_0_lc_0] (!lg_0_agentworker1In & lc_0_agentworker1In) -> 1.0 : (lg_0_agentworker1In'=true) + 1-1.0 : (lg_0_agentworker1In'=false);
+	[_moveToworker1_lg_0_lf_0] (!lg_0_agentworker1In & lf_0_agentworker1In) -> 1.0 : (lg_0_agentworker1In'=true) + 1-1.0 : (lg_0_agentworker1In'=false);
+endmodule
+
+module le_0
+le_0_agentworker0In : bool init false;
+le_0_agentworker1In : bool init false;
+	[_moveToworker0_li_0_le_0] (le_0_agentworker0In) -> (le_0_agentworker0In'=false);
+	[_moveToworker0_li_0_le_0] (!le_0_agentworker0In & li_0_agentworker0In) -> 1.0 : (le_0_agentworker0In'=true) + 1-1.0 : (le_0_agentworker0In'=false);
+	[_moveToworker1_li_0_le_0] (le_0_agentworker1In) -> (le_0_agentworker1In'=false);
+	[_moveToworker1_li_0_le_0] (!le_0_agentworker1In & li_0_agentworker1In) -> 1.0 : (le_0_agentworker1In'=true) + 1-1.0 : (le_0_agentworker1In'=false);
+endmodule
+
+module lk_0
+lk_0_agentworker0In : bool init false;
+lk_0_agentworker1In : bool init false;
+	[_moveToworker0_lp_0_lk_0] (lk_0_agentworker0In) -> (lk_0_agentworker0In'=false);
+	[_moveToworker0_lp_0_lk_0] (!lk_0_agentworker0In & lp_0_agentworker0In) -> 0.7 : (lk_0_agentworker0In'=true) + 1-0.7 : (lk_0_agentworker0In'=false);
+	[_moveToworker1_lp_0_lk_0] (lk_0_agentworker1In) -> (lk_0_agentworker1In'=false);
+	[_moveToworker1_lp_0_lk_0] (!lk_0_agentworker1In & lp_0_agentworker1In) -> 0.7 : (lk_0_agentworker1In'=true) + 1-0.7 : (lk_0_agentworker1In'=false);
+endmodule
+
+module li_0
+li_0_agentworker0In : bool init false;
+li_0_agentworker1In : bool init true;
+	[_moveToworker0_li_0_le_0] (li_0_agentworker0In) -> (li_0_agentworker0In'=false);
+	[_moveToworker0_li_0_le_0] (!li_0_agentworker0In & le_0_agentworker0In) -> 1.0 : (li_0_agentworker0In'=true) + 1-1.0 : (li_0_agentworker0In'=false);
+	[_moveToworker1_li_0_le_0] (li_0_agentworker1In) -> (li_0_agentworker1In'=false);
+	[_moveToworker1_li_0_le_0] (!li_0_agentworker1In & le_0_agentworker1In) -> 1.0 : (li_0_agentworker1In'=true) + 1-1.0 : (li_0_agentworker1In'=false);
+endmodule
+
+module agentworker1_0
+endmodule
+
+module agentworker0_0
+endmodule
+
+rewards "drworker1"
+	[_moveToworker1_lg_0_lc_0] true : 150.0;
+	[_moveToworker1_lp_0_lk_0] true : 212.13203435596427;
+	[_moveToworker1_lf_0_la_0] true : 212.13203435596427;
+	[_moveToworker1_lg_0_lf_0] true : 150.0;
+	[_moveToworker1_li_0_le_0] true : 150.0;
+endrewards
+
+rewards "drworker0"
+	[_moveToworker0_lg_0_lc_0] true : 150.0;
+	[_moveToworker0_lp_0_lk_0] true : 212.13203435596427;
+	[_moveToworker0_lf_0_la_0] true : 212.13203435596427;
+	[_moveToworker0_lg_0_lf_0] true : 150.0;
+	[_moveToworker0_li_0_le_0] true : 150.0;
+endrewards
+
+formula agentworker1InTarget = le_0_agentworker1In=true | lc_0_agentworker1In=true;
+formula agentworker0Alive = lp_0_agentworker0In=true | lk_0_agentworker0In=true | li_0_agentworker0In=true | lg_0_agentworker0In=true | lf_0_agentworker0In=true | le_0_agentworker0In=true | lc_0_agentworker0In=true | la_0_agentworker0In=true;
+formula agentworker1Alive = lp_0_agentworker1In=true | lk_0_agentworker1In=true | li_0_agentworker1In=true | lg_0_agentworker1In=true | lf_0_agentworker1In=true | le_0_agentworker1In=true | lc_0_agentworker1In=true | la_0_agentworker1In=true;
+formula agentworker0InTarget = le_0_agentworker0In=true | lc_0_agentworker0In=true;

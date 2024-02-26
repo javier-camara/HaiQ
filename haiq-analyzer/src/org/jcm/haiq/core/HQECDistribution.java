@@ -9,19 +9,22 @@ import java.util.LinkedList;
 public class HQECDistribution {
 	
 	private String m_id;
-	private LinkedList<String> m_min = new LinkedList<String>();
-	private LinkedList<String> m_max = new LinkedList<String>();
+	private int m_elements;
+//	private LinkedList<String> m_min = new LinkedList<String>();
+//	private LinkedList<String> m_max = new LinkedList<String>();
 	
 		
-	public HQECDistribution(String id){
+	public HQECDistribution(String id, int n){
 		this.m_id = id;
+		this.m_elements = n;
 	}
 
 	/** 
 	 * @return number of elements in the distribution
 	 */
 	public int size(){
-		return m_min.size();
+	//	return m_min.size();
+		return m_elements;
 	}
 	
 	/**
@@ -39,33 +42,33 @@ public class HQECDistribution {
 	}
 
 
-	/**
-	 * @return the m_min
-	 */
-	public String getMin(int index) {
-		return m_min.get(index);
-	}
-
-	/**
-	 * @param m_min the m_min to add
-	 */
-	public void addMin(String m_min) {
-		this.m_min.add(m_min);
-	}
-
-	/**
-	 * @return the m_max
-	 */
-	public String getMax(int index) {
-		return m_max.get(index);
-	}
-
-	/**
-	 * @param m_max the m_max to add
-	 */
-	public void addMax(String m_max) {
-		this.m_max.add(m_max);
-	}
+//	/**
+//	 * @return the m_min
+//	 */
+//	public String getMin(int index) {
+//		return m_min.get(index);
+//	}
+//
+//	/**
+//	 * @param m_min the m_min to add
+//	 */
+//	public void addMin(String m_min) {
+//		this.m_min.add(m_min);
+//	}
+//
+//	/**
+//	 * @return the m_max
+//	 */
+//	public String getMax(int index) {
+//		return m_max.get(index);
+//	}
+//
+//	/**
+//	 * @param m_max the m_max to add
+//	 */
+//	public void addMax(String m_max) {
+//		this.m_max.add(m_max);
+//	}
 
 
 	/* (non-Javadoc)
@@ -73,6 +76,7 @@ public class HQECDistribution {
 	 */
 	@Override
 	public String toString() {
-		return "EC Distribution [m_id=" + m_id + ", m_mins=" + m_min.toString() + ", m_max=" + m_max.toString() + "]";
+//		return "EC Distribution [m_id=" + m_id + ", m_mins=" + m_min.toString() + ", m_max=" + m_max.toString() + "]";
+		return "EC Distribution [m_id=" + m_id + ", m_elements=" + m_elements + "]";
 	}
 }

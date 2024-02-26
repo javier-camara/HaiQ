@@ -17,7 +17,33 @@ public class PrismTranslator {
 
 	private AlloySolution m_alloy_solution; // Alloy solution that captures the general structure of the model to translate
 	private HQModel m_bmodel;			 // Hierarchy of behavioral types (abstract/concrete processes) and rewards
+	private int m_commands_generated=0;
+	private int m_preds_generated=0;
+	private int m_synchs_generated=0;
+	private int m_formulas_generated=0;
+	private int m_lines_generated=0;
+	private int m_modules_generated=0;
 	
+	public int getM_commands_generated() {
+		return m_commands_generated;
+	}
+
+	public int getM_modules_generated() {
+		return m_modules_generated;
+	}
+
+	public int getM_preds_generated() {
+		return m_preds_generated;
+	}
+
+	public int getM_synchs_generated() {
+		return m_synchs_generated;
+	}
+
+	public int getM_lines_generated() {
+		return m_lines_generated;
+	}
+
 	public PrismTranslator(HQModel m, AlloySolution a){
 		this.m_bmodel = m;
 		this.m_alloy_solution = a;
@@ -97,8 +123,10 @@ public class PrismTranslator {
 	public String generateCommands(HQCommand c, String prefix){
 		String relation = c.getAction().getRelation();
 		if (Objects.equals(relation, "")){ // If simple action, we generate a single command
+			this.m_commands_generated++;
 			return generateCommand(c, prefix, c.getAction().getId());
 		} else if (Objects.equals(relation,"this")) { // If action is explicitly identified for process
+			this.m_commands_generated++;
 			return generateCommand(c, prefix, prefix+"_"+c.getAction().getId());
 		}
 		
@@ -117,6 +145,7 @@ public class PrismTranslator {
 			
 			//System.out.println("ACTION EXPANDED:"+ action_expanded);
 			res += generateCommand(c, prefix, action_expanded, postfix);
+			this.m_commands_generated++;
 		}
 		return res;
 	}
@@ -208,8 +237,8 @@ public class PrismTranslator {
 			relationString = "=";
 			break;
 		}
-		String left = eleft.getPrefixedLiteral(getProcessObject(prefix), prefix, relation_instance_prefix);
-		String right = eright.getPrefixedLiteral(getProcessObject(prefix), prefix, relation_instance_prefix);
+		String left = eleft.getPrefixedLiteral(getProcessObject(prefix), prefix, relation_instance_prefix, "", m_bmodel);
+		String right = eright.getPrefixedLiteral(getProcessObject(prefix), prefix, relation_instance_prefix, "", m_bmodel);
 		return left+relationString+right;
 	}
 
@@ -259,7 +288,7 @@ public class PrismTranslator {
 		String res ="";
 		
 		if (!Objects.equals(u.getProbability().getLiteral(), "")) 
-			res += u.getProbability().getPrefixedLiteral(getProcessObject(prefix), prefix, relation_instance_prefix) + " : ";
+			res += u.getProbability().getPrefixedLiteral(getProcessObject(prefix), prefix, relation_instance_prefix, "", m_bmodel) + " : ";
 		
 		int i=0;
 		for (Map.Entry<String, HQExpression> e: u.getVariableUpdates().entrySet()){
@@ -268,7 +297,7 @@ public class PrismTranslator {
 			String update_prefix = "";
 			if (isVariableDeclared(e.getKey(), prefix))
 				update_prefix = prefix+"_";
-			res += "("+update_prefix+e.getKey()+"'="+e.getValue().getPrefixedLiteral(getProcessObject(prefix), prefix, relation_instance_prefix)+")";
+			res += "("+update_prefix+e.getKey()+"'="+e.getValue().getPrefixedLiteral(getProcessObject(prefix), prefix, relation_instance_prefix, "", m_bmodel)+")";
 			i++;
 		}		
 		return res;
@@ -317,7 +346,7 @@ public class PrismTranslator {
 				}
 			}
 		}
-		return "formula "+ ext_prefix + f.getId() + " = " + f.getExpression().getPrefixedLiteral(getProcessObject(prefix), prefix, "") + ";\n";
+		return "formula "+ ext_prefix + f.getId() + " = " + f.getExpression().getPrefixedLiteral(getProcessObject(prefix), prefix, "", "", m_bmodel) + ";\n";
 	}
 	
 	public String generateECParameter(HQECParameter p, String prefix){
@@ -336,9 +365,7 @@ public class PrismTranslator {
 			ext_prefix="";
 		}
 		String res = "evolve distribution "+ext_prefix+d.getId();
-		for (int i=0; i<d.size();i++){
-			res += "["+d.getMin(i)+".."+d.getMax(i)+"]";
-		}
+			res += " ["+d.size()+"]";
 		return res+";\n";
 	}
 	
@@ -347,9 +374,11 @@ public class PrismTranslator {
 	}
 
 	public String generateProcess(HQProcess p, String prefix){
+		this.m_modules_generated++;
 		String res ="";
 
 		for (Map.Entry<String, HQFormula> e: p.getFormulas().entrySet()){
+			this.m_formulas_generated++;
 			res += generateFormula (e.getValue(), prefix);
 		}
 
@@ -382,12 +411,13 @@ public class PrismTranslator {
 		LinkedList<String> expandedL = new LinkedList<String>(); // Employed to avoid duplicate action entries in reward structure
 		
 		if (Objects.equals(r.getScope(),"")){ // Free reward (not within the scope of a process)
-			res +="\t";
+				res +="\t";
 			if (!Objects.equals(r.getAction().getId(), "")){ // Action reward
 				res += "["+r.getAction().getId()+"] ";
 			}
 			res += generateGuard(r.getGuard()) + " : " + r.getExpression().getLiteral() + ";\n";	
-			return res;
+			return ""; // Warning!!! This currently disables free rewards!!
+			// return res;
 		}
 		
 		
@@ -401,7 +431,7 @@ public class PrismTranslator {
 				if (m_bmodel.getAncestors(processType).contains(r.getScope())){
 					if (Objects.equals(r.getAction().getRelation(), "")){
 						res += "\t["+r.getAction().getId()+"] ";
-						res += generateGuard(r.getGuard(), processInstance, "") + " : " + r.getExpression().getPrefixedLiteral(m_bmodel.getProcesses().get(processType), processInstance, "") + ";\n";						
+						res += generateGuard(r.getGuard(), processInstance, "") + " : " + r.getExpression().getPrefixedLiteral(m_bmodel.getProcesses().get(processType), processInstance, "", "", m_bmodel) + ";\n";						
 					} else {
 						for (Map.Entry<String, AlloySolutionNode> re : m_alloy_solution.getRelated(m_alloy_solution.getNode(prefix_dollar),r.getAction().getRelation()).entrySet()){
 							String postfix = re.getValue().getId().replaceAll("\\$", "_");
@@ -412,7 +442,7 @@ public class PrismTranslator {
 								action_expanded += postfix+"_"+processInstance;
 							if (!expandedL.contains(action_expanded)){												
 								res += "\t["+action_expanded+"] ";
-								res += generateGuard(r.getGuard(), processInstance, postfix) + " : " + r.getExpression().getPrefixedLiteral(m_bmodel.getProcesses().get(processType), processInstance, postfix) + ";\n";
+								res += generateGuard(r.getGuard(), processInstance, postfix) + " : " + r.getExpression().getPrefixedLiteral(m_bmodel.getProcesses().get(processType), processInstance, postfix, "", m_bmodel) + ";\n";
 								expandedL.add(action_expanded);
 							}
 						}
@@ -422,7 +452,7 @@ public class PrismTranslator {
 				
 			} else { // State reward
 				if (Objects.equals(processType, r.getScope())){
-					res += "\t"+generateGuard(r.getGuard(), processInstance, "") + " : " + r.getExpression().getPrefixedLiteral(m_bmodel.getProcesses().get(processType), processInstance, "") + ";\n";
+					res += "\t"+generateGuard(r.getGuard(), processInstance, "") + " : " + r.getExpression().getPrefixedLiteral(m_bmodel.getProcesses().get(processType), processInstance, "", "", m_bmodel) + ";\n";
 			}
 			}
 		}
@@ -434,6 +464,8 @@ public class PrismTranslator {
 	public String generateRewardStructure(HQRewardStructure r){
 		String res = "rewards " + "\""+r.getId()+"\"\n"; 
 		for (HQReward e: r.getRewards()){
+			//System.out.println(e.toString());
+			//System.out.println(generateReward(e));
 			res += generateReward(e);
 		}
 		res += "endrewards\n\n";
@@ -527,10 +559,12 @@ public class PrismTranslator {
 			String processType = e.getValue().getId().split("\\$")[0];
 			//System.out.println("PROCESS TYPE:"+processType);
 			String processInstance = e.getValue().getId().replaceAll("\\$", "_");
+			//System.out.println("PROCESS INSTANCE: "+processInstance);
 			res += generateProcess (m_bmodel.getProcesses().get(processType), processInstance);
 		}
 		
 		for (Map.Entry<String, HQFormula> e : m_bmodel.getFormulas().entrySet()){
+			this.m_formulas_generated++;
 			res += generateFormula (e.getValue(), "");
 		}
 		
@@ -554,6 +588,10 @@ public class PrismTranslator {
 	}
 	
 	
+	public int getM_formulas_generated() {
+		return m_formulas_generated;
+	}
+
 	public void setBehavioralModel(HQModel m){
 		m_bmodel = m;
 	}
@@ -595,6 +633,7 @@ public class PrismTranslator {
 		rs.addReward(new HQReward(new HQAction("a","rel"), new HQGuard(), new HQExpression("1"), "foo"));
 		
 		m.addRewardStructure(rs.getId(), rs);
+
 		
 	}
 

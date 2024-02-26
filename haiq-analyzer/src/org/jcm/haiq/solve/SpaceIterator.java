@@ -114,7 +114,7 @@ public class SpaceIterator {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		HQSolver hqs = new HQSolver("");
+		HQSolverIterative hqs = new HQSolverIterative("");
 		hqs.setConstantDefinitions("a=1:3:1,b=1:2:0.5");
 		
 		SpaceIterator si = new SpaceIterator(hqs.getConstantDefinitions());

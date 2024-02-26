@@ -1,5 +1,6 @@
 package org.jcm.haiq.solve;
 
+
 import java.util.HashMap;
 import java.util.Objects;
 import java.io.File;
@@ -11,6 +12,9 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+
+import org.jcm.haiq.analyze.*;
+
 
 
 public class ScoreBoard {
@@ -25,7 +29,13 @@ public class ScoreBoard {
 	}
 
 
-	public void addSolutionforProperty(String config, String property, String result){
+	
+	public void addSolutionforProperty(String config, String prop, String res){
+		addSolutionforProperty (config, prop, res, "");	
+	}
+		
+	public void addSolutionforProperty(String configId, String property, String result, String constants){
+		String config = configId+"-"+constants;
 		if (!m_results.keySet().contains(config)){
 			m_results.put(config, new HashMap<String, String>());
 		}	
@@ -58,6 +68,60 @@ public class ScoreBoard {
 		}
 		return res;
 	}
+
+
+	public String generateScoreboardPCAText(HashMap<String, String> sols){
+		return generateScoreboardPCAText(true, true, "\t", "\n", sols);
+	}
+
+	
+	
+	
+	public String generateScoreboardPCAText(boolean generateIds, boolean generateHeader, String colSep, String rowSep, HashMap<String, String> sols){
+		String res = "";
+		boolean generate_heading = generateHeader;
+		FeatureExtraction fx = new FeatureExtraction(sols);
+		fx.extractFeatures();
+		for (Map.Entry<String, HashMap<String, String>> e: m_results.entrySet()){
+			String solId = e.getKey().split("-")[0];
+			String constStr = e.getKey().split("-")[1];
+			String[] consts = constStr.split(",");
+			if (generate_heading) {
+				for (Map.Entry<String, String> eh: m_results.get(e.getKey()).entrySet())
+					res +=colSep+eh.getKey();
+				res += fx.getFeatureNamesString(); // Add heading for topological feature names
+				
+				// Generate headings for parameters (constants)
+				for (int i=0;i<consts.length;i++) {
+					res += colSep+consts[i].split("=")[0];
+				}
+				
+				res += rowSep;
+				generate_heading = false;
+			}
+			if (generateIds) 
+				res += e.getKey();
+			for (Map.Entry<String, String> e2: m_results.get(e.getKey()).entrySet()){	
+				res +=colSep+e2.getValue();
+			}
+			
+			res += fx.getFeatureValuesString(solId); // Values for topological feature names
+			
+			// Generate values for parameters (constants)
+			for (int i=0;i<consts.length;i++) {
+				res += colSep+consts[i].split("=")[1];
+			}
+					
+			res += rowSep;
+		}
+		return res;
+	}
+	
+	public void generateScoreboardPCA(String filename, HashMap<String, String> sols){
+		TextFileHandler fhdata = new TextFileHandler(filename+".csv");
+		fhdata.exportFile(generateScoreboardPCAText(sols));
+	}
+
 	
 	public void generateScoreboardJSON(String filename){
 		TextFileHandler fhdata = new TextFileHandler(filename+".json");
@@ -190,6 +254,10 @@ public class ScoreBoard {
 			}
 		return res;
 	}
+
+
+	
+	
 	
 	public double getMinZConstrained(double bx, double by, String k1, String k2, String k3){
 		double minD = Double.MAX_VALUE;

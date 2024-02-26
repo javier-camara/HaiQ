@@ -9,7 +9,7 @@ import org.jcm.haiq.core.*;
 import org.jcm.haiq.core.HQLabel.QuantifierType;
 import org.jcm.haiq.core.HQPredicate.RelationType;
 import org.jcm.util.*;
-
+import org.jcm.haiq.parse.*;
 
 /**
  * @author jcamara
@@ -20,17 +20,30 @@ public class ParserMark1 {
 	private ArrayList<String> m_lines=null;
 	private boolean m_debug = true;
 	private boolean m_reading_process = false;
+	private boolean m_reading_relation_collection = false;
 	private String m_current_sig="";
 	private String m_current_sig_extends="";
 	private boolean m_current_is_abstract = false;
+	private String m_current_relation_collection_id="";
 	
 	private HQModel m_bmodel = new HQModel();
 	
 	private HashMap<String, Boolean> m_signatures = new HashMap<String, Boolean>();
 	private ArrayList<String> m_alloy_lines = new ArrayList<String>();
 	private HashMap<String, ArrayList<String>> m_processes = new HashMap<String, ArrayList<String>>();
+	private HashMap<String, ArrayList<String>> m_relation_collections = new HashMap<String, ArrayList<String>>();
 	private ArrayList<String> m_current_process = new ArrayList<String>();
+	private ArrayList<String> m_current_relation_collection = new ArrayList<String>();
 	private ArrayList<PropertyEntry> m_properties = new ArrayList<PropertyEntry>();
+	
+	private int m_n_total_lines=0;
+	private int m_n_alloy_lines=0;
+	private int m_n_prism_lines=0;
+	private int m_n_commands=0;
+	private int m_n_formulas=0;
+	private int m_n_blank_lines=0;
+	private int m_n_comments=0;
+	private int m_n_signatures=0;
 	
 	public class PropertyEntry {
 	    private String m_id;
@@ -47,6 +60,30 @@ public class ParserMark1 {
 	
 	
 	
+	public int getM_n_total_lines() {
+		return m_n_total_lines;
+	}
+
+	public int getM_n_alloy_lines() {
+		return m_n_alloy_lines;
+	}
+
+	public int getM_n_prism_lines() {
+		return m_n_prism_lines;
+	}
+
+	public int getM_n_commands() {
+		return m_n_commands;
+	}
+
+	public int getM_n_formulas() {
+		return m_n_formulas;
+	}
+
+	public int getM_n_signatures() {
+		return m_n_signatures;
+	}
+
 	/**
 	 * @param m_debug the m_debug to set
 	 */
@@ -175,6 +212,11 @@ public class ParserMark1 {
 		}
 	}
 	
+	class RelationCollectionNotDefinedException extends Exception{
+		public RelationCollectionNotDefinedException (String msg){
+			super(msg);
+		}
+	}
 	
 	public ArrayList<String> getProcessSource(String id){
 		if (m_processes.containsKey(id)){
@@ -188,6 +230,21 @@ public class ParserMark1 {
 			}
 		}
 	}
+
+	
+	public ArrayList<String> getRelationCollectionSource(String id){
+		if (m_relation_collections.containsKey(id)){
+			return (m_relation_collections.get(id));
+		} else {
+			try{
+				throw (new RelationCollectionNotDefinedException("Cannot retrieve relation collection \'"+id+"\': undefined."));
+			} catch (RelationCollectionNotDefinedException e){
+				System.out.println(e.getMessage());
+				return null;
+			}
+		}
+	}
+
 	
 	public HQLabel parseLabel(String s){
 		String[] e = s.replaceAll("label ", "").trim().split("\\[");
@@ -222,13 +279,15 @@ public class ParserMark1 {
 	}
 
 	HQECParameter parseECParameter(String s){
-		String[] e = s.replaceAll("evolve ", "").trim().split(" ");
-		String type = e[0].trim();
-		String [] e1 = e[1].split("\\[");
-		String id = e1[0].trim();
-		String [] e2 = e1[1].replaceAll("\\.\\.", " ").split(" ");
-		String min = e2[0].trim();
-		String max = e2[1].replaceAll("\\];", "").trim();	
+		String[] e = s.replaceAll("evolve const ", "").trim().split("\\[");
+		System.out.println(Arrays.toString(e));
+		String [] range = e[1].replaceAll(";", "").replaceAll("\\]", "").replaceAll("\\.\\.", " ").split(" ");
+		String[] tk = e[0].split(" ");
+		
+		String type = tk[0].trim();
+		String id = tk[1].trim();
+		String min = range[0].trim();
+		String max = range[1].trim();	
 		HQECParameter p = new HQECParameter(id, type,min,max);
 		return p;
 	}
@@ -242,12 +301,8 @@ public class ParserMark1 {
 	HQECDistribution parseECDistribution(String s){
 		String[] e = s.replaceAll("evolve ", "").replaceAll("distribution","").trim().replaceAll("\\.\\."," ").split("\\[");
 		String id = e[0].trim();
-		HQECDistribution d = new HQECDistribution(id);
-		for (int i=1; i<e.length;i++){
-			String[] minmaxStr = e[i].replaceAll("\\]", "").replaceAll(";", "").split(" ");
-			d.addMin(minmaxStr[0]);
-			d.addMax(minmaxStr[1]);
-		}
+		int n_elems = Integer.valueOf(e[1].split("\\]")[0]);
+		HQECDistribution d = new HQECDistribution(id, n_elems);
 		return d;
 	}
 	
@@ -257,12 +312,17 @@ public class ParserMark1 {
 	public void parse(){
 		String line;
 		String[] line_chunks;
+		this.m_n_total_lines=m_lines.size();
 		for (int i=0; i<m_lines.size();i++){
 			line = m_lines.get(i);
 			line_chunks = line.split(" ");
-			if (line_chunks.length==0) continue; // Skip, blank line
+			if (line_chunks.length==0) {
+				m_n_blank_lines++;
+				continue; // Skip, blank line
+			}
 			
 			if (line.startsWith("//")){		// Comment, ignore
+				m_n_comments++;
 				if (m_debug) System.out.println("Comment: " + line);
 			}
 			
@@ -275,6 +335,7 @@ public class ParserMark1 {
 			
 			if (isSignatureDeclaration(line) || isAbstractSignatureDeclaration(line)){  // New signature
 				String sig_id = line_chunks[stIndex("sig",line_chunks)+1];  // Determine signature identifier
+				this.m_n_signatures++;
 				if (isSignatureDefined(sig_id)){  // If signature already defined, Exception, abort.
 					try{
 						throw (new SignatureAlreadyDefinedException("Signature \'"+sig_id+"\' is already defined. Aborting."));
@@ -328,10 +389,42 @@ public class ParserMark1 {
 				if (m_debug) System.out.println("Entering process definition mode for signature \'" + m_current_sig + "\'.");
 			}
 			
+			if (isRelationCollectionDeclaration(line)) {
+				m_current_relation_collection = new ArrayList<String>();
+				m_reading_relation_collection = true;		
+				m_current_relation_collection_id = line_chunks[0].substring(1);  // Determine relation collection identifier
+
+				if (m_debug) System.out.println("Entering relation collection definition \'" + m_current_relation_collection_id + "\'.");
+			}
+			
+			
+			
 			if (m_reading_process){				// Incorporate line into current process
 				if (!line.startsWith("</") && !line.startsWith("/>"))
 					m_current_process.add(line);
-			} else if (line.startsWith("label ")){ // Label definition
+			} else if (m_reading_relation_collection) {  // Incorporate line into current relation collection
+					if (!isRelationCollectionDeclaration(line) && !isRelationCollectionDeclarationEnd(line)) {
+						//if (m_debug) 
+						//	System.out.println("Adding to " + m_current_relation_collection_id + ": " + line);
+						m_current_relation_collection.add(line);
+					}
+					
+					if (isRelationCollectionDeclarationEnd(line)) {
+						m_reading_relation_collection = false;
+						m_relation_collections.put(m_current_relation_collection_id, m_current_relation_collection);				
+						if (m_debug) 
+							{
+								System.out.println("Exiting relation collection definition mode: " + m_current_relation_collection_id);
+								System.out.println(m_relation_collections.get(m_current_relation_collection_id));
+							}
+						HQRelationCollection new_rc = parseRelationCollection(m_current_relation_collection_id, m_current_relation_collection);  // Parse the process
+						m_bmodel.addRelationCollection(new_rc);
+						//System.out.println("***"+ new_rc.toString());
+						//System.out.println("********* "+new_rc.getValue("psAW0"));
+					}
+					
+				}
+			else if (line.startsWith("label ")){ // Label definition
 				m_bmodel.addLabel(parseLabel(line));
 			} else if (isECEvolvableParameter(line)){
 				if (m_debug) System.out.println("\t EvoChecker Evolvable parameter declaration >>> " + line );
@@ -410,7 +503,7 @@ public class ParserMark1 {
 				if (!Objects.equals(new_p.getExtends(), "")){  // If it extends any other, postprocess it to expand definitions
 					new_p.expand(m_bmodel.getProcesses().get(new_p.getExtends()));
 				}
-				
+						
 				new_p.setAbstract(m_current_is_abstract);
 				
 				m_bmodel.addProcess(m_current_sig, new_p ); // Parses and adds generated current process object to behavior model
@@ -429,6 +522,11 @@ public class ParserMark1 {
 			System.out.println("\n\n * PROCESSES INGESTED:\n"+m_processes.toString());
 			System.out.println("\n\n * RELATIONAL MODEL INGESTED:\n"+m_alloy_lines.toString());
 			}
+		
+		// Compute statistics...
+		m_n_alloy_lines = m_alloy_lines.size();
+		m_n_total_lines -= m_n_blank_lines + m_n_comments;
+		m_n_prism_lines = m_n_total_lines - m_n_alloy_lines;		
 	}
 	
 	
@@ -438,9 +536,10 @@ public class ParserMark1 {
 	 * @return
 	 */
 	public boolean isECEvolvableParameter(String s){
-		if (Objects.equals(s.split(" ")[0],"evolve")){
-			return (Objects.equals(s.split(" ")[1],"double") 
-					|| Objects.equals(s.split(" ")[1],"int"));
+		String tk[] = s.split(" ");
+		if (Objects.equals(tk[0],"evolve") && Objects.equals(tk[1], "const")){
+			return (Objects.equals(tk[2],"double") 
+					|| Objects.equals(tk[2],"int"));
 		}
 		return false;
 	}
@@ -484,7 +583,7 @@ public class ParserMark1 {
 		if ((s.split(" ").length)==0) return false;
 		return Objects.equals(s.split(" ")[0],"reward");		
 	}
-	
+
 	/**
 	 * Determines if a String contains a variable declaration
 	 * @param s
@@ -537,6 +636,19 @@ public class ParserMark1 {
 				&&(s.split("=").length==1));
 	}
 	
+	/**
+	 * Determines if a String contains a relation collection declaration
+	 * @param s
+	 * @return
+	 */
+	public boolean isRelationCollectionDeclaration(String s){
+		if ((s.split(" ").length)==0) return false;
+		return s.split(" ")[0].startsWith(".") && s.split(" ")[0].length()>1;		
+	}
+
+	public boolean isRelationCollectionDeclarationEnd(String s){
+		return Objects.equals(s, ".");		
+	}
 	
 	class UnknownRelationTypeException extends Exception{
 		public UnknownRelationTypeException (String msg){
@@ -714,6 +826,42 @@ public class ParserMark1 {
 		return u;
 	}
 	
+	public String reformatUpdatesLiteral (String s) {
+		
+		String res="";
+		int inscope = 0;
+		for (int i = 0; i < s.length(); i++){
+		    char c = s.charAt(i); 
+		    if (Objects.equals(c, '('))
+		    	inscope++;
+		    if (Objects.equals(c, ')'))
+		    	inscope--;
+		    if (Objects.equals(c, '+') && inscope<=0)
+		    	res = res + '@';
+		    else 
+		    	res = res + c;   
+		}
+		return res;
+	}
+	
+	
+	/**
+	 * Parses relation collection source definition, inserting it into an HQRelationCollection object
+	 * @param id
+	 * @return
+	 */
+	public HQRelationCollection parseRelationCollection(String id, ArrayList<String> code){
+		RelationCollectionParser p = new RelationCollectionParser();
+		StringBuilder sb = new StringBuilder();
+		for (String s : code)
+		{
+		    sb.append(s);
+		    sb.append("\n");
+		}
+		return p.readRelationCollection(id, sb.toString());
+	}
+
+	
 	/**
 	 * Parses process source definition, inserting it into an HQProcess object
 	 * @param id
@@ -731,6 +879,7 @@ public class ParserMark1 {
 			if (line_chunks.length==0) continue; // Skip if blank line
 			
 			if (isCommandDeclaration(line)){ // If we are introducing a new command
+				this.m_n_commands++;
 				if (m_debug) System.out.println("\t >>> Command declaration: "+ line);				
 				String action_body = line_chunks[0].split("]")[0].replace("[", "").trim();
 				String action = "";
@@ -747,7 +896,8 @@ public class ParserMark1 {
 				HQCommand c = new HQCommand(new HQAction(action, relation), guard); // We create the command object
 				
 				// Add the different updates to the command object
-				String[] update_literals = line.substring(line.indexOf("->")+2, line.length()).replaceAll(";", "").split("\\+");
+				String updatesLiteral = reformatUpdatesLiteral (line.substring(line.indexOf("->")+2, line.length()).replaceAll(";", ""));
+				String[] update_literals = updatesLiteral.split("@");
 				for (int j=0; j<update_literals.length; j++){
 					String u = update_literals[j].trim();	
 					c.addUpdate(parseUpdate(u));
@@ -835,6 +985,7 @@ public class ParserMark1 {
 			} // Finish processing reward declaration
 			
 			if (isFormulaDeclaration(line)){  // If we are declaring a formula
+				this.m_n_formulas++;
 				if (m_debug) System.out.println("\t Formula declaration >>> "+ line);
 				String declaration_body = String.join("",  Arrays.copyOfRange(line_chunks, 1, line_chunks.length));
 				if (declaration_body.split("=").length<=1){ // If it is an undefined formula (to be implemented by inheriting processes)
@@ -855,4 +1006,15 @@ public class ParserMark1 {
 		return p;
 	}  // Finish parsing of process
 
+	
+	/**
+	 * Parses relation collection source definition
+	 * @param id
+	 * @return
+	 */
+	public void parseRelationCollection(String id){
+		//HQProcess p = new HQProcess(id, doesExtend);
+		String[] s = getRelationCollectionSource(id).toArray(new String[0]);		
+	}
+	
 }

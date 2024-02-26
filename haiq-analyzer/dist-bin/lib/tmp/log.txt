@@ -1,0 +1,907 @@
+PRISM-games
+===========
+
+Version: 2.0.beta3
+Date: Tue Feb 13 09:21:22 CET 2024
+Hostname: Javiers-MacBook-Pro.local
+Memory limits: cudd=1g, java(heap)=12g
+
+Type:        DTMC
+Modules:     lidar_0 laserScanTopic_0 mrpt_0 
+Variables:   lidar_0_sensed lidar_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent mrpt_0_processedOK mrpt_0_received mrpt_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F success ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.017 seconds.
+
+Warning: Deadlocks detected and fixed in 3 states
+
+Type:        DTMC
+States:      8 (1 initial)
+Transitions: 10
+
+Transition matrix: 87 nodes (6 terminal), 10 minterms, vars: 9r/9c
+
+Prob0: 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 1, no = 2, maybe = 5
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=9, nodes=82] [3.8 KB]
+Adding explicit sparse matrices... [levels=9, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [4.1 KB]
+
+Starting iterations...
+
+Jacobi: 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.873
+
+Time for model checking: 0.006 seconds.
+
+Result: 0.873 (value in the initial state)
+
+Type:        DTMC
+Modules:     markerPoseTopic_0 camera_0 markerRecognizer_0 sensorMsgsImageTopic_0 markerLocalization_0 headlamp_0 
+Variables:   markerPoseTopic_0_processed markerPoseTopic_0_dropped markerPoseTopic_0_received markerPoseTopic_0_sent camera_0_sensed camera_0_sent markerRecognizer_0_received markerRecognizer_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent markerLocalization_0_processedOK markerLocalization_0_received markerLocalization_0_end headlamp_0_enabled 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F success ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000111, setup 0.00)
+
+Time for model construction: 0.005 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 250 nodes (8 terminal), 15 minterms, vars: 16r/16c
+
+Prob0: 9 iterations in 0.00 seconds (average 0.000111, setup 0.00)
+
+Prob1: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 1, no = 3, maybe = 8
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=16, nodes=231] [10.8 KB]
+Adding explicit sparse matrices... [levels=16, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [11.2 KB]
+
+Starting iterations...
+
+Jacobi: 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.809622
+
+Time for model checking: 0.001 seconds.
+
+Result: 0.809622 (value in the initial state)
+
+Type:        DTMC
+Modules:     markerPoseTopic_0 camera_0 markerRecognizer_0 sensorMsgsImageTopic_0 markerLocalization_0 
+Variables:   markerPoseTopic_0_processed markerPoseTopic_0_dropped markerPoseTopic_0_received markerPoseTopic_0_sent camera_0_sensed camera_0_sent markerRecognizer_0_received markerRecognizer_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent markerLocalization_0_processedOK markerLocalization_0_received markerLocalization_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F success ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.006 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 236 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 1, no = 3, maybe = 8
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=217] [10.2 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [10.5 KB]
+
+Starting iterations...
+
+Jacobi: 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.809622
+
+Time for model checking: 0.002 seconds.
+
+Result: 0.809622 (value in the initial state)
+
+Type:        DTMC
+Modules:     laserscanNodelet_0 sensorMsgsImageTopic_0 laserScanTopic_0 kinect_0 mrpt_0 
+Variables:   laserscanNodelet_0_received laserscanNodelet_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent kinect_0_sensed kinect_0_sent mrpt_0_processedOK mrpt_0_received mrpt_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F success ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.004 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 221 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 4 iterations in 0.00 seconds (average 0.000250, setup 0.00)
+
+yes = 1, no = 3, maybe = 8
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=209] [9.8 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [10.2 KB]
+
+Starting iterations...
+
+Jacobi: 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.75951
+
+Time for model checking: 0.001 seconds.
+
+Result: 0.75951 (value in the initial state)
+
+Type:        DTMC
+Modules:     laserscanNodelet_0 amcl_0 sensorMsgsImageTopic_0 laserScanTopic_0 kinect_0 
+Variables:   laserscanNodelet_0_received laserscanNodelet_0_sent amcl_0_processedOK amcl_0_received amcl_0_end sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent kinect_0_sensed kinect_0_sent 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F success ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.007 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 267 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 9 iterations in 0.00 seconds (average 0.000111, setup 0.00)
+
+Prob1: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 1, no = 3, maybe = 8
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=236] [11.1 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [11.4 KB]
+
+Starting iterations...
+
+Jacobi: 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.827022
+
+Time for model checking: 0.001 seconds.
+
+Result: 0.827022 (value in the initial state)
+
+Type:        DTMC
+Modules:     amcl_0 lidar_0 laserScanTopic_0 
+Variables:   amcl_0_processedOK amcl_0_received amcl_0_end lidar_0_sensed lidar_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent 
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F success ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.004 seconds.
+
+Warning: Deadlocks detected and fixed in 3 states
+
+Type:        DTMC
+States:      8 (1 initial)
+Transitions: 10
+
+Transition matrix: 111 nodes (6 terminal), 10 minterms, vars: 9r/9c
+
+Prob0: 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 1, no = 2, maybe = 5
+
+Computing remaining probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=9, nodes=91] [4.3 KB]
+Adding explicit sparse matrices... [levels=9, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [4.5 KB]
+
+Starting iterations...
+
+Jacobi: 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.9506
+
+Time for model checking: 0.001 seconds.
+
+Result: 0.9506 (value in the initial state)
+
+Type:        DTMC
+Modules:     lidar_0 laserScanTopic_0 mrpt_0 
+Variables:   lidar_0_sensed lidar_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent mrpt_0_processedOK mrpt_0_received mrpt_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: R{"timeRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.002 seconds.
+
+Warning: Deadlocks detected and fixed in 3 states
+
+Type:        DTMC
+States:      8 (1 initial)
+Transitions: 10
+
+Transition matrix: 87 nodes (6 terminal), 10 minterms, vars: 9r/9c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 4, inf = 0, maybe = 4
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=9, nodes=69] [3.2 KB]
+Adding explicit sparse matrices... [levels=9, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [3.5 KB]
+
+Starting iterations...
+
+Jacobi: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 1.164
+
+Time for model checking: 0.001 seconds.
+
+Result: 1.164 (value in the initial state)
+
+Type:        DTMC
+Modules:     markerPoseTopic_0 camera_0 markerRecognizer_0 sensorMsgsImageTopic_0 markerLocalization_0 headlamp_0 
+Variables:   markerPoseTopic_0_processed markerPoseTopic_0_dropped markerPoseTopic_0_received markerPoseTopic_0_sent camera_0_sensed camera_0_sent markerRecognizer_0_received markerRecognizer_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent markerLocalization_0_processedOK markerLocalization_0_received markerLocalization_0_end headlamp_0_enabled 
+
+---------------------------------------------------------------------
+
+Model checking: R{"timeRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.002 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 250 nodes (8 terminal), 15 minterms, vars: 16r/16c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000250, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 5, inf = 0, maybe = 7
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=16, nodes=198] [9.3 KB]
+Adding explicit sparse matrices... [levels=16, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [9.6 KB]
+
+Starting iterations...
+
+Jacobi: 7 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 2.6117399999999997
+
+Time for model checking: 0.001 seconds.
+
+Result: 2.6117399999999997 (value in the initial state)
+
+Type:        DTMC
+Modules:     markerPoseTopic_0 camera_0 markerRecognizer_0 sensorMsgsImageTopic_0 markerLocalization_0 
+Variables:   markerPoseTopic_0_processed markerPoseTopic_0_dropped markerPoseTopic_0_received markerPoseTopic_0_sent camera_0_sensed camera_0_sent markerRecognizer_0_received markerRecognizer_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent markerLocalization_0_processedOK markerLocalization_0_received markerLocalization_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: R{"timeRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.002 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 236 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 5, inf = 0, maybe = 7
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=188] [8.8 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [9.2 KB]
+
+Starting iterations...
+
+Jacobi: 7 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 2.6117399999999997
+
+Time for model checking: 0.001 seconds.
+
+Result: 2.6117399999999997 (value in the initial state)
+
+Type:        DTMC
+Modules:     laserscanNodelet_0 sensorMsgsImageTopic_0 laserScanTopic_0 kinect_0 mrpt_0 
+Variables:   laserscanNodelet_0_received laserscanNodelet_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent kinect_0_sensed kinect_0_sent mrpt_0_processedOK mrpt_0_received mrpt_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: R{"timeRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000111, setup 0.00)
+
+Time for model construction: 0.001 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 221 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 5, inf = 0, maybe = 7
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=192] [9.0 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [9.4 KB]
+
+Starting iterations...
+
+Jacobi: 7 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 2.9701799999999996
+
+Time for model checking: 0.001 seconds.
+
+Result: 2.9701799999999996 (value in the initial state)
+
+Type:        DTMC
+Modules:     laserscanNodelet_0 amcl_0 sensorMsgsImageTopic_0 laserScanTopic_0 kinect_0 
+Variables:   laserscanNodelet_0_received laserscanNodelet_0_sent amcl_0_processedOK amcl_0_received amcl_0_end sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent kinect_0_sensed kinect_0_sent 
+
+---------------------------------------------------------------------
+
+Model checking: R{"timeRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.016 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 267 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 5, inf = 0, maybe = 7
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=187] [8.8 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [9.1 KB]
+
+Starting iterations...
+
+Jacobi: 7 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 2.9701799999999996
+
+Time for model checking: 0.0 seconds.
+
+Result: 2.9701799999999996 (value in the initial state)
+
+Type:        DTMC
+Modules:     amcl_0 lidar_0 laserScanTopic_0 
+Variables:   amcl_0_processedOK amcl_0_received amcl_0_end lidar_0_sensed lidar_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent 
+
+---------------------------------------------------------------------
+
+Model checking: R{"timeRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.001 seconds.
+
+Warning: Deadlocks detected and fixed in 3 states
+
+Type:        DTMC
+States:      8 (1 initial)
+Transitions: 10
+
+Transition matrix: 111 nodes (6 terminal), 10 minterms, vars: 9r/9c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 4, inf = 0, maybe = 4
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=9, nodes=58] [2.7 KB]
+Adding explicit sparse matrices... [levels=9, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [2.9 KB]
+
+Starting iterations...
+
+Jacobi: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 1.164
+
+Time for model checking: 0.0 seconds.
+
+Result: 1.164 (value in the initial state)
+
+Type:        DTMC
+Modules:     lidar_0 laserScanTopic_0 mrpt_0 
+Variables:   lidar_0_sensed lidar_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent mrpt_0_processedOK mrpt_0_received mrpt_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: R{"energyRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.0 seconds.
+
+Warning: Deadlocks detected and fixed in 3 states
+
+Type:        DTMC
+States:      8 (1 initial)
+Transitions: 10
+
+Transition matrix: 87 nodes (6 terminal), 10 minterms, vars: 9r/9c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 4, inf = 0, maybe = 4
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=9, nodes=69] [3.2 KB]
+Adding explicit sparse matrices... [levels=9, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [3.5 KB]
+
+Starting iterations...
+
+Jacobi: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 34.85
+
+Time for model checking: 0.001 seconds.
+
+Result: 34.85 (value in the initial state)
+
+Type:        DTMC
+Modules:     markerPoseTopic_0 camera_0 markerRecognizer_0 sensorMsgsImageTopic_0 markerLocalization_0 headlamp_0 
+Variables:   markerPoseTopic_0_processed markerPoseTopic_0_dropped markerPoseTopic_0_received markerPoseTopic_0_sent camera_0_sensed camera_0_sent markerRecognizer_0_received markerRecognizer_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent markerLocalization_0_processedOK markerLocalization_0_received markerLocalization_0_end headlamp_0_enabled 
+
+---------------------------------------------------------------------
+
+Model checking: R{"energyRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.006 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 250 nodes (8 terminal), 15 minterms, vars: 16r/16c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000250, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 5, inf = 0, maybe = 7
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=16, nodes=198] [9.3 KB]
+Adding explicit sparse matrices... [levels=16, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [9.6 KB]
+
+Starting iterations...
+
+Jacobi: 7 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 24.8556
+
+Time for model checking: 0.001 seconds.
+
+Result: 24.8556 (value in the initial state)
+
+Type:        DTMC
+Modules:     markerPoseTopic_0 camera_0 markerRecognizer_0 sensorMsgsImageTopic_0 markerLocalization_0 
+Variables:   markerPoseTopic_0_processed markerPoseTopic_0_dropped markerPoseTopic_0_received markerPoseTopic_0_sent camera_0_sensed camera_0_sent markerRecognizer_0_received markerRecognizer_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent markerLocalization_0_processedOK markerLocalization_0_received markerLocalization_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: R{"energyRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.005 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 236 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 5, inf = 0, maybe = 7
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=188] [8.8 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [9.2 KB]
+
+Starting iterations...
+
+Jacobi: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 12.0
+
+Time for model checking: 0.001 seconds.
+
+Result: 12.0 (value in the initial state)
+
+Type:        DTMC
+Modules:     laserscanNodelet_0 sensorMsgsImageTopic_0 laserScanTopic_0 kinect_0 mrpt_0 
+Variables:   laserscanNodelet_0_received laserscanNodelet_0_sent sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent kinect_0_sensed kinect_0_sent mrpt_0_processedOK mrpt_0_received mrpt_0_end 
+
+---------------------------------------------------------------------
+
+Model checking: R{"energyRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.002 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 221 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 5, inf = 0, maybe = 7
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=192] [9.0 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [9.4 KB]
+
+Starting iterations...
+
+Jacobi: 7 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 14.2195
+
+Time for model checking: 0.0 seconds.
+
+Result: 14.2195 (value in the initial state)
+
+Type:        DTMC
+Modules:     laserscanNodelet_0 amcl_0 sensorMsgsImageTopic_0 laserScanTopic_0 kinect_0 
+Variables:   laserscanNodelet_0_received laserscanNodelet_0_sent amcl_0_processedOK amcl_0_received amcl_0_end sensorMsgsImageTopic_0_processed sensorMsgsImageTopic_0_dropped sensorMsgsImageTopic_0_received sensorMsgsImageTopic_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent kinect_0_sensed kinect_0_sent 
+
+---------------------------------------------------------------------
+
+Model checking: R{"energyRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 9 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.002 seconds.
+
+Warning: Deadlocks detected and fixed in 4 states
+
+Type:        DTMC
+States:      12 (1 initial)
+Transitions: 15
+
+Transition matrix: 267 nodes (8 terminal), 15 minterms, vars: 15r/15c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000250, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 5, inf = 0, maybe = 7
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=187] [8.8 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [9.1 KB]
+
+Starting iterations...
+
+Jacobi: 7 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 20.126800000000003
+
+Time for model checking: 0.001 seconds.
+
+Result: 20.126800000000003 (value in the initial state)
+
+Type:        DTMC
+Modules:     amcl_0 lidar_0 laserScanTopic_0 
+Variables:   amcl_0_processedOK amcl_0_received amcl_0_end lidar_0_sensed lidar_0_sent laserScanTopic_0_processed laserScanTopic_0_dropped laserScanTopic_0_received laserScanTopic_0_sent 
+
+---------------------------------------------------------------------
+
+Model checking: R{"energyRew"}=? [ F (dropped|locReceived|success) ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.002 seconds.
+
+Warning: Deadlocks detected and fixed in 3 states
+
+Type:        DTMC
+States:      8 (1 initial)
+Transitions: 10
+
+Transition matrix: 111 nodes (6 terminal), 10 minterms, vars: 9r/9c
+
+Prob0: 4 iterations in 0.00 seconds (average 0.000250, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+goal = 4, inf = 0, maybe = 4
+
+Computing remaining rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=9, nodes=58] [2.7 KB]
+Adding explicit sparse matrices... [levels=9, num=1, compact] [0.1 KB]
+Creating vector for diagonals... [dist=1, compact] [0.0 KB]
+Creating vector for RHS... [dist=3, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.1 KB]
+TOTAL: [3.0 KB]
+
+Starting iterations...
+
+Jacobi: 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 41.64
+
+Time for model checking: 0.001 seconds.
+
+Result: 41.64 (value in the initial state)

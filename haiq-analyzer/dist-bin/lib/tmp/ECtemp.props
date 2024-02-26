@@ -1,0 +1,2 @@
+//objective, min
+R{"energyRew"}=? [ F (dropped | locReceived | success) ]

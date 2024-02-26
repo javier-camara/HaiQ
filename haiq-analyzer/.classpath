@@ -6,15 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="ECLIPSE_HOME">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="lib/gluegen-rt-natives-macosx-universal.jar"/>
-	<classpathentry kind="lib" path="lib/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="lib/jogl-all-natives-macosx-universal.jar"/>
-	<classpathentry kind="lib" path="lib/jogl-all.jar"/>
 	<classpathentry kind="lib" path="lib/alloy4.2.jar"/>
 	<classpathentry kind="lib" path="libprism/jas.jar"/>
 	<classpathentry kind="lib" path="libprism/jhoafparser.jar"/>
@@ -27,5 +18,12 @@
 	<classpathentry kind="lib" path="libprism/prism.jar"/>
 	<classpathentry kind="lib" path="libprism/ppl_java.jar"/>
 	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/EvoChecker-1.1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/javier/Dropbox/Documents/Work/Projects/HaiQ-project/haiq-analyzer/dist-bin/lib/haiq_lib/jung-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/javier/Dropbox/Documents/Work/Projects/HaiQ-project/haiq-analyzer/dist-bin/lib/haiq_lib/jung-algorithms-2.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/javier/Dropbox/Documents/Work/Projects/HaiQ-project/haiq-analyzer/dist-bin/lib/haiq_lib/jung-graph-impl-2.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/javier/Dropbox/Documents/Work/Projects/HaiQ-project/haiq-analyzer/dist-bin/lib/haiq_lib/jung-io-2.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/javier/Dropbox/Documents/Work/Projects/HaiQ-project/haiq-analyzer/dist-bin/lib/haiq_lib/jung-jai-2.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/collections-generic-4.01.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

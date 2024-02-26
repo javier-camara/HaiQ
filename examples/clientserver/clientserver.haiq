@@ -31,5 +31,5 @@ pred clientserver {
 label OKsent [all c:x=true]          // Predicate "all client requests correctly issued"
 label OKrecv [some s:x=true]         // Predicate "at least one request correctly received"
 property rangeP [F OKsent & OKrecv]  // Range minimum-maximum probability of satisfying OKsent & OKrecv
-property SmaxP [F OKsent & OKrecv]   // Identify configuration that maximizes probability of OKsent & OKrecv
-run clientserver for exactly 1 c, exactly 2 s        // Explore configurations for a maximum of n clients and m servers...
+property maxPmax [F OKsent & OKrecv]   // Identify configuration that maximizes probability of OKsent & OKrecv
+run clientserver for 1 c, 2 s        // Explore configurations for a maximum of n clients and m servers...

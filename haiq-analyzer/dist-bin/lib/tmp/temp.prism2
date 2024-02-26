@@ -1,0 +1,195 @@
+mdp
+
+ formula adaptation_enabled = INIT_ADAPTATION_ENABLED>0? true: false;
+ global c2: [0..100] init INIT_C2;
+formula link_0_p_pass_captcha = link_0_captcha_enabled?(1-p_compromised)*CAPTCHA_EFFECTIVENESS:1;
+module link_0
+link_0_captcha_enabled : bool init false;
+link_0_request_received : bool init false;
+link_0_captcha_done : bool init false;
+	[_connect_link_0_device_4] (!link_0_request_received & !link_0_captcha_done) -> link_0_p_pass_captcha : (link_0_request_received'=true) & (link_0_captcha_done'=true);
+	[_connect_server_1_link_0] (!link_0_request_received & !link_0_captcha_done) -> link_0_p_pass_captcha : (link_0_request_received'=true) & (link_0_captcha_done'=true);
+	[_forward_link_0_device_4] (link_0_request_received & link_0_captcha_done) -> 1 : (link_0_request_received'=false) & (link_0_captcha_done'=false);
+	[_forward_server_1_link_0] (link_0_request_received & link_0_captcha_done) -> 1 : (link_0_request_received'=false) & (link_0_captcha_done'=false);
+	[_reset_link_0_device_4] (link_0_captcha_done & !link_0_request_received) -> 1 : (link_0_captcha_done'=false);
+	[_reset_server_1_link_0] (link_0_captcha_done & !link_0_request_received) -> 1 : (link_0_captcha_done'=false);
+	[enable_captcha] (adaptation_enabled & !link_0_captcha_enabled & !link_0_request_received) -> (link_0_captcha_enabled'=true);
+	[disable_captcha] (adaptation_enabled & link_0_captcha_enabled & !link_0_request_received) -> (link_0_captcha_enabled'=false);
+endmodule
+
+formula link_1_p_pass_captcha = link_1_captcha_enabled?(1-p_compromised)*CAPTCHA_EFFECTIVENESS:1;
+module link_1
+link_1_captcha_enabled : bool init false;
+link_1_request_received : bool init false;
+link_1_captcha_done : bool init false;
+	[_connect_link_1_device_3] (!link_1_request_received & !link_1_captcha_done) -> link_1_p_pass_captcha : (link_1_request_received'=true) & (link_1_captcha_done'=true);
+	[_connect_server_0_link_1] (!link_1_request_received & !link_1_captcha_done) -> link_1_p_pass_captcha : (link_1_request_received'=true) & (link_1_captcha_done'=true);
+	[_forward_link_1_device_3] (link_1_request_received & link_1_captcha_done) -> 1 : (link_1_request_received'=false) & (link_1_captcha_done'=false);
+	[_forward_server_0_link_1] (link_1_request_received & link_1_captcha_done) -> 1 : (link_1_request_received'=false) & (link_1_captcha_done'=false);
+	[_reset_link_1_device_3] (link_1_captcha_done & !link_1_request_received) -> 1 : (link_1_captcha_done'=false);
+	[_reset_server_0_link_1] (link_1_captcha_done & !link_1_request_received) -> 1 : (link_1_captcha_done'=false);
+	[enable_captcha] (adaptation_enabled & !link_1_captcha_enabled & !link_1_request_received) -> (link_1_captcha_enabled'=true);
+	[disable_captcha] (adaptation_enabled & link_1_captcha_enabled & !link_1_request_received) -> (link_1_captcha_enabled'=false);
+endmodule
+
+module server_1
+server_1_request_received_server : bool init false;
+server_1_ip_blocked : bool init false;
+	[_forward_server_1_link_0] (!server_1_ip_blocked) -> (server_1_request_received_server'=true);
+	[_compromise_device_server_1_link_0] (server_1_request_received_server) -> (server_1_request_received_server'=false);
+endmodule
+
+formula link_4_p_pass_captcha = link_4_captcha_enabled?(1-p_compromised)*CAPTCHA_EFFECTIVENESS:1;
+module link_4
+link_4_captcha_enabled : bool init false;
+link_4_request_received : bool init false;
+link_4_captcha_done : bool init false;
+	[_connect_link_4_device_0] (!link_4_request_received & !link_4_captcha_done) -> link_4_p_pass_captcha : (link_4_request_received'=true) & (link_4_captcha_done'=true);
+	[_connect_server_0_link_4] (!link_4_request_received & !link_4_captcha_done) -> link_4_p_pass_captcha : (link_4_request_received'=true) & (link_4_captcha_done'=true);
+	[_forward_link_4_device_0] (link_4_request_received & link_4_captcha_done) -> 1 : (link_4_request_received'=false) & (link_4_captcha_done'=false);
+	[_forward_server_0_link_4] (link_4_request_received & link_4_captcha_done) -> 1 : (link_4_request_received'=false) & (link_4_captcha_done'=false);
+	[_reset_link_4_device_0] (link_4_captcha_done & !link_4_request_received) -> 1 : (link_4_captcha_done'=false);
+	[_reset_server_0_link_4] (link_4_captcha_done & !link_4_request_received) -> 1 : (link_4_captcha_done'=false);
+	[enable_captcha] (adaptation_enabled & !link_4_captcha_enabled & !link_4_request_received) -> (link_4_captcha_enabled'=true);
+	[disable_captcha] (adaptation_enabled & link_4_captcha_enabled & !link_4_request_received) -> (link_4_captcha_enabled'=false);
+endmodule
+
+module cservice_0
+endmodule
+
+formula link_2_p_pass_captcha = link_2_captcha_enabled?(1-p_compromised)*CAPTCHA_EFFECTIVENESS:1;
+module link_2
+link_2_captcha_enabled : bool init false;
+link_2_request_received : bool init false;
+link_2_captcha_done : bool init false;
+	[_connect_link_2_device_2] (!link_2_request_received & !link_2_captcha_done) -> link_2_p_pass_captcha : (link_2_request_received'=true) & (link_2_captcha_done'=true);
+	[_connect_server_0_link_2] (!link_2_request_received & !link_2_captcha_done) -> link_2_p_pass_captcha : (link_2_request_received'=true) & (link_2_captcha_done'=true);
+	[_forward_link_2_device_2] (link_2_request_received & link_2_captcha_done) -> 1 : (link_2_request_received'=false) & (link_2_captcha_done'=false);
+	[_forward_server_0_link_2] (link_2_request_received & link_2_captcha_done) -> 1 : (link_2_request_received'=false) & (link_2_captcha_done'=false);
+	[_reset_link_2_device_2] (link_2_captcha_done & !link_2_request_received) -> 1 : (link_2_captcha_done'=false);
+	[_reset_server_0_link_2] (link_2_captcha_done & !link_2_request_received) -> 1 : (link_2_captcha_done'=false);
+	[enable_captcha] (adaptation_enabled & !link_2_captcha_enabled & !link_2_request_received) -> (link_2_captcha_enabled'=true);
+	[disable_captcha] (adaptation_enabled & link_2_captcha_enabled & !link_2_request_received) -> (link_2_captcha_enabled'=false);
+endmodule
+
+formula link_3_p_pass_captcha = link_3_captcha_enabled?(1-p_compromised)*CAPTCHA_EFFECTIVENESS:1;
+module link_3
+link_3_captcha_enabled : bool init false;
+link_3_request_received : bool init false;
+link_3_captcha_done : bool init false;
+	[_connect_server_0_link_3] (!link_3_request_received & !link_3_captcha_done) -> link_3_p_pass_captcha : (link_3_request_received'=true) & (link_3_captcha_done'=true);
+	[_connect_link_3_device_1] (!link_3_request_received & !link_3_captcha_done) -> link_3_p_pass_captcha : (link_3_request_received'=true) & (link_3_captcha_done'=true);
+	[_forward_server_0_link_3] (link_3_request_received & link_3_captcha_done) -> 1 : (link_3_request_received'=false) & (link_3_captcha_done'=false);
+	[_forward_link_3_device_1] (link_3_request_received & link_3_captcha_done) -> 1 : (link_3_request_received'=false) & (link_3_captcha_done'=false);
+	[_reset_server_0_link_3] (link_3_captcha_done & !link_3_request_received) -> 1 : (link_3_captcha_done'=false);
+	[_reset_link_3_device_1] (link_3_captcha_done & !link_3_request_received) -> 1 : (link_3_captcha_done'=false);
+	[enable_captcha] (adaptation_enabled & !link_3_captcha_enabled & !link_3_request_received) -> (link_3_captcha_enabled'=true);
+	[disable_captcha] (adaptation_enabled & link_3_captcha_enabled & !link_3_request_received) -> (link_3_captcha_enabled'=false);
+endmodule
+
+formula device_2_fully_compromised = device_2_compromised>99;
+formula device_2_try = device_2_request_count<MAX_REQUESTS;
+formula device_2_p_compromised = device_2_compromised/100;
+formula device_2_update_compromised = device_2_compromised+c2>99?100:device_2_compromised+c2;
+module device_2
+device_2_request_sent : bool init false;
+device_2_compromised : [0..100] init INIT_COMPROMISED;
+device_2_quarantined : bool init false;
+device_2_request_count : [0..MAX_REQUESTS] init 0;
+	[_connect_link_2_device_2] (!device_2_quarantined & !device_2_request_sent & device_2_try) -> (device_2_request_sent'=true) & (device_2_request_count'=device_2_request_count+1);
+	[connect_mute] (device_2_quarantined & !device_2_request_sent & device_2_try) -> (device_2_request_count'=device_2_request_count+1);
+	[_compromise_device_link_2_device_2] (!device_2_quarantined & device_2_request_sent) -> 1 : (device_2_request_sent'=false) & (device_2_compromised'=device_2_compromised);
+	[_reset_link_2_device_2] (device_2_request_sent & link_2_captcha_enabled & link_2_captcha_done & !link_2_request_received) -> 1 : (device_2_request_sent'=false);
+	[enable_quarantine] (adaptation_enabled & !device_2_quarantined) -> (device_2_quarantined'=true);
+	[disable_quarantine] (adaptation_enabled & device_2_quarantined) -> (device_2_quarantined'=false);
+endmodule
+
+formula device_3_fully_compromised = device_3_compromised>99;
+formula device_3_try = device_3_request_count<MAX_REQUESTS;
+formula device_3_p_compromised = device_3_compromised/100;
+formula device_3_update_compromised = device_3_compromised+c2>99?100:device_3_compromised+c2;
+module device_3
+device_3_request_sent : bool init false;
+device_3_compromised : [0..100] init INIT_COMPROMISED;
+device_3_quarantined : bool init false;
+device_3_request_count : [0..MAX_REQUESTS] init 0;
+	[_connect_link_1_device_3] (!device_3_quarantined & !device_3_request_sent & device_3_try) -> (device_3_request_sent'=true) & (device_3_request_count'=device_3_request_count+1);
+	[connect_mute] (device_3_quarantined & !device_3_request_sent & device_3_try) -> (device_3_request_count'=device_3_request_count+1);
+	[_compromise_device_link_1_device_3] (!device_3_quarantined & device_3_request_sent) -> 1 : (device_3_request_sent'=false) & (device_3_compromised'=device_3_compromised);
+	[_reset_link_1_device_3] (device_3_request_sent & link_1_captcha_enabled & link_1_captcha_done & !link_1_request_received) -> 1 : (device_3_request_sent'=false);
+	[enable_quarantine] (adaptation_enabled & !device_3_quarantined) -> (device_3_quarantined'=true);
+	[disable_quarantine] (adaptation_enabled & device_3_quarantined) -> (device_3_quarantined'=false);
+endmodule
+
+formula device_4_fully_compromised = device_4_compromised>99;
+formula device_4_try = device_4_request_count<MAX_REQUESTS;
+formula device_4_p_compromised = device_4_compromised/100;
+formula device_4_update_compromised = device_4_compromised+c2>99?100:device_4_compromised+c2;
+module device_4
+device_4_request_sent : bool init false;
+device_4_compromised : [0..100] init INIT_COMPROMISED;
+device_4_quarantined : bool init false;
+device_4_request_count : [0..MAX_REQUESTS] init 0;
+	[_connect_link_0_device_4] (!device_4_quarantined & !device_4_request_sent & device_4_try) -> (device_4_request_sent'=true) & (device_4_request_count'=device_4_request_count+1);
+	[connect_mute] (device_4_quarantined & !device_4_request_sent & device_4_try) -> (device_4_request_count'=device_4_request_count+1);
+	[_compromise_device_link_0_device_4] (!device_4_quarantined & device_4_request_sent) -> 1 : (device_4_request_sent'=false) & (device_4_compromised'=device_4_compromised);
+	[_reset_link_0_device_4] (device_4_request_sent & link_0_captcha_enabled & link_0_captcha_done & !link_0_request_received) -> 1 : (device_4_request_sent'=false);
+	[enable_quarantine] (adaptation_enabled & !device_4_quarantined) -> (device_4_quarantined'=true);
+	[disable_quarantine] (adaptation_enabled & device_4_quarantined) -> (device_4_quarantined'=false);
+endmodule
+
+module server_0
+server_0_request_received_server : bool init false;
+server_0_ip_blocked : bool init false;
+	[_forward_server_0_link_2] (!server_0_ip_blocked) -> (server_0_request_received_server'=true);
+	[_forward_server_0_link_1] (!server_0_ip_blocked) -> (server_0_request_received_server'=true);
+	[_forward_server_0_link_4] (!server_0_ip_blocked) -> (server_0_request_received_server'=true);
+	[_forward_server_0_link_3] (!server_0_ip_blocked) -> (server_0_request_received_server'=true);
+	[_compromise_device_server_0_link_2] (server_0_request_received_server) -> (server_0_request_received_server'=false);
+	[_compromise_device_server_0_link_1] (server_0_request_received_server) -> (server_0_request_received_server'=false);
+	[_compromise_device_server_0_link_4] (server_0_request_received_server) -> (server_0_request_received_server'=false);
+	[_compromise_device_server_0_link_3] (server_0_request_received_server) -> (server_0_request_received_server'=false);
+endmodule
+
+formula device_0_fully_compromised = device_0_compromised>99;
+formula device_0_try = device_0_request_count<MAX_REQUESTS;
+formula device_0_p_compromised = device_0_compromised/100;
+formula device_0_update_compromised = device_0_compromised+c2>99?100:device_0_compromised+c2;
+module device_0
+device_0_request_sent : bool init false;
+device_0_compromised : [0..100] init INIT_COMPROMISED;
+device_0_quarantined : bool init false;
+device_0_request_count : [0..MAX_REQUESTS] init 0;
+	[_connect_link_4_device_0] (!device_0_quarantined & !device_0_request_sent & device_0_try) -> (device_0_request_sent'=true) & (device_0_request_count'=device_0_request_count+1);
+	[connect_mute] (device_0_quarantined & !device_0_request_sent & device_0_try) -> (device_0_request_count'=device_0_request_count+1);
+	[_compromise_device_link_4_device_0] (!device_0_quarantined & device_0_request_sent) -> 1 : (device_0_request_sent'=false) & (device_0_compromised'=device_0_compromised);
+	[_reset_link_4_device_0] (device_0_request_sent & link_4_captcha_enabled & link_4_captcha_done & !link_4_request_received) -> 1 : (device_0_request_sent'=false);
+	[enable_quarantine] (adaptation_enabled & !device_0_quarantined) -> (device_0_quarantined'=true);
+	[disable_quarantine] (adaptation_enabled & device_0_quarantined) -> (device_0_quarantined'=false);
+endmodule
+
+formula device_1_fully_compromised = device_1_compromised>99;
+formula device_1_try = device_1_request_count<MAX_REQUESTS;
+formula device_1_p_compromised = device_1_compromised/100;
+formula device_1_update_compromised = device_1_compromised+c2>99?100:device_1_compromised+c2;
+module device_1
+device_1_request_sent : bool init false;
+device_1_compromised : [0..100] init INIT_COMPROMISED;
+device_1_quarantined : bool init false;
+device_1_request_count : [0..MAX_REQUESTS] init 0;
+	[_connect_link_3_device_1] (!device_1_quarantined & !device_1_request_sent & device_1_try) -> (device_1_request_sent'=true) & (device_1_request_count'=device_1_request_count+1);
+	[connect_mute] (device_1_quarantined & !device_1_request_sent & device_1_try) -> (device_1_request_count'=device_1_request_count+1);
+	[_compromise_device_link_3_device_1] (!device_1_quarantined & device_1_request_sent) -> 1 : (device_1_request_sent'=false) & (device_1_compromised'=device_1_compromised);
+	[_reset_link_3_device_1] (device_1_request_sent & link_3_captcha_enabled & link_3_captcha_done & !link_3_request_received) -> 1 : (device_1_request_sent'=false);
+	[enable_quarantine] (adaptation_enabled & !device_1_quarantined) -> (device_1_quarantined'=true);
+	[disable_quarantine] (adaptation_enabled & device_1_quarantined) -> (device_1_quarantined'=false);
+endmodule
+
+const INIT_ADAPTATION_ENABLED = 0;
+const double CAPTCHA_EFFECTIVENESS = 0.5;
+const INIT_C2;
+const MAX_REQUESTS = 5;
+const INIT_COMPROMISED;
+const double p_compromised = 0.5;
+formula allcompromised = device_0_fully_compromised=true & device_1_fully_compromised=true & device_2_fully_compromised=true & device_3_fully_compromised=true & device_4_fully_compromised=true;
+formula allnottry = device_0_try=false & device_1_try=false & device_2_try=false & device_3_try=false & device_4_try=false;

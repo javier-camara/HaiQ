@@ -11,6 +11,7 @@ public class HQModel {
 	private ModelType m_type;
 	
 	private HashMap<String, HQProcess> m_processes = new HashMap<String, HQProcess>();
+	private HashMap<String, HQRelationCollection> m_relation_collections = new HashMap<String, HQRelationCollection>();
 	private HashMap<String, HQVariable> m_vars = new HashMap<String, HQVariable>();
 	private HashMap<String, HQFormula> m_formulas = new HashMap<String, HQFormula>();
 	private HashMap<String, HQEnum> m_enums = new HashMap<String, HQEnum>();
@@ -107,6 +108,10 @@ public class HQModel {
 		this.m_type = m_type;
 	}
 
+	public void addRelationCollection(HQRelationCollection c) {
+		this.m_relation_collections.put(c.getId(), c);
+	}
+	
 	public void addVariable(HQVariable v){
 		this.m_vars.put(v.getId(), v);
 	}
@@ -134,6 +139,15 @@ public class HQModel {
 		return m_processes;
 	}
 
+	
+	public HashMap<String, HQRelationCollection> getRelationCollections() {
+		return m_relation_collections;
+	}
+
+	public HQRelationCollection getRelationCollection(String id) {
+		return m_relation_collections.get(id);
+	}
+	
 	/**
 	 * @return the m_globals
 	 */

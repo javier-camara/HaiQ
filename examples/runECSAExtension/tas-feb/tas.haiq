@@ -1,0 +1,272 @@
+// ----------------------------------------------------------------------------
+// tas.haiq - Tele-Assistance System (TAS) HaiQ model 
+// (c) 2017 Javier Camara 
+// Email: jcmoreno@cs.cmu.edu
+// Web: http://www.scs.cmu.edu/~jcmoreno
+// 5/4/2017
+// ----------------------------------------------------------------------------
+// This model is based on the Tele Assistance Model Exemplar described in:
+// http://homepage.lnu.se/staff/daweaa/TAS/tas.htm
+// A comprehensive description of the exemplar can be found in:
+//    Danny Weyns, Radu Calinescu: 
+//    Tele Assistance: A Self-Adaptive Service-Based System Exemplar.
+//    SEAMS@ICSE 2015: 88-92
+//    DOI: 10.1109/SEAMS.2015.27
+//-----------------------------------------------------------------------------
+
+ModelType: dtmc;
+
+const MAX_TIMEOUTS;
+const TIMEOUT_MULT_FACTOR;
+
+const double AS1_FR;
+const AS1_RT;
+const double AS1_C;
+
+const double AS2_FR;
+const AS2_RT;
+const double AS2_C;
+
+const double AS3_FR;
+const AS3_RT;
+const double AS3_C;
+
+const double MS1_FR;
+const MS1_RT;
+const double MS1_C;
+
+const double MS2_FR;
+const MS2_RT;
+const double MS2_C;
+
+const double MS3_FR;
+const MS3_RT;
+const double MS3_C;
+
+const double MS4_FR;
+const MS4_RT;
+const double MS4_C;
+
+const double MS5_FR;
+const MS5_RT;
+const double MS5_C;
+
+const double DS1_FR;
+const DS1_RT;
+const double DS1_C;
+
+
+one sig TASWorkflow {
+	MSBindings : set MedicalAnalysisService,
+	ABindings  : set AlarmService,
+	DBindings  : set DrugService,
+	ServiceBindings : set ServiceProvider}
+fact {all w:TASWorkflow | w.ServiceBindings = w.MSBindings + w.ABindings + w.DBindings}
+fact {all w:TASWorkflow | not disj [w.ServiceBindings, MedicalAnalysisService] and
+      not disj [w.ServiceBindings, DrugService] and not disj [w.ServiceBindings, AlarmService]}
+</
+enum tasks:{notSelected, getVitalParams, buttonMsg};
+enum analysisResultTypes:{none, patientOK, changeDrug, changeDose, sendAlarm};
+
+var task:[tasks] init notSelected; 
+var analysisResult:[analysisResultTypes] init none;
+
+var MSInvoked: bool init false; 
+var DInvoked: bool init false; 
+var AInvoked : bool init false;
+var workflowOK : bool init false;
+var workflowDone : bool init false;
+
+var timeouts:[0..MAX_TIMEOUTS] init MAX_TIMEOUTS;
+
+[pickTask] (task=notSelected) -> 0.5: (task'=getVitalParams) + 0.5: (task'=buttonMsg);
+
+//1. pickTask selected buttonMsg -- override analysis and go directly to sendAlarm (2b)
+[] (task=buttonMsg) & (!MSInvoked) -> (MSInvoked'=true) & (analysisResult=sendAlarm) 
+
+//2. PickTask selected getVitalParams
+[MSBindings:analyzeDataCall] (task=getVitalParams) & (!MSInvoked) -> (MSInvoked'=true);
+
+[MSBindings:analysisResultPatientOK]  (MSInvoked) -> (analysisResult'=patientOK) & (workflowOK'=true) & (workflowDone'=true);
+[MSBindings:analysisResultChangeDrug] (MSInvoked) -> (analysisResult'=changeDrug);
+[MSBindings:analysisResultChangeDose] (MSInvoked) -> (analysisResult'=changeDose);
+[MSBindings:analysisResultSendAlarm]  (MSInvoked) -> (analysisResult'=sendAlarm);
+[MSBindings:timeout] (timeouts>0) & (MSInvoked)   -> (MSInvoked'=false) & (timeouts=timeouts-1);
+[MSBindings:timeout] (timeouts=0) & (MSInvoked)   -> (workflowDone'=true);
+
+//2a. Medical Analysis Service determined to change drug or dose
+[DBindings:changeDrugCall] (MSInvoked) & (!DInvoked) & (analysisResult=changeDrug) -> (DInvoked'=true);
+[DBindings:changeDrugOK]   (DInvoked) -> (workflowOK'=true) & (workflowDone'=true);
+[DBindings:changeDoseCall] (MSInvoked) & (!DInvoked) & (analysisResult=changeDose) -> (DInvoked'=true);
+[DBindings:changeDoseOK]   (DInvoked) -> (workflowOK'=true) & (workflowDone'=true);
+[DBindings:timeout] (timeouts>0) & (DInvoked) -> (DInvoked'=false) & (timeouts=timeouts-1);
+[DBindings:timeout] (timeouts=0) & (DInvoked) -> (workflowDone'=true);
+
+//2b. Medical Analysis Service determined to raise alarm
+[ABindings:sendAlarmCall] (MSInvoked) & (!AInvoked) & (analysisResult=sendAlarm) -> (AInvoked'=true);
+[ABindings:sendAlarmOK]   (AInvoked) -> (workflowOK'=true) & (workflowDone'=true);
+[ABindings:timeout] (timeouts>0) & (AInvoked) -> (AInvoked'=false) & (timeouts=timeouts-1);
+[ABindings:timeout] (timeouts=0) & (AInvoked) -> (workflowDone'=true);
+/>
+
+//-----------------------------------------------------------------------------
+abstract sig ServiceProvider { WorkflowBinding : one TASWorkflow }
+fact {all sp:ServiceProvider, w:TASWorkflow | sp in w.ServiceBindings <=> w=sp.WorkflowBinding}
+</
+  formula failure_rate;
+  formula response_time;
+  formula cost;
+/>
+
+//-----------------------------------------------------------------------------
+abstract sig MedicalAnalysisService extends ServiceProvider {}
+</ 
+  formula failure_rate;
+  formula response_time;
+  formula cost;
+  var serviceOK: bool init false;
+  var ready : bool init true;
+  
+  [WorkflowBinding:analyzeDataCall] (ready) -> failure_rate: (serviceOK'=false) & (ready'=false) + 1-failure_rate: (serviceOK'=true) & (ready'=false);
+  [WorkflowBinding:analysisResultPatientOK]  (!ready) & (serviceOK)  -> (serviceOK'=false) & (ready'=true);
+  [WorkflowBinding:analysisResultChangeDrug] (!ready) & (serviceOK)  -> (serviceOK'=false) & (ready'=true);
+  [WorkflowBinding:analysisResultChangeDose] (!ready) & (serviceOK)  -> (serviceOK'=false) & (ready'=true);
+  [WorkflowBinding:analysisResultSendAlarm]  (!ready) & (serviceOK)  -> (serviceOK'=false) & (ready'=true);
+  [WorkflowBinding:timeout]                  (!ready) & (!serviceOK) -> (ready'=true);
+  
+  reward timeRew [WorkflowBinding:analysisResultPatientOK]  true : response_time;
+  reward timeRew [WorkflowBinding:analysisResultChangeDrug] true : response_time;
+  reward timeRew [WorkflowBinding:analysisResultChangeDose] true : response_time;
+  reward timeRew [WorkflowBinding:analysisResultSendAlarm]  true : response_time;
+  reward timeRew [WorkflowBinding:timeout]                  true : response_time*TIMEOUT_MULT_FACTOR;
+  reward costRew [WorkflowBinding:analyzeDataCall]          true : cost;    
+/>
+
+//-----------------------------------------------------------------------------
+abstract sig DrugService extends ServiceProvider {}
+</ 
+  formula failure_rate;
+  formula response_time;
+  formula cost;
+  var serviceOK: bool init false;
+  var ready : bool init true;
+  
+  [WorkflowBinding:changeDrugCall] (ready) -> failure_rate: (serviceOK'=false) & (ready'=false) + 1-failure_rate: (serviceOK'=true) & (ready'=false);
+  [WorkflowBinding:changeDrugOK]  (!ready) & (serviceOK)  -> (serviceOK'=false) & (ready'=true);
+
+  [WorkflowBinding:changeDoseCall] (ready) -> failure_rate: (serviceOK'=false) & (ready'=false) + 1-failure_rate: (serviceOK'=true) & (ready'=false);
+  [WorkflowBinding:changeDoseOK]  (!ready) & (serviceOK)  -> (serviceOK'=false) & (ready'=true);
+
+  [WorkflowBinding:timeout] (!ready) & (!serviceOK) -> (ready'=true);
+  
+  reward timeRew [WorkflowBinding:changeDrugOK]   true : response_time;
+  reward timeRew [WorkflowBinding:changeDoseOK]   true : response_time;
+  reward timeRew [WorkflowBinding:timeout]        true : response_time*TIMEOUT_MULT_FACTOR;
+  reward costRew [WorkflowBinding:changeDrugCall] true : cost;    
+  reward costRew [WorkflowBinding:changeDoseCall] true : cost;      
+/>
+
+//-----------------------------------------------------------------------------
+abstract sig AlarmService extends ServiceProvider {}
+</ 
+  formula failure_rate;
+  formula response_time;
+  formula cost;
+  var serviceOK: bool init false;
+  var ready : bool init true;
+  
+  [WorkflowBinding:sendAlarmCall] (ready) -> failure_rate: (serviceOK'=false) & (ready'=false) + 1-failure_rate: (serviceOK'=true) & (ready'=false);
+  [WorkflowBinding:sendAlarmOK]  (!ready) & (serviceOK)  -> (serviceOK'=false) & (ready'=true);
+  [WorkflowBinding:timeout] (!ready) & (!serviceOK) -> (ready'=true);
+  
+  reward timeRew [WorkflowBinding:sendAlarmOK]   true : response_time;    
+  reward timeRew [WorkflowBinding:timeout]       true : response_time*TIMEOUT_MULT_FACTOR;    
+  reward costRew [WorkflowBinding:sendAlarmCall] true : cost;    
+/>
+
+//-----------------------------------------------------------------------------
+pred TAS {#MedicalAnalysisService<4 and #AlarmService<3}
+run TAS for 3
+
+label success [some TASWorkflow:workflowOK=true]
+label done [some TASWorkflow:workflowDone=true]
+
+property rangeP [F success] as reliability;
+property rangeR{timeRew} [F done] as responseTime;
+property rangeR{costRew} [F done] as cost;
+property SminR{timeRew} [F done]
+property SmaxP [F success]
+property SminR{costRew} [F done]
+
+//-----------------------------------------------------------------------------
+// Alarm service instances
+
+lone sig AS1 extends AlarmService{}
+</ 
+  formula failure_rate=AS1_FR;
+  formula response_time=AS1_RT;
+  formula cost=AS1_C;
+/>
+
+lone sig AS2 extends AlarmService{}
+</ 
+  formula failure_rate=AS2_FR;
+  formula response_time=AS2_RT;
+  formula cost=AS2_C;
+/>
+
+lone sig AS3 extends AlarmService{}
+</ 
+  formula failure_rate=AS3_FR;
+  formula response_time=AS3_RT;
+  formula cost=AS3_C;
+/>
+
+//-----------------------------------------------------------------------------
+// Medical analysis service instances
+
+lone sig MS1 extends MedicalAnalysisService{}
+</ 
+  formula failure_rate=MS1_FR;
+  formula response_time=MS1_RT;
+  formula cost=MS1_C;
+/>
+
+lone sig MS2 extends MedicalAnalysisService{}
+</ 
+  formula failure_rate=MS2_FR;
+  formula response_time=MS2_RT;
+  formula cost=MS2_C;
+/>
+
+lone sig MS3 extends MedicalAnalysisService{}
+</ 
+  formula failure_rate=MS3_FR;
+  formula response_time=MS3_RT;
+  formula cost=MS3_C;
+/>
+
+lone sig MS4 extends MedicalAnalysisService{}
+</ 
+  formula failure_rate=MS4_FR;
+  formula response_time=MS4_RT;
+  formula cost=MS4_C;
+/>
+
+lone sig MS5 extends MedicalAnalysisService{}
+</ 
+  formula failure_rate=MS5_FR;
+  formula response_time=MS5_RT;
+  formula cost=MS5_C;
+/>
+
+//-----------------------------------------------------------------------------
+// Drug service instances
+
+lone sig DS1 extends DrugService{}
+</ 
+  formula failure_rate=DS1_FR;
+  formula response_time=DS1_RT;
+  formula cost=DS1_C;
+/>
+

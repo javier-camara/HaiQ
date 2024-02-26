@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="org/jcm/haiq/analyzer/|org/jcm/alloyutils/|org/jcm/haiq/core/" kind="src" path="haiq-analyzer/src"/>
+	<classpathentry kind="src" path="haiq-analyzer/src/org/jcm/alloyutils"/>
+	<classpathentry kind="src" path="haiq-analyzer/src/org/jcm/haiq/analyzer"/>
+	<classpathentry kind="src" path="haiq-analyzer/src/org/jcm/haiq/core"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/alloy4.2.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/colt.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/epsgraphics.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/gluegen-rt-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/jas.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/jcommon.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/jfreechart.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/jhoafparser.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/jogl-all-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/jogl-all.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/log4j.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/lpsolve55j.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/ppl_java.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq_lib/prism.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/dist-bin/lib/haiq.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/lib/alloy4.2.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/lib/gluegen-rt-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/lib/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/lib/jogl-all-natives-macosx-universal.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/lib/jogl-all.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/colt.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/commons-math3-3.3.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/epsgraphics.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/jas.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/jcommon.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/jfreechart.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/jhoafparser.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/log4j.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/lpsolve55j.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/nailgun-server.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/ppl_java.jar"/>
+	<classpathentry kind="lib" path="haiq-analyzer/libprism/prism.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="haiq-analyzer/bin"/>
+</classpath>

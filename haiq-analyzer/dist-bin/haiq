@@ -3,19 +3,22 @@
 # Startup script for HaiQ (Mac OS X)
 
 # HaiQ home directory
-HAIQ_DIR="" # Replace by HaiQ root directory
+HAIQ_DIR="/Users/javier/Dropbox/Documents/Work/Projects/HaiQ-project/haiq-analyzer/dist-bin" # Replace by HaiQ root directory
 HAIQ_LIB_DIR="$HAIQ_DIR"/lib/haiq_lib
 HAIQ_NLIB_DIR="$HAIQ_DIR"/lib/haiq_nlib
+#HAIQ_NLIB_DIR="$HAIQ_DIR"/lib/ec_lib/runtime
 HAIQ_JAR="$HAIQ_DIR"/lib/haiq.jar
 HAIQ_TMP="$HAIQ_DIR"/lib/tmp
-
+EC_LIB="$HAIQ_DIR"/lib/ec_lib
+EC_PRISM_DIR="$EC_LIB"/org/modelChecker/prism/4.5
 
 # Command to launch Java
 if [ "$HAIQ_JAVA" = "" ]; then
 	if [ -x /usr/libexec/java_home ]; then
-		HAIQ_JAVA=`/usr/libexec/java_home`"/bin/java"
+#		HAIQ_JAVA=`/usr/libexec/java_home`"/bin/java"
+		HAIQ_JAVA=/Library/Java/JavaVirtualMachines/jdk-17.0.1.jdk/Contents/Home/bin/java
 	else
-		HAIQ_JAVA=java
+		HAIQ_JAVA=/Library/Java/JavaVirtualMachines/jdk-17.0.1.jdk/Contents/Home/bin/java
 	fi
 fi
 
@@ -23,14 +26,15 @@ fi
 HAIQ_CLASSPATH="$HAIQ_JAR":"$HAIQ_LIB_DIR"
 
 # Export environment variables
-export DYLD_LIBRARY_PATH=$HAIQ_NLIB_DIR
+export DYLD_LIBRARY_PATH="$HAIQ_NLIB_DIR"
 export HAIQ_TMP_PATH=$HAIQ_TMP
+export EC_LIB_PATH=$EC_LIB
 
-HAIQ_JAVAMAXMEM="-Xmx4g"
-HAIQ_JAVASTACKSIZE="-Xss4M"
+HAIQ_JAVAMAXMEM="-Xmx12g"
+HAIQ_JAVASTACKSIZE="-Xss12M"
 
 # Run through Java
-"$HAIQ_JAVA" $HAIQ_JAVAMAXMEM $HAIQ_JAVASTACKSIZE -classpath "$HAIQ_NLIB_DIR" -Djava.library.path="$HAIQ_NLIB_DIR" -classpath "$HAIQ_LIB_DIR" -jar $HAIQ_JAR "$@"
+"$HAIQ_JAVA" $HAIQ_JAVAMAXMEM $HAIQ_JAVASTACKSIZE -classpath "$HAIQ_NLIB_DIR" -Djava.library.path="$HAIQ_NLIB_DIR" -classpath "$HAIQ_LIB_DIR" -classpath "$EC_PRISM_DIR" -jar $HAIQ_JAR "$@"
 
 HAIQ_EXIT_CODE=$?
 exit $HAIQ_EXIT_CODE

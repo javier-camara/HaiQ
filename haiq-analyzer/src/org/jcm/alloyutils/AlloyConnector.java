@@ -15,7 +15,7 @@ public class AlloyConnector {
 
 	private HashMap<String, String> m_solutions = new HashMap<String, String>();
 	public static final String SOLUTION_STRING="sol_";
-	public static final int MAX_SOLUTIONS_DEFAULT = 500;
+	public static int MAX_SOLUTIONS_DEFAULT = 500;
 	public static int m_max_solutions = MAX_SOLUTIONS_DEFAULT;
 		
 	public void generateSolutions(String modelFile){

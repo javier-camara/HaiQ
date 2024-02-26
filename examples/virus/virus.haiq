@@ -6,11 +6,15 @@
 //    http://www.prismmodelchecker.org/casestudies/virus.php
 //-----------------------------------------------------------------------------
 
-ModelType: mdp
+ModelType: dtmc
 
-const double barrier_detect=0.95;
-const double node_detect=0.5;
-const double infect=0.5;
+// const double barrier_detect=0.95;
+// const double node_detect=0.5;
+// const double infect=0.5;
+
+const double barrier_detect;
+const double node_detect;
+const double infect;
 
 abstract sig node { conn : some node }
 </
@@ -52,11 +56,12 @@ pred virus{
   disj[lowNode.conn,highNode] // disjoint low-high nodes
   conn = ~conn // symmetric adjacency relation
 }
-run virus for exactly 3 lowNode, exactly 3 barrierNode, exactly 3 highNode
+run virus for exactly 5 lowNode, exactly 5 barrierNode, exactly 5 highNode
 
 label highInfected [all highNode:s=2]
-property rangeP [F<=50 highInfected]      // Range min-max probability that high nodes will be eventually infected within 50 time units
-property minPmax [F highInfected]       // Configuration that minimizes probability of having all high nodes infected within 50 time units 
+property rangeP [F<=50 highInfected]      //0 Range min-max probability that high nodes will be eventually infected within 50 time units
+property SminP [F<=50 highInfected]       //1 Configuration that minimizes probability of having all high nodes infected within 50 time units 
+property minP [F<=50 highInfected]        //2 Minimum probability of having all high nodes infected within 50 time units 
 property rangeR{attacks} [F highInfected] // Range min-max number of attacks required to infect all high nodes
-property SmaxR{attacks} [F highInfected]  // Configuration that maximizes number of attacks required to infect all high nodes
-property SminR{attacks} [F highInfected]  // Configuration that minimizes number of attacks required to infect all high nodes
+property maxR{attacks} [F highInfected]  // Configuration that maximizes number of attacks required to infect all high nodes
+property minR{attacks} [F highInfected]  // Configuration that minimizes number of attacks required to infect all high nodes

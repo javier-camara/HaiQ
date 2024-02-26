@@ -25,6 +25,10 @@ public class AlloySolution {
 			return m_id;
 		}
 
+		public String getSId() { // get Sanitized Id
+			 return m_id.replace("$", "");
+		}
+		
 		public void setId(String m_id) {
 			this.m_id = m_id;
 		}
@@ -193,7 +197,7 @@ public class AlloySolution {
 	    	res += String.valueOf(arc);
 	    return res;
 	}
-	
+		
 	
 	public String toPrismPred() { // Exports to a prism predicate for reconfiguration
 	    String res ="config = true";

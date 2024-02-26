@@ -1,0 +1,66 @@
+// ----------------------------------------------------------------------------
+// virus.haiq - Virus propagation HaiQ model 
+// Author: Javier Camara
+// ----------------------------------------------------------------------------
+// This model is based on the example described in:
+//    http://www.prismmodelchecker.org/casestudies/virus.php
+//-----------------------------------------------------------------------------
+
+ModelType: dtmc
+
+// const double barrier_detect=0.95;
+// const double node_detect=0.5;
+// const double infect=0.5;
+
+const double barrier_detect;
+const double node_detect;
+const double infect;
+
+abstract sig node { conn : some node }
+</
+  enum modes:{uninfected, breached, infected}
+  var s:[modes] init uninfected;
+  formula detect=node_detect;
+  
+  // firewall attacked (from an infected neighbor)
+  [conn:attack] (s=uninfected) ->  detect : (s'=s) + (1-detect) : (s'=breached);
+  
+  // if the firewall has been breached tries to infect the node	
+  [] (s=breached) -> infect : (s'=infected) + (1-infect) : (s'=uninfected);
+  [conn:attack] (s=infected) -> (s'=s);
+
+  reward attacks [conn:attack]  true : 1;
+/>
+
+sig barrierNode extends node { }
+</
+  formula detect=barrier_detect;
+/>
+
+sig highNode extends node { }
+</
+/>
+
+sig lowNode extends node { }
+</
+/>
+
+one sig infectedNode extends lowNode{}
+</
+  var s:[modes] init infected;
+/>
+ 
+pred virus{
+  all n : node | node in n.*conn // network is connected
+  no iden & conn // no self-loops
+  disj[lowNode.conn,highNode] // disjoint low-high nodes
+  conn = ~conn // symmetric adjacency relation
+}
+run virus for exactly 4 lowNode, exactly 4 barrierNode, exactly 4 highNode
+
+label highInfected [all highNode:s=2]
+property minP [F<=50 highInfected]         // Minimum probability of having all high nodes infected within 50 time units 
+property minP [F<=100 highInfected]        // Minimum probability of having all high nodes infected within 100 time units 
+property minP [F<=150 highInfected]        // Minimum probability of having all high nodes infected within 150 time units 
+property minP [F highInfected]             // Minimum probability of having all high nodes infected 
+property maxR{attacks} [F highInfected]    // Maximum number of attacks required to infect all high nodes
